@@ -48,5 +48,5 @@ CREATE TABLE message(
 
 
 
-INSERT INTO message (text, auteur)
-VALUES ('Contenu du message', 'Auteur du message');
+-- INSERT INTO message (text, auteur)
+-- VALUES ('Contenu du message', 'Auteur du message');
