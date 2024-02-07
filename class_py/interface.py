@@ -11,25 +11,12 @@ class Interface:
     def img(self, x, y, largeur, hauteur, image_name):
         image = pygame.image.load(f'files/image/{image_name}.png')
         image = pygame.transform.scale(image, (largeur, hauteur))
-        self.Screen.blit(image, (x - image.get_width()//2, y - image.get_height()//2))   
-    
-    def img_mir(self, x, y, largeur, hauteur, image_name):
-        image = pygame.image.load(f'files/image/{image_name}.png')
-        image = pygame.transform.scale(image, (largeur, hauteur))
-        image = pygame.transform.flip(image, True, False)
         self.Screen.blit(image, (x - image.get_width()//2, y - image.get_height()//2))
 
     def img_background(self, x, y, largeur, hauteur, image_name):
         image = pygame.image.load(f'files/image/{image_name}.png').convert()
         image = pygame.transform.scale(image, (largeur, hauteur))
         image.set_alpha(115)
-        self.Screen.blit(image, (x - image.get_width()//2, y - image.get_height()//2))
-
-    def img_rotate(self, x, y, largeur, hauteur, image_name, rotate):
-        image = pygame.image.load(f'files/image/{image_name}.png')
-        image = pygame.transform.scale(image, (largeur, hauteur))
-        self.rotation = self.rotation + rotate
-        image = pygame.transform.rotate(image, self.rotation)
         self.Screen.blit(image, (x - image.get_width()//2, y - image.get_height()//2))
 
     def texte(self, texte_size, texte_content,color, x, y):
@@ -76,6 +63,4 @@ class Interface:
 
     def get_display(self):
         return self.Screen
-
-    
     
