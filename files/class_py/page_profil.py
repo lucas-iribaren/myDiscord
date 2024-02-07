@@ -1,5 +1,5 @@
 import pygame
-from interface import Interface  # Assurez-vous que le fichier contenant la classe Interface est importé correctement
+from interface import Interface 
 
 # Initialisation de Pygame
 pygame.init()
