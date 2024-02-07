@@ -60,7 +60,7 @@ class Interface:
         pygame.display.flip()
         pygame.display.update()
         self.clock.tick(60)
-        self.Screen.fill((0, 0, 0))
+        self.Screen.fill((64, 68, 75))
     
     def update_no_fill(self):
         pygame.display.flip()
