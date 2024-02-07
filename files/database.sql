@@ -31,9 +31,7 @@ CREATE TABLE user(
     password VARCHAR(200),
     id_role INT,
     FOREIGN KEY (id_role) REFERENCES role(id)
-); 
-
-
+);
 
 CREATE TABLE message(
     id INT PRIMARY KEY AUTO_INCREMENT,
