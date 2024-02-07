@@ -6,7 +6,12 @@ class Interface:
         self.H = 700
         self.Screen = pygame.display.set_mode((self.W, self.H))
         pygame.display.set_caption("Discord")
-        self.clock = pygame.time.Clock()        
+        self.clock = pygame.time.Clock()
+        self.light_grey = (188, 186, 184)
+        self.grey = (64, 68, 75)
+        self.dark_grey = (54, 57, 63)
+        self.white = (249, 249, 249)
+        self.blue = (114, 137, 218)        
 
     def img(self, x, y, largeur, hauteur, image_name):
         image = pygame.image.load(f'files/image/{image_name}.png')
