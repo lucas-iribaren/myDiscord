@@ -52,6 +52,10 @@ class Interface:
         overlay_surface.fill(coloralpha)
         self.Screen.blit(overlay_surface, (x - largeur // 2, y - longueur // 2))
         
+    def is_mouse_over_button(self, button_rect):
+        mouse_pos = pygame.mouse.get_pos()
+        return button_rect.collidepoint(mouse_pos)
+        
     def update(self):
         pygame.display.flip()
         pygame.display.update()
