@@ -12,12 +12,6 @@ class Interface:
         image = pygame.image.load(f'files/image/{image_name}.png')
         image = pygame.transform.scale(image, (largeur, hauteur))
         self.Screen.blit(image, (x - image.get_width()//2, y - image.get_height()//2))   
-    
-    def img_mir(self, x, y, largeur, hauteur, image_name):
-        image = pygame.image.load(f'files/image/{image_name}.png')
-        image = pygame.transform.scale(image, (largeur, hauteur))
-        image = pygame.transform.flip(image, True, False)
-        self.Screen.blit(image, (x - image.get_width()//2, y - image.get_height()//2))
 
     def img_background(self, x, y, largeur, hauteur, image_name):
         image = pygame.image.load(f'files/image/{image_name}.png').convert()
@@ -25,35 +19,28 @@ class Interface:
         image.set_alpha(115)
         self.Screen.blit(image, (x - image.get_width()//2, y - image.get_height()//2))
 
-    def img_rotate(self, x, y, largeur, hauteur, image_name, rotate):
-        image = pygame.image.load(f'files/image/{image_name}.png')
-        image = pygame.transform.scale(image, (largeur, hauteur))
-        self.rotation = self.rotation + rotate
-        image = pygame.transform.rotate(image, self.rotation)
-        self.Screen.blit(image, (x - image.get_width()//2, y - image.get_height()//2))
-
-    def texte(self, texte_size, texte_content,color, x, y):
-        Texte = pygame.font.Font('files/font/pokefont.ttf', texte_size).render(texte_content, True, color)
-        Texte_rect = Texte.get_rect(center=(x, y))
-        self.Screen.blit(Texte, Texte_rect)
-        
-    def texte_not_align(self, texte_size, texte_content, color, x, y):
+    def text(self, texte_size, texte_content, color, x, y):
         font = pygame.font.Font('files/font/pokefont.ttf', texte_size)
         Texte = font.render(texte_content, True, color)
         Texte_rect = Texte.get_rect(topleft=(x, y))
         self.Screen.blit(Texte, Texte_rect)
 
-    def rect(self, x, y, largeur, longueur, color):
-        pygame.draw.rect(self.Screen, color, pygame.Rect(x - largeur //2, y - longueur //2, largeur, longueur))
+    def text_align(self, texte_size, texte_content,color, x, y):
+        Texte = pygame.font.Font('files/font/pokefont.ttf', texte_size).render(texte_content, True, color)
+        Texte_rect = Texte.get_rect(center=(x, y))
+        self.Screen.blit(Texte, Texte_rect)
 
-    def simple_rect(self, color, x, y, largeur, longueur, epaisseur):
+    def solid_rect(self, x, y, largeur, longueur, color):
+        pygame.draw.rect(self.Screen, color, pygame.Rect(x - largeur //2, y - longueur //2, largeur, longueur))
+    
+    def solid_rect_radius(self, color, x, y, longueur, largeur):
+        pygame.draw.rect(self.Screen, color, pygame.Rect(x - longueur//2, y - largeur//2, longueur, largeur),  0, 8)   
+
+    def light_rect(self, color, x, y, largeur, longueur, epaisseur):
         pygame.draw.rect(self.Screen, color, pygame.Rect(x - largeur //2, y - longueur //2, largeur, longueur),  epaisseur, 5)
 
-    def border_rect(self, color, x, y, largeur, longueur, epaisseur):
+    def light_rect1(self, color, x, y, largeur, longueur, epaisseur):
         pygame.draw.rect(self.Screen, color, pygame.Rect(x - largeur //2, y - longueur //2, largeur, longueur),  epaisseur, 100)
-
-    def button_rect(self, color, x, y, longueur, largeur):
-        pygame.draw.rect(self.Screen, color, pygame.Rect(x - longueur//2, y - largeur//2, longueur, largeur),  0, 8)   
                 
     def draw_overlay(self, coloralpha, x, y, largeur, longueur):
         overlay_surface = pygame.Surface((largeur, longueur), pygame.SRCALPHA)
