@@ -1,39 +1,50 @@
 import pygame
-from interface import Interface 
+from interface import Interface
 
-# Initialisation de Pygame
-pygame.init()
+class PageProfil(Interface):
+    def __init__(self):
+        super().__init__() # Appelle le constructeur de la classe parente
 
-# Créer une instance de la classe Interface
-interface = Interface()
+    def create_profile_page(self):
+        # Remplir l'écran avec du gris
+        self.Screen.fill((54, 57, 63)) # Couleur grise
 
-# Définir le contenu du texte à afficher
-text_content = "TEXTE"
-text_color = (249, 249, 249)
-text_size = 30
+        # Ajouter une image au-dessus du texte
+        image_name = "Logo"
+        image_x = self.W // 2 # Centre horizontalement
+        image_y = self.H // 2 # Centre verticalement
+        image_largeur = 200 # Largeur de l'image
+        image_hauteur = 200 # Hauteur de l'image
+        self.logo(image_x, image_y, image_largeur, image_hauteur, image_name)
 
-# Obtenir les dimensions de la fenêtre
-window_width, window_height = interface.get_size()
+        # Texte à afficher
+        texte_content = "Mon Profil"
+        texte_size = 40
+        color = (249, 249, 249) # Couleur blanche
 
-# Calculer les coordonnées pour centrer le texte
-text_x = window_width // 2
-text_y = window_height // 2
+        # Obtenir la police
+        font = self.font()
 
-# Remplir l'écran avec la couleur de fond grise
-interface.Screen.fill((54, 57, 63))
+        # Position du texte centré
+        x = self.W // 2
+        y = self.H // 2 + image_hauteur // 2
 
-# Dessiner le texte au milieu de la fenêtre avec votre police
-interface.text_align(text_size, text_content, text_color, text_x, text_y, interface.font())
+        # Afficher le texte centré
+        self.text_align(texte_size, texte_content, color, x, y, font)
 
-# Mettre à jour et afficher la fenêtre
-interface.update()
+        # Mettre à jour l'affichage
+        self.update()
 
-# Boucle principale du programme
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+if __name__ == "__main__":
+    pygame.init()
+    profil_page = PageProfil()
 
-# Quitter Pygame
-pygame.quit()
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        profil_page.create_profile_page()
+    
+    pygame.quit()
