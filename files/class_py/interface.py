@@ -25,7 +25,7 @@ class Interface:
         self.Screen.blit(image, (x - image.get_width()//2, y - image.get_height()//2))
 
     def text(self, texte_size, texte_content, color, x, y):
-        font = pygame.font.Font('files/font/pokefont.ttf', texte_size)
+        font = pygame.font.Font('files/font/helvetica_neue_regular.otf', texte_size)
         Texte = font.render(texte_content, True, color)
         Texte_rect = Texte.get_rect(topleft=(x, y))
         self.Screen.blit(Texte, Texte_rect)
