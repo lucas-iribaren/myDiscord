@@ -9,7 +9,7 @@ class Interface:
         self.clock = pygame.time.Clock()    
 
     def font(self):
-        return pygame.font.Font("files/font/Helvetica Neue Regular.otf",80)
+        return pygame.font.Font("files/font/helvetica_Neue_regular.otf",80)
 
     def img(self, x, y, largeur, hauteur, image_name):
         image = pygame.image.load(f'files/image/{image_name}.png')
