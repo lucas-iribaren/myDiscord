@@ -12,12 +12,7 @@ class Interface:
         return pygame.font.Font("files/font/helvetica_neue_regular.otf",80)
 
     def img(self, x, y, largeur, hauteur, image_name):
-        image = pygame.image.load(f'files/image/{image_name}.png')
-        image = pygame.transform.scale(image, (largeur, hauteur))
-        self.Screen.blit(image, (x - image.get_width()//2, y - image.get_height()//2))
-    
-    def logo(self, x, y, largeur, hauteur, image_name):
-        image = pygame.image.load(f'files/images/icones/logo.png')
+        image = pygame.image.load(f'files/images/{image_name}.png')
         image = pygame.transform.scale(image, (largeur, hauteur))
         self.Screen.blit(image, (x - image.get_width()//2, y - image.get_height()//2))
 
