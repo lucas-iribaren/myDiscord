@@ -7,7 +7,9 @@ class Accueil(Interface):
         Interface.__init__(self)
         self.database = Database("localhost", "root", "1478", "mydiscord")
         self.input_texts = {'nom_utilisateur': '', 'password': ''}  
-        self.active_input = None  
+        self.active_input = None
+        self.error_message = ""
+        self.home_accueil = True 
         
     def handle_events_for_login(self):
         for event in pygame.event.get():
@@ -32,7 +34,7 @@ class Accueil(Interface):
                         self.input_texts['password'] != ''):
                             self.button_login()
                     else:
-                        print("Ya pas toute les info")                  
+                        self.error_message = "Erreur, identifiant ou mot de passe invalide. Veuillez ressayer"             
                      
 
     def text_entry_login(self):
@@ -43,6 +45,7 @@ class Accueil(Interface):
         
         self.text(16, self.input_texts['nom_utilisateur'], self.black, 225, 363)
         self.text(16, "*" * len(self.input_texts['password']), self.black, 225, 443)
+        
         
     def verify_account_exist(self, nom_utilisateur_entry, password_entry):
         # Vérifier si les entrées ne sont pas vides
@@ -55,37 +58,49 @@ class Accueil(Interface):
                     return True  # Si le mot de passe correspond, retourner True
         return False  # Si aucune correspondance n'est trouvée, retourner False
     
+    
+    def draw_error_message(self):
+        if self.error_message:
+            # Afficher le message d'erreur en rouge
+            self.text_align(18, self.error_message, (255, 0, 0), 500, 550)  # Vous pouvez ajuster la position et la taille du message
+    
     def button_login(self):
         if self.verify_account_exist(self.active_input['nom_utilisateur', self.active_input['password']]):
             self.accueil_run = False
             # profil.profil_run = True
         else:
            pygame.quit()
-            # profil.profil_run = False 
+            # profil.profil_run = False
+             
         
     def home(self):
         self.accueil_run = True
         self.active_input = 'nom_utilisateur'  
         
         while self.accueil_run:
-            self.handle_events_for_login()
             
-            self.Screen.fill(self.dark_grey)
-            
-            self.img(330, 160, 230, 220, "icones/logo")
-            self.text_align(70, "MyDiscord", self.white, 610, 160)
-            
-            self.text_align(19, "Nom d'utilisateur", self.white, 268, 335)
-            self.text_align(19, "Mot de passe", self.white, 257, 410)
-            self.light_rect(self.light_grey, 485, 435, 670, 270, 5)
-            
-            self.text_entry_login()  # Appeler la fonction pour gérer la saisie de texte
-            
-            self.solid_rect_radius(self.blue, 320, 505, 220, 35)
-            self.text_align(21, "Connexion", self.black, 320, 505)
-            self.text_align(21, "Ou", self.white, 485, 430)
-            
-            self.solid_rect_radius(self.blue, 650, 430, 220, 35)
-            self.text_align(21, "Inscription", self.black, 650, 430)
+            if self.home_accueil:
+                self.handle_events_for_login()
+                
+                self.Screen.fill(self.dark_grey)
+                
+                self.img(330, 160, 230, 220, "icones/logo")
+                self.text_align(70, "MyDiscord", self.white, 610, 160)
+                
+                self.text_align(19, "Nom d'utilisateur", self.white, 268, 335)
+                self.text_align(19, "Mot de passe", self.white, 257, 410)
+                self.light_rect(self.light_grey, 485, 435, 670, 270, 5)
+                
+                self.text_entry_login()  # Appeler la fonction pour gérer la saisie de texte
+                
+                self.solid_rect_radius(self.blue, 320, 505, 220, 35)
+                self.text_align(21, "Connexion", self.black, 320, 505)
+                self.text_align(21, "Ou", self.white, 485, 430)
+                
+                self.solid_rect_radius(self.blue, 650, 430, 220, 35)
+                self.text_align(21, "Inscription", self.black, 650, 430)
+                
+                self.draw_error_message()
 
-            self.update()
+                self.update()
+               
