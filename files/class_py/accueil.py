@@ -12,7 +12,7 @@ class Accueil(Interface, Page_Connexion):
         self.input_texts = {'pseudo': '', 'password': ''}  
         self.active_input = None  
         
-    def handle_events(self):
+    def handle_events_for_login(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -24,7 +24,7 @@ class Accueil(Interface, Page_Connexion):
                     elif event.key == pygame.K_TAB:
                         self.active_input = 'password' if self.active_input == 'pseudo' else 'pseudo'
                     elif event.key == pygame.K_RETURN:
-                        if self.active_input['pseudo'] is not None and self.active_input['password'] is not None:
+                        if self.active_input['pseudo'] is not None and self.active_input['password'] is not None and self.is_mouse_over_button(pygame.Rect(320, 505)):
                             self.button_connect()                                              
                     else:
                         self.input_texts[self.active_input] += event.unicode                 
@@ -51,7 +51,7 @@ class Accueil(Interface, Page_Connexion):
         self.active_input = 'pseudo'  
         
         while self.accueil_run:
-            self.handle_events()
+            self.handle_events_for_login()
             
             self.Screen.fill(self.dark_grey)
             
@@ -59,7 +59,7 @@ class Accueil(Interface, Page_Connexion):
             self.text_align(70, "MyDiscord", self.white, 610, 160)
             
             self.text_align(19, "Pseudo", self.white, 240, 335)
-            self.text_align(19, "Mot de passe", self.white, 255, 410)
+            self.text_align(19, "Mot de passe", self.white, 257, 410)
             self.light_rect(self.light_grey, 485, 435, 670, 270, 5)
             
             self.text_entry()  # Appeler la fonction pour gérer la saisie de texte

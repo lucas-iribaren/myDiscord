@@ -1,3 +1,4 @@
+-- Active: 1706528093603@@127.0.0.1@3306@mydiscord
 CREATE DATABASE myDiscord;
 
 USE myDiscord;
@@ -32,6 +33,11 @@ CREATE TABLE user(
     id_role INT,
     FOREIGN KEY (id_role) REFERENCES role(id)
 );
+
+ALTER TABLE user
+ADD COLUMN nom VARCHAR(100),
+ADD COLUMN prenom VARCHAR(100);
+
 
 CREATE TABLE message(
     id INT PRIMARY KEY AUTO_INCREMENT,
