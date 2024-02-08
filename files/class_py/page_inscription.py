@@ -3,7 +3,7 @@ from files.class_py.database import Database
 from files.class_py.interface import Interface
 from files.class_py.accueil import Accueil
 accueil = Accueil()
-database = Database()
+database = Database("localhost", "root", "1478", "mydiscord")
 
 class Page_incription(Database, Interface):
     def __init__(self):
@@ -64,7 +64,7 @@ class Page_incription(Database, Interface):
             self.text_align(19, "Nom", self.white, 240, 335)
             self.text_align(19, "Prénom", self.white, 257, 410)
             self.text_align(19, "Pseudo", self.white, 240, 335)
-            self.text_align(19, "Mot de passe", self.white, 257, 410)
+            self.text_align(19, "Mot de passe", self.white, 287, 410)
             
             self.text_entry_register()
             
