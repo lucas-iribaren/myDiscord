@@ -1,4 +1,5 @@
 import pygame
+
 from files.class_py.accueil import Accueil
 accueil = Accueil()
 

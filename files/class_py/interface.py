@@ -2,8 +2,8 @@ import pygame
 
 class Interface:
     def __init__(self):
-        self.W = 1050
-        self.H = 700
+        self.W = 1000
+        self.H = 600
         self.Screen = pygame.display.set_mode((self.W, self.H))
         pygame.display.set_caption("Discord")
         self.clock = pygame.time.Clock()
@@ -11,10 +11,14 @@ class Interface:
         self.grey = (64, 68, 75)
         self.dark_grey = (54, 57, 63)
         self.white = (249, 249, 249)
-        self.blue = (114, 137, 218)        
+        self.blue = (114, 137, 218)
+        self.black = (0, 0, 0)     
+
+    def font(self):
+        return pygame.font.Font("files/font/helvetica_Neue_regular.otf",80)
 
     def img(self, x, y, largeur, hauteur, image_name):
-        image = pygame.image.load(f'files/image/{image_name}.png')
+        image = pygame.image.load(f'files/images/{image_name}.png')
         image = pygame.transform.scale(image, (largeur, hauteur))
         self.Screen.blit(image, (x - image.get_width()//2, y - image.get_height()//2))
 
@@ -31,7 +35,8 @@ class Interface:
         self.Screen.blit(Texte, Texte_rect)
 
     def text_align(self, texte_size, texte_content,color, x, y):
-        Texte = pygame.font.Font('files/font/pokefont.ttf', texte_size).render(texte_content, True, color)
+        font = pygame.font.Font("files/font/helvetica_Neue_regular.otf", texte_size)
+        Texte = font.render(texte_content, True, color)
         Texte_rect = Texte.get_rect(center=(x, y))
         self.Screen.blit(Texte, Texte_rect)
 
@@ -60,7 +65,7 @@ class Interface:
         pygame.display.flip()
         pygame.display.update()
         self.clock.tick(60)
-        self.Screen.fill((0, 0, 0))
+        self.Screen.fill((64, 68, 75))
     
     def update_no_fill(self):
         pygame.display.flip()
