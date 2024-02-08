@@ -1,8 +1,5 @@
 import pygame
-from interface import Interface 
-
-# Initialisation de Pygame
-pygame.init()
+from interface import Interface
 
 # Créer une instance de la classe Interface
 interface = Interface()
@@ -35,5 +32,3 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-# Quitter Pygame
-pygame.quit()
