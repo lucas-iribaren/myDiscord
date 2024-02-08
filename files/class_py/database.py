@@ -18,6 +18,10 @@ class Database:
         self.cursor.execute(query, params or ())
         return self.cursor.fetchall()
     
+    def fetch_one(self, query, params=None):
+        self.cursor.execute(query, params or ())
+        return self.cursor.fetchone()
+    
     def closing_connection(self):
         self.base.close()
         
