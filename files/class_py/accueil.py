@@ -5,7 +5,7 @@ from files.class_py.interface import Interface
 class Accueil(Interface):
     def __init__(self):
         Interface.__init__(self)
-        self.database = Database("localhost", "root", "1478", "mydiscord")
+        self.database = Database("localhost", "root", "azerty", "mydiscord")
         self.input_texts = {'nom_utilisateur': '', 'password': ''}  
         self.active_input = None
         self.error_message = ""
