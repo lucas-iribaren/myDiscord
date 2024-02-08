@@ -1,7 +1,9 @@
 import pygame
 from files.class_py.database import Database
 from files.class_py.interface import Interface
+from files.class_py.page_inscription import Inscription
 
+page_inscription = Inscription()
 class Accueil(Interface):
     def __init__(self):
         Interface.__init__(self)
@@ -10,7 +12,11 @@ class Accueil(Interface):
         self.active_input = None
         self.error_message = ""
         self.home_accueil = True 
-        
+        self.surface = pygame.display.set_mode((self.W,self.H))
+  
+# Initialing Color
+        self.color = (255,0,0)
+  
     def handle_events_for_login(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -28,14 +34,16 @@ class Accueil(Interface):
                         self.input_texts[self.active_input] += event.unicode
                             
             # Event mouse          
-            elif event.type == pygame.MOUSEBUTTONDOWN: 
+            elif event.type == pygame.MOUSEBUTTONUP: 
                 if self.is_mouse_over_button(pygame.Rect(320, 505, 220, 35)):
                     if (self.input_texts['nom_utilisateur'] != '' and
                         self.input_texts['password'] != ''):
                             self.button_login()
                     else:
                         self.error_message = "Erreur, identifiant ou mot de passe invalide. Veuillez ressayer"             
-                     
+                elif self.is_mouse_over_button(pygame.Rect(540, 413, 220, 37)):
+                    page_inscription.inscription()
+
 
     def text_entry_login(self):
         self.solid_rect_radius(self.white, 320, 370, 220, 35)
@@ -81,9 +89,10 @@ class Accueil(Interface):
             
             if self.home_accueil:
                 self.handle_events_for_login()
-                
+
+# Drawing Rectangle
                 self.Screen.fill(self.dark_grey)
-                
+
                 self.img(330, 160, 230, 220, "icones/logo")
                 self.text_align(70, "MyDiscord", self.white, 610, 160)
                 
@@ -99,6 +108,8 @@ class Accueil(Interface):
                 
                 self.solid_rect_radius(self.blue, 650, 430, 220, 35)
                 self.text_align(21, "Inscription", self.black, 650, 430)
+                # if self.is_mouse_over_button(pygame.Rect(540, 413, 220, 37)):
+                #     pygame.draw.rect(self.surface, self.color, pygame.Rect(540, 413, 219, 37),  1)      
                 
                 self.draw_error_message()
 
