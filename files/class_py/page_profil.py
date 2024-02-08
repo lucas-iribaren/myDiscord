@@ -13,7 +13,7 @@ class PageProfil(Interface):
         self.img(500, 250, 100, 100, "icones/logo")
 
         # Texte à afficher
-        self.text(40, "Veuillez choisir un serveur.", (249, 249, 249), 500, 300)
+        self.text(30, "Veuillez choisir un serveur", (249, 249, 249), 400, 300)
 
         # Mettre à jour l'affichage
         self.update()
