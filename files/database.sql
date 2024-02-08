@@ -34,11 +34,6 @@ CREATE TABLE user(
     FOREIGN KEY (id_role) REFERENCES role(id)
 );
 
-ALTER TABLE user
-ADD COLUMN nom VARCHAR(100),
-ADD COLUMN prenom VARCHAR(100);
-
-
 CREATE TABLE message(
     id INT PRIMARY KEY AUTO_INCREMENT,
     text TEXT,

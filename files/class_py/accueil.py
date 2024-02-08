@@ -1,15 +1,14 @@
 import pygame
 from files.class_py.database import Database
 from files.class_py.interface import Interface
-from files.class_py.page_connexion import Page_Connexion
+database = Database()
 
 
-class Accueil(Interface, Page_Connexion):
+class Accueil(Interface):
     def __init__(self):
         Interface.__init__(self)
-        Page_Connexion.__init__(self)        
         self.database = Database("localhost", "root", "1478", "mydiscord")
-        self.input_texts = {'pseudo': '', 'password': ''}  
+        self.input_texts = {'nom_utilisateur': '', 'password': ''}  
         self.active_input = None  
         
     def handle_events_for_login(self):
@@ -22,24 +21,37 @@ class Accueil(Interface, Page_Connexion):
                     if event.key == pygame.K_BACKSPACE:
                         self.input_texts[self.active_input] = self.input_texts[self.active_input][:-1]
                     elif event.key == pygame.K_TAB:
-                        self.active_input = 'password' if self.active_input == 'pseudo' else 'pseudo'
+                        self.active_input = 'password' if self.active_input == 'nom_utilisateur' else 'nom_utilisateur'
                     elif event.key == pygame.K_RETURN:
-                        if self.active_input['pseudo'] is not None and self.active_input['password'] is not None and self.is_mouse_over_button(pygame.Rect(320, 505)):
-                            self.button_connect()                                              
-                    else:
-                        self.input_texts[self.active_input] += event.unicode                 
-                    
-    def text_entry(self):
+                        if self.is_mouse_over_button(pygame.Rect()):
+                            if (self.input_texts['nom_utilisateur'] != '' and
+                                self.input_texts['password'] != ''):
+                                self.button_login()                                              
+                        else:
+                            self.input_texts[self.active_input] += event.unicode                      
+
+    def text_entry_login(self):
         self.solid_rect_radius(self.white, 320, 370, 220, 35)
         self.light_rect(self.black, 320, 370, 220, 35, 2)
         self.solid_rect_radius(self.white, 320, 445, 220, 35)
         self.light_rect(self.black, 320, 445, 220, 35, 2)
         
-        self.text(16, self.input_texts['pseudo'], self.black, 225, 363)
+        self.text(16, self.input_texts['nom_utilisateur'], self.black, 225, 363)
         self.text(16, "*" * len(self.input_texts['password']), self.black, 225, 443)
+        
+    def verify_account_exist(self, nom_utilisateur_entry, password_entry):
+        # Vérifier si les entrées ne sont pas vides
+        if nom_utilisateur_entry and password_entry:
+            # Récupérer les informations de l'utilisateur à partir de la base de données
+            user_data = database.fetch_one("SELECT nom_utilisateur, password FROM user WHERE nom_utilisateur = ?;", (nom_utilisateur_entry,))
+            if user_data:
+                # Si l'utilisateur est trouvé dans la base de données, vérifier le mot de passe
+                if user_data[1] == password_entry:
+                    return True  # Si le mot de passe correspond, retourner True
+        return False  # Si aucune correspondance n'est trouvée, retourner False
     
-    def button_connect(self):
-        if self.verify_account_exist:
+    def button_login(self):
+        if self.verify_account_exist(self.active_input['nom_utilisateur', self.active_input['password']]):
             self.accueil_run = False
             # profil.profil_run = True
         else:
@@ -48,7 +60,7 @@ class Accueil(Interface, Page_Connexion):
         
     def home(self):
         self.accueil_run = True
-        self.active_input = 'pseudo'  
+        self.active_input = 'nom_utilisateur'  
         
         while self.accueil_run:
             self.handle_events_for_login()
@@ -58,11 +70,11 @@ class Accueil(Interface, Page_Connexion):
             self.img(330, 160, 230, 220, "icones/logo")
             self.text_align(70, "MyDiscord", self.white, 610, 160)
             
-            self.text_align(19, "Pseudo", self.white, 240, 335)
+            self.text_align(19, "Nom d'utilisateur", self.white, 240, 335)
             self.text_align(19, "Mot de passe", self.white, 257, 410)
             self.light_rect(self.light_grey, 485, 435, 670, 270, 5)
             
-            self.text_entry()  # Appeler la fonction pour gérer la saisie de texte
+            self.text_entry_login()  # Appeler la fonction pour gérer la saisie de texte
             
             self.solid_rect_radius(self.blue, 320, 505, 220, 35)
             self.text_align(21, "Connexion", self.black, 320, 505)
