@@ -3,11 +3,11 @@ from files.class_py.database import Database
 from files.class_py.interface import Interface
 from files.class_py.accueil import Accueil
 accueil = Accueil()
-database = Database("localhost", "root", "azerty", "mydiscord")
+database = Database()
 
 class Page_incription(Database, Interface):
     def __init__(self):
-        Database.__init__(self, "localhost", "root", "azerty", "mydiscord")
+        Database.__init__(self)
         Interface.__init__(self)
         self.page_inscription_run = False
         self.input_texts = {"Email": '', "nom_d'utilisateur": '',  "mot_de_passe": ''}  

@@ -1,12 +1,12 @@
 import mysql.connector
 
 class Database:
-    def __init__(self, host, user, password, database):
+    def __init__(self):
         self.base = mysql.connector.connect(
-        host = host,
-        user = user,
-        password = password,
-        database = database,
+        host = "localhost",
+        user = "root",
+        password = "azerty",
+        database = "mydiscord",
         )
         self.cursor = self.base.cursor()
 
