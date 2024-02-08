@@ -7,19 +7,19 @@ class PageProfil(Interface):
 
     def create_profile_page(self):
         # Remplir l'écran avec du gris
-        self.Screen.fill((54, 57, 63)) # Couleur grise
+        self.Screen.fill((54, 57, 63))
 
-        # Ajouter une image au-dessus du texte
+        # Ajout du logo
         image_name = "Logo"
-        image_x = self.W // 2 # Centre horizontalement
-        image_y = self.H // 2 # Centre verticalement
-        image_largeur = 200 # Largeur de l'image
-        image_hauteur = 200 # Hauteur de l'image
+        image_x = 500 # Coordonnée x de l'imge
+        image_y = 250 # Coordonnée y spécifique
+        image_largeur = 100 # Largeur de l'image
+        image_hauteur = 100 # Hauteur de l'image
         self.logo(image_x, image_y, image_largeur, image_hauteur, image_name)
 
         # Texte à afficher
         texte_content = "Mon Profil"
-        texte_size = 40
+        texte_size = 100
         color = (249, 249, 249) # Couleur blanche
 
         # Obtenir la police
