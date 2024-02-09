@@ -4,6 +4,7 @@ from files.class_py.interface import Interface
 from files.class_py.page_profil import PageProfil
 page_profil = PageProfil()
 
+page_inscription = Inscription()
 class Accueil(Interface):
     def __init__(self):
         Interface.__init__(self)
@@ -12,7 +13,11 @@ class Accueil(Interface):
         self.active_input = None
         self.error_message = ""
         self.home_accueil = True 
-        
+        self.surface = pygame.display.set_mode((self.W,self.H))
+  
+# Initialing Color
+        self.color = (255,0,0)
+  
     def handle_events_for_login(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -84,9 +89,10 @@ class Accueil(Interface):
             
             if self.home_accueil:
                 self.handle_events_for_login()
-                
+
+# Drawing Rectangle
                 self.Screen.fill(self.dark_grey)
-                
+
                 self.img(330, 160, 230, 220, "icones/logo")
                 self.text_align(70, "MyDiscord", self.white, 610, 160)
                 
@@ -102,6 +108,8 @@ class Accueil(Interface):
                 
                 self.solid_rect_radius(self.blue, 650, 430, 220, 35)
                 self.text_align(21, "Inscription", self.black, 650, 430)
+                if self.is_mouse_over_button(pygame.Rect(320, 505, 220, 35)):
+                    pygame.draw.rect(self.surface, self.color, pygame.Rect(320, 505, 220, 35),  1)      
                 
                 self.draw_error_message()
 

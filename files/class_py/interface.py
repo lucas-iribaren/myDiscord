@@ -39,21 +39,21 @@ class Interface:
         self.Screen.blit(Texte, Texte_rect)
 
     def solid_rect(self, x, y, largeur, longueur, color):
-        pygame.draw.rect(self.Screen, color, pygame.Rect(x - largeur //2, y - longueur //2, largeur, longueur))
+        pygame.draw.rect(self.Screen, color, pygame.Rect(x , y, largeur, longueur))
     
     def solid_rect_radius(self, color, x, y, longueur, largeur):
-        pygame.draw.rect(self.Screen, color, pygame.Rect(x - longueur//2, y - largeur//2, longueur, largeur),  0, 8)   
+        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y, longueur, largeur),  0, 8)   
 
     def light_rect(self, color, x, y, largeur, longueur, epaisseur):
-        pygame.draw.rect(self.Screen, color, pygame.Rect(x - largeur //2, y - longueur //2, largeur, longueur),  epaisseur, 5)
+        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y, largeur, longueur),  epaisseur, 5)
 
     def light_rect1(self, color, x, y, largeur, longueur, epaisseur):
-        pygame.draw.rect(self.Screen, color, pygame.Rect(x - largeur //2, y - longueur //2, largeur, longueur),  epaisseur, 100)
+        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y, largeur, longueur),  epaisseur, 100)
                 
     def draw_overlay(self, coloralpha, x, y, largeur, longueur):
         overlay_surface = pygame.Surface((largeur, longueur), pygame.SRCALPHA)
         overlay_surface.fill(coloralpha)
-        self.Screen.blit(overlay_surface, (x - largeur // 2, y - longueur // 2))
+        self.Screen.blit(overlay_surface, (x, y))
         
     def is_mouse_over_button(self, button_rect):
         mouse_pos = pygame.mouse.get_pos()
