@@ -8,7 +8,7 @@ class Accueil(Interface):
     def __init__(self):
         Interface.__init__(self)
         self.database = Database()
-        self.input_texts = {'nom_utilisateur': '', 'password': ''}  
+        self.input_texts = {'nom_utilisateur': 'azerty', 'password': ''}  
         self.active_input = None
         self.error_message = ""
         self.home_accueil = True 

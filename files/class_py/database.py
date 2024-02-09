@@ -6,7 +6,7 @@ class Database:
         host = "localhost",
         user = "root",
         password = "azerty",
-        database = "mydiscord",
+        database = "myDiscord",
         )
         self.cursor = self.base.cursor()
 

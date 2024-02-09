@@ -15,6 +15,11 @@ class Interface:
         self.black = (0, 0, 0)
         self.red = (237, 32, 71)    
         self.dark_red = (120,11,11)
+        self.clock = pygame.time.Clock()    
+
+    def font(self):
+        return pygame.font.Font("files/font/helvetica_neue_regular.otf",80)
+
     def img(self, x, y, largeur, hauteur, image_name):
         image = pygame.image.load(f'files/images/{image_name}.png')
         image = pygame.transform.scale(image, (largeur, hauteur))
@@ -32,8 +37,7 @@ class Interface:
         Texte_rect = Texte.get_rect(topleft=(x, y))
         self.Screen.blit(Texte, Texte_rect)
 
-    def text_align(self, texte_size, texte_content,color, x, y):
-        font = pygame.font.Font("files/font/helvetica_Neue_regular.otf", texte_size)
+    def text_align(self, texte_size, texte_content,color, x, y, font):
         Texte = font.render(texte_content, True, color)
         Texte_rect = Texte.get_rect(center=(x, y))
         self.Screen.blit(Texte, Texte_rect)
@@ -63,7 +67,7 @@ class Interface:
         pygame.display.flip()
         pygame.display.update()
         self.clock.tick(60)
-        self.Screen.fill((64, 68, 75))
+        self.Screen.fill((0, 0, 0))
     
     def update_no_fill(self):
         pygame.display.flip()
