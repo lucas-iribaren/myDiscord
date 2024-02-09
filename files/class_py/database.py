@@ -10,15 +10,15 @@ class Database:
         )
         self.cursor = self.base.cursor()
 
-    def execute_sql(self, query, params=None):
+    def execute_sql(self, query, params):
         self.cursor.execute(query, params or ())
         self.base.commit()
 
-    def fetch_all(self, query, params=None):
+    def fetch_all(self, query, params):
         self.cursor.execute(query, params or ())
         return self.cursor.fetchall()
     
-    def fetch_one(self, query, params=None):
+    def fetch_one(self, query, params):
         self.cursor.execute(query, params or ())
         return self.cursor.fetchone()
     

@@ -57,34 +57,36 @@ class Accueil(Interface):
                         
         
     def verify_account_exist(self, nom_utilisateur_entry, password_entry):
-        # Vérifier si les entrées ne sont pas vides
+    # Vérifier si les entrées ne sont pas vides
         if nom_utilisateur_entry and password_entry:
-            user_data = self.database.fetch_one("SELECT nom_utilisateur, password FROM user WHERE nom_utilisateur = ?;", (nom_utilisateur_entry,))
+            sql = "SELECT nom_utilisateur, password FROM user WHERE nom_utilisateur = ?;"
+            user_data = self.database.fetch_all(sql, (nom_utilisateur_entry, password_entry))
             if user_data:
                 # Si l'utilisateur est trouvé dans la base de données, vérifier le mot de passe
                 if user_data[1] == password_entry:
                     return True
                 else:
                     self.error_message = "Erreur, le mot de passe ne correspond pas au nom d'utilisateur"
+                    return False
             else:
                 self.error_message = "Erreur, ce nom d'utilisateur ou ce mot de passe n'existe pas"
+                return False
         else:
             self.error_message = "Erreur, veuillez saisir un nom d'utilisateur et un mot de passe"
-
-        return False            
+            return False        
     
     def draw_error_message(self):
         if self.error_message:
             # Afficher le message d'erreur en rouge
             self.text_align(18, self.error_message, self.pur_red, 500, 550)
-            self.clock.tick(180)        
+            # self.clock.tick(180)        
                 
     def button_login(self):
-        # if self.verify_account_exist(self.input_texts['nom_utilisateur'], self.input_texts['password']):
+        if self.verify_account_exist(self.input_texts['nom_utilisateur'], self.input_texts['password']):
             page_profil.home_profil()
             self.accueil_run = False            
-        # else:
-        #    self.draw_error_message()             
+        else:
+           self.draw_error_message()             
         
     def home(self):
         self.accueil_run = True
