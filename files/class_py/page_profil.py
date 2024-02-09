@@ -4,8 +4,8 @@ from files.class_py.interface import Interface
 
 class PageProfil(Interface):
     def __init__(self):
-        super().__init__() # Appelle le constructeur de la classe parente
-        self.profil_run = True
+        super().__init__()  # Appelle le constructeur de la classe parente
+        self.profil_run = False  # Initialiser profil_run à True pour entrer dans la boucle principale
 
     def create_profile_page(self):
         # Remplir l'écran avec du gris
@@ -48,10 +48,11 @@ class PageProfil(Interface):
         self.update()
         
     def home_profil(self):
+        self.profil_run = True
         while self.profil_run:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.profil_run = False
+                    self.profil_run = False  # Sortir de la boucle lorsque l'événement QUIT est détecté
                     pygame.quit()
 
             self.create_profile_page()

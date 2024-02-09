@@ -13,10 +13,9 @@ class Interface:
         self.white = (249, 249, 249)
         self.blue = (114, 137, 218)
         self.black = (0, 0, 0)
-        self.red = (237, 32, 71)    
+        self.red = (237, 32, 71)
+        self.pur_red = (255, 0, 0)    
         self.dark_red = (120,11,11)
-        self.clock = pygame.time.Clock()    
-
     def font(self):
         return pygame.font.Font("files/font/helvetica_neue_regular.otf",80)
 
