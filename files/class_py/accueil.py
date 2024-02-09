@@ -82,11 +82,11 @@ class Accueil(Interface):
             # self.clock.tick(180)        
                 
     def button_login(self):
-        if self.verify_account_exist(self.input_texts['nom_utilisateur'], self.input_texts['password']):
+        # if self.verify_account_exist(self.input_texts['nom_utilisateur'], self.input_texts['password']):
             page_profil.home_profil()
             self.accueil_run = False            
-        else:
-           self.draw_error_message()             
+        # else:
+        #    self.draw_error_message()             
         
     def home(self):
         self.accueil_run = True
