@@ -4,7 +4,6 @@ from files.class_py.interface import Interface
 from files.class_py.page_profil import PageProfil
 page_profil = PageProfil()
 
-page_inscription = Inscription()
 class Accueil(Interface):
     def __init__(self):
         Interface.__init__(self)
@@ -47,13 +46,13 @@ class Accueil(Interface):
                      
 
     def text_entry_login(self):
-        self.solid_rect_radius(self.white, 320, 370, 220, 35)
-        self.light_rect(self.black, 320, 370, 220, 35, 2)
-        self.solid_rect_radius(self.white, 320, 445, 220, 35)
-        self.light_rect(self.black, 320, 445, 220, 35, 2)
+        self.solid_rect_radius(self.white, 210, 345, 220, 35)
+        self.light_rect(self.black, 210, 345, 220, 35, 2)
+        self.solid_rect_radius(self.white, 210, 420, 220, 35)
+        self.light_rect(self.black, 210, 420, 220, 35, 2)
         
-        self.text(16, self.input_texts['nom_utilisateur'], self.black, 225, 363)
-        self.text(16, "*" * len(self.input_texts['password']), self.black, 225, 443)
+        self.text(16, self.input_texts['nom_utilisateur'], self.black, 220, 352)
+        self.text(16, "*" * len(self.input_texts['password']), self.black, 220, 433)
         
         
     def verify_account_exist(self, nom_utilisateur_entry, password_entry):
@@ -78,8 +77,7 @@ class Accueil(Interface):
             page_profil.home_profil()
             self.accueil_run = False            
         else:
-           self.draw_error_message()
-             
+           self.draw_error_message()             
         
     def home(self):
         self.accueil_run = True
@@ -96,18 +94,18 @@ class Accueil(Interface):
                 self.img(330, 160, 230, 220, "icones/logo")
                 self.text_align(70, "MyDiscord", self.white, 610, 160)
                 
-                self.text_align(19, "Nom d'utilisateur", self.white, 268, 335)
-                self.text_align(19, "Mot de passe", self.white, 257, 410)
-                self.light_rect(self.light_grey, 485, 435, 670, 270, 5)
+                self.text_align(19, "Nom d'utilisateur", self.white, 268, 330)
+                self.text_align(19, "Mot de passe", self.white, 257, 405)
+                self.light_rect(self.light_grey, 160, 300, 670, 270, 5)
                 
                 self.text_entry_login()  # Appeler la fonction pour gérer la saisie de texte
                 
-                self.solid_rect_radius(self.blue, 320, 505, 220, 35)
-                self.text_align(21, "Connexion", self.black, 320, 505)
-                self.text_align(21, "Ou", self.white, 485, 430)
+                self.solid_rect_radius(self.blue, 210, 488, 220, 35)
+                self.text_align(21, "Connexion", self.black, 315, 505)
+                self.text_align(21, "Ou", self.white, 485, 435)
                 
-                self.solid_rect_radius(self.blue, 650, 430, 220, 35)
-                self.text_align(21, "Inscription", self.black, 650, 430)
+                self.solid_rect_radius(self.blue, 535, 420, 220, 35)
+                self.text_align(21, "Inscription", self.black, 640, 435)
                 if self.is_mouse_over_button(pygame.Rect(320, 505, 220, 35)):
                     pygame.draw.rect(self.surface, self.color, pygame.Rect(320, 505, 220, 35),  1)      
                 
