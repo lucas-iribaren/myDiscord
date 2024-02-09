@@ -38,20 +38,20 @@ class Interface:
         Texte_rect = Texte.get_rect(center=(x, y))
         self.Screen.blit(Texte, Texte_rect)
 
-    def solid_rect(self,color, x, y, largeur, longueur):
-        pygame.draw.rect(self.Screen, color, pygame.Rect(x , y, largeur, longueur))
+    def solid_rect(self,color, x, y, largeur, hauteur):
+        pygame.draw.rect(self.Screen, color, pygame.Rect(x , y, largeur, hauteur))
     
-    def solid_rect_radius(self, color, x, y, longueur, largeur, radius):
-        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y, longueur, largeur),0,radius)   
+    def solid_rect_radius(self, color, x, y, largeur,hauteur , radius):
+        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y,largeur, hauteur),0,radius)   
 
-    def light_rect(self, color, x, y, largeur, longueur, epaisseur):
-        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y, largeur, longueur),  epaisseur, 5)
+    def light_rect(self, color, x, y, largeur, hauteur, epaisseur):
+        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y, largeur, hauteur),  epaisseur, 5)
 
-    def light_rect1(self, color, x, y, largeur, longueur, epaisseur):
-        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y, largeur, longueur),  epaisseur, 100)
+    def light_rect1(self, color, x, y, largeur, hauteur, epaisseur):
+        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y, largeur, hauteur),  epaisseur, 100)
                 
-    def draw_overlay(self, coloralpha, x, y, largeur, longueur):
-        overlay_surface = pygame.Surface((largeur, longueur), pygame.SRCALPHA)
+    def draw_overlay(self, coloralpha, x, y, largeur, hauteur):
+        overlay_surface = pygame.Surface((largeur, hauteur), pygame.SRCALPHA)
         overlay_surface.fill(coloralpha)
         self.Screen.blit(overlay_surface, (x, y))
         

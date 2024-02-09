@@ -37,14 +37,21 @@ class Inscription(Interface):
 
         
     def inscription(self):
-        self.accueil_run = True
-        self.active_input = 'nom_utilisateur'  
-        
-        while self.accueil_run:
+        self.page_inscription = True
+        while self.page_inscription:
             
             if self.home_accueil:
                 self.event_type()
                 self.Screen.fill(self.dark_grey)
-                self.solid_rect_radius(self.grey,100,100,880,480,9)
+                self.solid_rect_radius(self.grey,350,50,350,500,8)
+                self.solid_rect_radius(self.light_grey,460,55,150,50,8)
+                self.text(20,'Créer votre compte',self.black,470,68)
+                self.solid_rect_radius(self.light_grey,390,150,280,30,5)#Bloc email
+                if self.is_mouse_over_button(pygame.Rect(390,150,280,30)):
+                    self.light_rect(self.black,390,150,280,30,1)#Curseur selectionné
+                self.solid_rect_radius(self.light_grey,390,200,280,30,5)
+                if self.is_mouse_over_button(pygame.Rect(390,200,280,30)):
+                    self.light_rect(self.black,390,200,280,30,1)
                 self.update()
                
+                
