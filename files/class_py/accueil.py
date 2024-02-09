@@ -46,9 +46,9 @@ class Accueil(Interface):
 
 
     def text_entry_login(self):
-        self.solid_rect_radius(self.white, 320, 370, 220, 35)
+        self.solid_rect_radius(self.white, 320, 370, 220, 35,8)
         self.light_rect(self.black, 320, 370, 220, 35, 2)
-        self.solid_rect_radius(self.white, 320, 445, 220, 35)
+        self.solid_rect_radius(self.white, 320, 445, 220, 35,8)
         self.light_rect(self.black, 320, 445, 220, 35, 2)
         
         self.text(16, self.input_texts['nom_utilisateur'], self.black, 225, 363)
@@ -102,11 +102,11 @@ class Accueil(Interface):
                 
                 self.text_entry_login()  # Appeler la fonction pour gérer la saisie de texte
                 
-                self.solid_rect_radius(self.blue, 320, 505, 220, 35)
+                self.solid_rect_radius(self.blue, 320, 505, 220, 35, 8)
                 self.text_align(21, "Connexion", self.black, 320, 505)
                 self.text_align(21, "Ou", self.white, 485, 430)
                 
-                self.solid_rect_radius(self.blue, 650, 430, 220, 35)
+                self.solid_rect_radius(self.blue, 650, 430, 220, 35,8)
                 self.text_align(21, "Inscription", self.black, 650, 430)
                 if self.is_mouse_over_button(pygame.Rect(320, 505, 220, 35)):
                     pygame.draw.rect(self.surface, self.color, pygame.Rect(320, 505, 220, 35),  1)      

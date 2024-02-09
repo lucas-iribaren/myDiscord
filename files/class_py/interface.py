@@ -14,7 +14,7 @@ class Interface:
         self.blue = (114, 137, 218)
         self.black = (0, 0, 0)
         self.red = (237, 32, 71)    
-
+        self.dark_red = (120,11,11)
     def img(self, x, y, largeur, hauteur, image_name):
         image = pygame.image.load(f'files/images/{image_name}.png')
         image = pygame.transform.scale(image, (largeur, hauteur))
@@ -38,11 +38,11 @@ class Interface:
         Texte_rect = Texte.get_rect(center=(x, y))
         self.Screen.blit(Texte, Texte_rect)
 
-    def solid_rect(self, x, y, largeur, longueur, color):
+    def solid_rect(self,color, x, y, largeur, longueur):
         pygame.draw.rect(self.Screen, color, pygame.Rect(x , y, largeur, longueur))
     
-    def solid_rect_radius(self, color, x, y, longueur, largeur):
-        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y, longueur, largeur),  0, 8)   
+    def solid_rect_radius(self, color, x, y, longueur, largeur, radius):
+        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y, longueur, largeur),0,radius)   
 
     def light_rect(self, color, x, y, largeur, longueur, epaisseur):
         pygame.draw.rect(self.Screen, color, pygame.Rect(x, y, largeur, longueur),  epaisseur, 5)

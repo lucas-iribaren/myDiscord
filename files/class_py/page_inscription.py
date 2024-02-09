@@ -12,7 +12,7 @@ class Inscription(Interface):
         self.error_message = ""
         self.home_accueil = True 
         
-    def handle_events_for_login(self):
+    def event_type(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -29,50 +29,12 @@ class Inscription(Interface):
                         self.input_texts[self.active_input] += event.unicode
                             
             # Event mouse          
-            elif event.type == pygame.MOUSEBUTTONDOWN: 
+            elif event.type == pygame.MOUSEBUTTONUP: 
                 if self.is_mouse_over_button(pygame.Rect(320, 505, 220, 35)):
-                    if (self.input_texts['nom_utilisateur'] != '' and
-                        self.input_texts['password'] != ''):
-                            self.button_login()
-                    else:
-                        self.error_message = "Erreur, identifiant ou mot de passe invalide. Veuillez ressayer"             
+                    pass
                      
 
-    def text_entry_login(self):
-        self.solid_rect_radius(self.white, 320, 370, 220, 35)
-        self.light_rect(self.black, 320, 370, 220, 35, 2)
-        self.solid_rect_radius(self.white, 320, 445, 220, 35)
-        self.light_rect(self.black, 320, 445, 220, 35, 2)
-        
-        self.text(16, self.input_texts['nom_utilisateur'], self.black, 225, 363)
-        self.text(16, "*" * len(self.input_texts['password']), self.black, 225, 443)
-        
-        
-    def verify_account_exist(self, nom_utilisateur_entry, password_entry):
-        # Vérifier si les entrées ne sont pas vides
-        if nom_utilisateur_entry and password_entry:
-            # Récupérer les informations de l'utilisateur à partir de la base de données
-            user_data = self.database.fetch_one("SELECT nom_utilisateur, password FROM user WHERE nom_utilisateur = ?;", (nom_utilisateur_entry,))
-            if user_data:
-                # Si l'utilisateur est trouvé dans la base de données, vérifier le mot de passe
-                if user_data[1] == password_entry:
-                    return True  # Si le mot de passe correspond, retourner True
-        return False  # Si aucune correspondance n'est trouvée, retourner False
-    
-    
-    def draw_error_message(self):
-        if self.error_message:
-            # Afficher le message d'erreur en rouge
-            self.text_align(18, self.error_message, (255, 0, 0), 500, 550)  # Vous pouvez ajuster la position et la taille du message
-    
-    def button_login(self):
-        if self.verify_account_exist(self.active_input['nom_utilisateur', self.active_input['password']]):
-            self.accueil_run = False
-            # profil.profil_run = True
-        else:
-           pygame.quit()
-            # profil.profil_run = False
-             
+
         
     def inscription(self):
         self.accueil_run = True
@@ -81,12 +43,8 @@ class Inscription(Interface):
         while self.accueil_run:
             
             if self.home_accueil:
-                self.handle_events_for_login()
-                
+                self.event_type()
                 self.Screen.fill(self.dark_grey)
-                
-                
-                self.text_align(19, "Nom d'utilisateur", self.white, 268, 335)
-
+                self.solid_rect_radius(self.grey,100,100,880,480,9)
                 self.update()
                
