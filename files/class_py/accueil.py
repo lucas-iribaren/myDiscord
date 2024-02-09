@@ -14,7 +14,6 @@ class Accueil(Interface):
         self.active_input = None
         self.error_message = ""
         self.home_accueil = True 
-        self.surface = pygame.display.set_mode((self.W,self.H))  
   
     def handle_events_for_login(self):
         for event in pygame.event.get():
