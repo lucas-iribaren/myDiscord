@@ -33,7 +33,7 @@ class Interface:
         Texte_rect = Texte.get_rect(center=(x, y))
         self.Screen.blit(Texte, Texte_rect)
 
-    def solid_rect(self, x, y, largeur, longueur, color):
+    def solid_rect(self, color, x, y, largeur, longueur):
         pygame.draw.rect(self.Screen, color, pygame.Rect(x - largeur //2, y - longueur //2, largeur, longueur))
     
     def solid_rect_radius(self, color, x, y, longueur, largeur):

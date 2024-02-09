@@ -17,7 +17,7 @@ class PageProfil(Interface):
 
     def rect_server(self):
         # Zone des serveurs
-        self.solid_rect(30, 100, 90, 1000, (64, 68, 75))
+        self.solid_rect((64, 68, 75), 30, 100, 90, 1000)
 
     def create_server(self):
         # Coordonnées du cercle
