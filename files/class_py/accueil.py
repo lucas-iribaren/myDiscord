@@ -21,7 +21,7 @@ class Accueil(Interface):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-                    
+                                    
             # Event keyboard
             elif event.type == pygame.KEYDOWN:
                 if self.active_input:
@@ -54,7 +54,7 @@ class Accueil(Interface):
         
         self.text(16, self.input_texts['nom_utilisateur'], self.black, 220, 352)
         self.text(16, "*" * len(self.input_texts['password']), self.black, 220, 433)
-                
+                        
         
     def verify_account_exist(self, nom_utilisateur_entry, password_entry):
         # Vérifier si les entrées ne sont pas vides
@@ -65,29 +65,26 @@ class Accueil(Interface):
                 if user_data[1] == password_entry:
                     return True
                 else:
-                    self.error_passwordNotEgalUsername = "Erreur, le mot de passe ne correspond pas au nom d'utilisateur"
+                    self.error_message = "Erreur, le mot de passe ne correspond pas au nom d'utilisateur"
             else:
-                self.error_connection = "Erreur, ce nom d'utilisateur ou ce mot de passe n'existe pas"
+                self.error_message = "Erreur, ce nom d'utilisateur ou ce mot de passe n'existe pas"
         else:
-            self.error_passwordNotEgalUsername = "Erreur, le mot de passe ne correspond pas au nom d'utilisateur"
-    
-        return False    
+            self.error_message = "Erreur, veuillez saisir un nom d'utilisateur et un mot de passe"
+
+        return False            
     
     def draw_error_message(self):
         if self.error_message:
             # Afficher le message d'erreur en rouge
             self.text_align(18, self.error_message, self.pur_red, 500, 550)
-        elif self.error_connection:
-            self.text_align(18, self.error_connection, self.pur_red, 500, 550)
-        elif self.error_passwordNotEgalUsername:
-            self.text_align(18, self.error_passwordNotEgalUsername, self.pur_red, 500, 550)
+            self.clock.tick(180)        
                 
     def button_login(self):
-        if self.verify_account_exist(self.input_texts['nom_utilisateur'], self.input_texts['password']):
+        # if self.verify_account_exist(self.input_texts['nom_utilisateur'], self.input_texts['password']):
             page_profil.home_profil()
             self.accueil_run = False            
-        else:
-           self.draw_error_message()             
+        # else:
+        #    self.draw_error_message()             
         
     def home(self):
         self.accueil_run = True
