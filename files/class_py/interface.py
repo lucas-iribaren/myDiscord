@@ -15,9 +15,7 @@ class Interface:
         self.black = (0, 0, 0)
         self.red = (237, 32, 71)
         self.pur_red = (255, 0, 0)    
-        self.dark_red = (120,11,11)
-    def font(self):
-        return pygame.font.Font("files/font/helvetica_neue_regular.otf",80)
+        self.dark_red = (120,11,11)    
 
     def img(self, x, y, largeur, hauteur, image_name):
         image = pygame.image.load(f'files/images/{image_name}.png')
@@ -36,12 +34,13 @@ class Interface:
         Texte_rect = Texte.get_rect(topleft=(x, y))
         self.Screen.blit(Texte, Texte_rect)
 
-    def text_align(self, texte_size, texte_content,color, x, y, font):
+    def text_align(self, texte_size, texte_content,color, x, y):
+        font = pygame.font.Font('files/font/helvetica_neue_regular.otf', texte_size) 
         Texte = font.render(texte_content, True, color)
         Texte_rect = Texte.get_rect(center=(x, y))
         self.Screen.blit(Texte, Texte_rect)
 
-    def solid_rect(self,color, x, y, largeur, longueur):
+    def solid_rect(self, color, x, y, largeur, longueur):
         pygame.draw.rect(self.Screen, color, pygame.Rect(x , y, largeur, longueur))
     
     def solid_rect_radius(self, color, x, y, longueur, largeur, radius):

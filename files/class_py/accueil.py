@@ -10,7 +10,7 @@ class Accueil(Interface):
     def __init__(self):
         Interface.__init__(self)
         self.database = Database()
-        self.input_texts = {'nom_utilisateur': 'azerty', 'password': ''}  
+        self.input_texts = {'nom_utilisateur':'', 'password': ''}  
         self.active_input = None
         self.error_message = ""
         self.home_accueil = True 
@@ -113,7 +113,7 @@ class Accueil(Interface):
                 self.text_align(21, "Connexion", self.black, 315, 505)
                 self.text_align(21, "Ou", self.white, 485, 435)
                 
-                self.solid_rect_radius(self.blue, 535, 420, 220, 35,8)
+                self.solid_rect_radius(self.blue, 535, 420, 220, 35, 8)
                 self.text_align(21, "Inscription", self.black, 642, 436)
                 # if self.is_mouse_over_button(pygame.Rect(210, 488, 220, 35)):
                 #     pygame.draw.rect(self.surface, self.pur_red, pygame.Rect(210, 488, 220, 35), 1)      

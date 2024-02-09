@@ -16,11 +16,12 @@ class PageProfil(Interface):
 
         # Texte à afficher
         self.text(25, "Veuillez choisir un serveur.", (249, 249, 249), 450, 320)
+        
 
     def rect_server(self):
         # Zone des serveurs
         self.solid_rect(30, 100, 90, 1000, (64, 68, 75))
-
+        
     def create_server(self):
         # Coordonnées du cercle
         circle_center = (38, 35)
@@ -44,8 +45,7 @@ class PageProfil(Interface):
             pygame.draw.line(self.Screen, (114, 137, 218), (20, 35), (58, 35), 3)  # Ligne horizontale
             pygame.draw.line(self.Screen, (114, 137, 218), (39, 55), (39, 15), 3)  # Ligne verticale
 
-        # Mettre à jour l'affichage
-        self.update()
+        
         
     def home_profil(self):
         self.profil_run = True
@@ -58,4 +58,5 @@ class PageProfil(Interface):
             self.create_profile_page()
             self.rect_server()
             self.create_server()
+            self.update()
     
