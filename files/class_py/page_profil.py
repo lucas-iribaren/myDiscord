@@ -20,10 +20,28 @@ class PageProfil(Interface):
         self.solid_rect(30, 100, 90, 1000, (64, 68, 75))
 
     def create_server(self):
-        # Bouton créer un serveur
-        pygame.draw.circle(self.Screen, (188, 186, 184), (38, 35), 28)  # Dessin cercle
-        pygame.draw.line(self.Screen, (114, 137, 218), (20, 35), (58, 35), 3) # Dessin ligne horizontal de la croix
-        pygame.draw.line(self.Screen, (114, 137, 218), (39, 55), (39, 15), 3) # Dessin ligne vertical de la croix
+        # Coordonnées du cercle
+        circle_center = (38, 35)
+        circle_radius = 28
+        
+        # Vérifier si la souris survole le cercle
+        mouse_pos = pygame.mouse.get_pos()
+        distance_to_circle = ((mouse_pos[0] - circle_center[0])**2 + (mouse_pos[1] - circle_center[1])**2) ** 0.5
+        
+        if distance_to_circle <= circle_radius:
+            # Survole du cercle : change la couleur du bouton
+            pygame.draw.circle(self.Screen, (114, 137, 218), circle_center, circle_radius + 2)  # Cercle
+            # Dessin de la croix
+            pygame.draw.line(self.Screen, (188, 186, 184), (20, 35), (58, 35), 3)  # Ligne horizontale
+            pygame.draw.line(self.Screen, (188, 186, 184), (39, 55), (39, 15), 3)  # Ligne verticale
+            self.text(20, "Créer un serveur", (249, 249, 249), 40, 30)
+        else:
+            # Sans survol
+            pygame.draw.circle(self.Screen, (188, 186, 184), circle_center, circle_radius)  # Cercle normal
+            # Dessin de la croix
+            pygame.draw.line(self.Screen, (114, 137, 218), (20, 35), (58, 35), 3)  # Ligne horizontale
+            pygame.draw.line(self.Screen, (114, 137, 218), (39, 55), (39, 15), 3)  # Ligne verticale
+
 
 pygame.init()
 profil_page = PageProfil()
