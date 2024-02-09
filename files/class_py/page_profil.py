@@ -21,11 +21,9 @@ class PageProfil(Interface):
 
     def create_server(self):
         # Bouton créer un serveur
-        pygame.draw.circle(self.Screen, (188, 186, 184), (38, 35), 28)  # Dessine un cercle
-
-        
-
-
+        pygame.draw.circle(self.Screen, (188, 186, 184), (38, 35), 28)  # Dessin cercle
+        pygame.draw.line(self.Screen, (114, 137, 218), (20, 35), (58, 35), 3) # Dessin ligne horizontal de la croix
+        pygame.draw.line(self.Screen, (114, 137, 218), (39, 55), (39, 15), 3) # Dessin ligne vertical de la croix
 
 pygame.init()
 profil_page = PageProfil()
