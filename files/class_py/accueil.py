@@ -108,9 +108,7 @@ class Accueil(Interface):
                 
                 self.solid_rect_radius(self.blue, 650, 430, 220, 35,8)
                 self.text_align(21, "Inscription", self.black, 650, 430)
-                if self.is_mouse_over_button(pygame.Rect(320, 505, 220, 35)):
-                    pygame.draw.rect(self.surface, self.color, pygame.Rect(320, 505, 220, 35), 1)      
-                
+
                 self.draw_error_message()
 
                 self.update()
