@@ -1,12 +1,10 @@
 import pygame
-from files.class_py.interface import Interface    
-pygame.init()
-
+from files.class_py.interface import Interface 
 
 class PageProfil(Interface):
     def __init__(self):
         super().__init__() # Appelle le constructeur de la classe parente
-        self.profil_run = True
+        self.profil_run = False
 
     def create_profile_page(self):
         # Remplir l'écran avec du gris

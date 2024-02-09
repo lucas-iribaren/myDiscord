@@ -2,7 +2,9 @@ import pygame
 from files.class_py.database import Database
 from files.class_py.interface import Interface
 from files.class_py.page_profil import PageProfil
+from files.class_py.page_inscription import Inscription
 page_profil = PageProfil()
+page_inscription = Inscription()
 
 class Accueil(Interface):
     def __init__(self):
@@ -12,10 +14,7 @@ class Accueil(Interface):
         self.active_input = None
         self.error_message = ""
         self.home_accueil = True 
-        self.surface = pygame.display.set_mode((self.W,self.H))
-  
-# Initialing Color
-        self.color = (255,0,0)
+        self.surface = pygame.display.set_mode((self.W,self.H))  
   
     def handle_events_for_login(self):
         for event in pygame.event.get():
@@ -36,13 +35,15 @@ class Accueil(Interface):
             # Event mouse          
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    if self.is_mouse_over_button(pygame.Rect(320, 505, 220, 35)):
+                    if self.is_mouse_over_button(pygame.Rect( 210, 488, 220, 35)):
                         print('click')
                         if (self.input_texts['nom_utilisateur'] != '' and
                             self.input_texts['password'] != ''):
                                 self.button_login()
                         else:
-                            self.error_message = "Erreur, identifiant ou mot de passe invalide. Veuillez ressayer"             
+                            self.error_message = "Erreur, identifiant ou mot de passe invalide. Veuillez ressayer"
+                    elif self.is_mouse_over_button(pygame.Rect(535, 420, 220, 35)):
+                        page_inscription.inscription()                                 
                      
 
     def text_entry_login(self):
@@ -53,25 +54,34 @@ class Accueil(Interface):
         
         self.text(16, self.input_texts['nom_utilisateur'], self.black, 220, 352)
         self.text(16, "*" * len(self.input_texts['password']), self.black, 220, 433)
-        
+                
         
     def verify_account_exist(self, nom_utilisateur_entry, password_entry):
         # Vérifier si les entrées ne sont pas vides
         if nom_utilisateur_entry and password_entry:
-            # Récupérer les informations de l'utilisateur à partir de la base de données
             user_data = self.database.fetch_one("SELECT nom_utilisateur, password FROM user WHERE nom_utilisateur = ?;", (nom_utilisateur_entry,))
             if user_data:
                 # Si l'utilisateur est trouvé dans la base de données, vérifier le mot de passe
                 if user_data[1] == password_entry:
-                    return True  # Si le mot de passe correspond, retourner True
-        return False  # Si aucune correspondance n'est trouvée, retourner False
+                    return True
+                else:
+                    self.error_passwordNotEgalUsername = "Erreur, le mot de passe ne correspond pas au nom d'utilisateur"
+            else:
+                self.error_connection = "Erreur, ce nom d'utilisateur ou ce mot de passe n'existe pas"
+        else:
+            self.error_passwordNotEgalUsername = "Erreur, le mot de passe ne correspond pas au nom d'utilisateur"
     
+        return False    
     
     def draw_error_message(self):
         if self.error_message:
             # Afficher le message d'erreur en rouge
-            self.text_align(18, self.error_message, (255, 0, 0), 500, 550)  # Vous pouvez ajuster la position et la taille du message
-    
+            self.text_align(18, self.error_message, self.pur_red, 500, 550)
+        elif self.error_connection:
+            self.text_align(18, self.error_connection, self.pur_red, 500, 550)
+        elif self.error_passwordNotEgalUsername:
+            self.text_align(18, self.error_passwordNotEgalUsername, self.pur_red, 500, 550)
+                
     def button_login(self):
         if self.verify_account_exist(self.input_texts['nom_utilisateur'], self.input_texts['password']):
             page_profil.home_profil()
@@ -106,8 +116,8 @@ class Accueil(Interface):
                 
                 self.solid_rect_radius(self.blue, 535, 420, 220, 35,8)
                 self.text_align(21, "Inscription", self.black, 642, 436)
-                if self.is_mouse_over_button(pygame.Rect(320, 505, 220, 35)):
-                    pygame.draw.rect(self.surface, self.color, pygame.Rect(320, 505, 220, 35),  1)      
+                # if self.is_mouse_over_button(pygame.Rect(210, 488, 220, 35)):
+                #     pygame.draw.rect(self.surface, self.pur_red, pygame.Rect(210, 488, 220, 35), 1)      
                 
                 self.draw_error_message()
 
