@@ -1,9 +1,12 @@
 import pygame
-from interface import Interface 
+from files.class_py.interface import Interface    
+pygame.init()
+
 
 class PageProfil(Interface):
     def __init__(self):
         super().__init__() # Appelle le constructeur de la classe parente
+        self.profil_run = True
 
     def create_profile_page(self):
         # Remplir l'écran avec du gris
@@ -17,16 +20,17 @@ class PageProfil(Interface):
 
         # Mettre à jour l'affichage
         self.update()
+        
+    def home_profil(self):
+        while self.profil_run:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.profil_run = False
+                    pygame.quit()
 
-pygame.init()
-profil_page = PageProfil()
+            self.create_profile_page()
+        
 
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
 
-    profil_page.create_profile_page()
+
     
-pygame.quit()

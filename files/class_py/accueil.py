@@ -1,6 +1,8 @@
 import pygame
 from files.class_py.database import Database
 from files.class_py.interface import Interface
+from files.class_py.page_profil import PageProfil
+page_profil = PageProfil()
 
 class Accueil(Interface):
     def __init__(self):
@@ -28,13 +30,15 @@ class Accueil(Interface):
                         self.input_texts[self.active_input] += event.unicode
                             
             # Event mouse          
-            elif event.type == pygame.MOUSEBUTTONDOWN: 
-                if self.is_mouse_over_button(pygame.Rect(320, 505, 220, 35)):
-                    if (self.input_texts['nom_utilisateur'] != '' and
-                        self.input_texts['password'] != ''):
-                            self.button_login()
-                    else:
-                        self.error_message = "Erreur, identifiant ou mot de passe invalide. Veuillez ressayer"             
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if self.is_mouse_over_button(pygame.Rect(320, 505, 220, 35)):
+                        print('click')
+                        if (self.input_texts['nom_utilisateur'] != '' and
+                            self.input_texts['password'] != ''):
+                                self.button_login()
+                        else:
+                            self.error_message = "Erreur, identifiant ou mot de passe invalide. Veuillez ressayer"             
                      
 
     def text_entry_login(self):
@@ -65,12 +69,11 @@ class Accueil(Interface):
             self.text_align(18, self.error_message, (255, 0, 0), 500, 550)  # Vous pouvez ajuster la position et la taille du message
     
     def button_login(self):
-        if self.verify_account_exist(self.active_input['nom_utilisateur', self.active_input['password']]):
-            self.accueil_run = False
-            # profil.profil_run = True
+        if self.verify_account_exist(self.input_texts['nom_utilisateur'], self.input_texts['password']):
+            page_profil.home_profil()
+            self.accueil_run = False            
         else:
-           pygame.quit()
-            # profil.profil_run = False
+           self.draw_error_message()
              
         
     def home(self):
