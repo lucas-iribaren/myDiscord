@@ -10,13 +10,22 @@ class PageProfil(Interface):
         self.Screen.fill((54, 57, 63))
 
         # Ajout du logo
-        self.img(500, 250, 100, 100, "icones/logo")
+        self.img(550, 270, 100, 100, "icones/logo")
 
         # Texte à afficher
-        self.text(30, "Veuillez choisir un serveur", (249, 249, 249), 400, 300)
+        self.text(25, "Veuillez choisir un serveur.", (249, 249, 249), 450, 320)
 
-        # Mettre à jour l'affichage
-        self.update()
+    def rect_server(self):
+        # Zone des serveurs
+        self.solid_rect(30, 100, 90, 1000, (64, 68, 75))
+
+    def create_server(self):
+        # Bouton créer un serveur
+        pygame.draw.circle(self.Screen, (188, 186, 184), (38, 35), 28)  # Dessine un cercle
+
+        
+
+
 
 pygame.init()
 profil_page = PageProfil()
@@ -28,5 +37,8 @@ while running:
             running = False
 
     profil_page.create_profile_page()
+    profil_page.rect_server()
+    profil_page.create_server()
+    profil_page.update()
     
 pygame.quit()
