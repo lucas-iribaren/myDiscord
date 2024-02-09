@@ -105,7 +105,7 @@ class Accueil(Interface):
                 self.text_align(21, "Ou", self.white, 485, 435)
                 
                 self.solid_rect_radius(self.blue, 535, 420, 220, 35,8)
-                self.text_align(21, "Inscription", self.black, 640, 435)
+                self.text_align(21, "Inscription", self.black, 642, 436)
                 if self.is_mouse_over_button(pygame.Rect(320, 505, 220, 35)):
                     pygame.draw.rect(self.surface, self.color, pygame.Rect(320, 505, 220, 35),  1)      
                 
