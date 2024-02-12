@@ -11,7 +11,13 @@ class User(Database):
     def update_user(self, user_id, new_pseudo, new_mail, new_password, new_id_categorie):
         sql = "UPDATE user SET pseudo = %s, mail = %s, password = %s, id_role = %s WHERE id = %s;"
         self.execute_sql(sql, (new_pseudo, new_mail, new_password, new_id_categorie, user_id))
+    
+    def role_upgrade(self, user_id, new_id_role):
+        sql = "UPDATE user SET id_role = %s WHERE id = %s"
+        self.execute_sql(sql, (new_id_role, user_id))
 
     def delete_user(self, user_id):
         sql = "DELETE FROM user WHERE id = %s;"
         self.execute_sql(sql, (user_id,))
+        
+    

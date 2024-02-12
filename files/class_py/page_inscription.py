@@ -66,7 +66,6 @@ class Inscription(Interface, User):
                 # self.solid_rect_radius(self.light_grey,390,150,280,30,5)
                 self.solid_rect_radius(self.blue,420,400,220,35,8)
                 self.text_align(21,"S'inscrire ici !",self.black,530,416)
-
                 
                 if self.is_mouse_over_button(pygame.Rect(390,150,280,30)):
                     self.light_rect(self.black,390,150,280,30,1)#Curseur selectionné
