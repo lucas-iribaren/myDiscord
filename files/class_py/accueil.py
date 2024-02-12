@@ -58,7 +58,7 @@ class Accueil(Interface):
     def verify_account_exist(self, nom_utilisateur_entry, password_entry):
         # Vérifier si les entrées ne sont pas vides
         if nom_utilisateur_entry and password_entry:
-            sql = "SELECT pseudo, password FROM user WHERE pseudo = ? AND password = ?;"
+            sql = "SELECT pseudo, password FROM user WHERE pseudo = %s AND password = %s;"
             user_data = self.database.fetch_all(sql, (nom_utilisateur_entry, password_entry))
             if user_data:
                 # Si l'utilisateur est trouvé dans la base de données
