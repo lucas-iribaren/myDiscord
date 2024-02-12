@@ -53,6 +53,9 @@ VALUES ('lucas', 'lucas.discord@laplateforme.io', 'discord', 1);
 INSERT INTO user (pseudo, mail, password, id_role) 
 VALUES ('kevin', 'kevin.discord@laplateforme.io', 'discord', 2);
 
+INSERT INTO user (pseudo, mail, password, id_role)
+VALUES ('lucy', 'lucy.discord@laplateforme.io', 'discord', 1);
+
 
 
 
