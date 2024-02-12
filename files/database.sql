@@ -1,4 +1,4 @@
--- Active: 1706528093603@@127.0.0.1@3306
+-- Active: 1707491285105@@127.0.0.1@3306@mydiscord
 CREATE DATABASE myDiscord;
 
 USE myDiscord;
@@ -48,10 +48,10 @@ VALUES ('membre'),
 ('modérateur');
 
 INSERT INTO user (pseudo, mail, password, id_role) 
-VALUES ('utilisateur1', 'utilisateur1@example.com', 'user', 1);
+VALUES ('lucas', 'lucas.discord@laplateforme.io', 'discord', 1);
 
 INSERT INTO user (pseudo, mail, password, id_role) 
-VALUES ('moderateur1', 'moderateur1@example.com', 'modo', 2);
+VALUES ('kevin', 'kevin.discord@laplateforme.io', 'discord', 2);
 
 
 
