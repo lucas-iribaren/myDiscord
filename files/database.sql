@@ -43,6 +43,18 @@ CREATE TABLE message(
     FOREIGN KEY (id_channel) REFERENCES channel(id)
 );
 
+INSERT INTO role (name)
+VALUES ('membre'),
+('modérateur');
+
+INSERT INTO user (pseudo, mail, password, id_role) 
+VALUES ('lucas', 'lucas.discord@laplateforme.io', 'discord', 1);
+
+INSERT INTO user (pseudo, mail, password, id_role) 
+VALUES ('kevin', 'kevin.discord@laplateforme.io', 'discord', 2);
+
+
+
 
 
 
