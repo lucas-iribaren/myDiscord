@@ -1,4 +1,4 @@
--- Active: 1706607848323@@127.0.0.1@3306
+-- Active: 1707491285105@@127.0.0.1@3306@mydiscord
 CREATE DATABASE myDiscord;
 
 USE myDiscord;
