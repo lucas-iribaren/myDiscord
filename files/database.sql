@@ -43,6 +43,18 @@ CREATE TABLE message(
     FOREIGN KEY (id_channel) REFERENCES channel(id)
 );
 
+INSERT INTO role (name)
+VALUES ('membre'),
+('modérateur');
+
+INSERT INTO user (pseudo, mail, password, id_role) 
+VALUES ('utilisateur1', 'utilisateur1@example.com', 'user', 1);
+
+INSERT INTO user (pseudo, mail, password, id_role) 
+VALUES ('moderateur1', 'moderateur1@example.com', 'modo', 2);
+
+
+
 
 
 
