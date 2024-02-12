@@ -42,6 +42,7 @@ class Accueil(Interface):
                         else:
                             self.error_message = "Erreur, identifiant ou mot de passe invalide. Veuillez ressayer"
                     elif self.is_mouse_over_button(pygame.Rect(535, 420, 220, 35)):
+                        page_inscription.register_run = True
                         page_inscription.register()                                 
                      
 

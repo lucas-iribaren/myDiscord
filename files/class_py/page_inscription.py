@@ -1,4 +1,5 @@
 import pygame
+import re
 from files.class_py.user import User
 from files.class_py.interface import Interface
 
@@ -14,6 +15,10 @@ class Inscription(Interface, User):
         self.input_texts = {'email':'', 'pseudo': '', 'password':''}
         self.active_input = None  # Pour suivre le champ de texte actif
         self.register_run = True
+
+    def is_valid_email(self, email):
+        regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+        return re.match(regex, email) is not None
 
     def event_type(self):        
         for event in pygame.event.get():
@@ -49,23 +54,31 @@ class Inscription(Interface, User):
                         self.active_input = None
                         
                     if self.is_mouse_over_button(pygame.Rect(420,400,220,35)):                        
-                        self.add_user(self.input_texts['pseudo'], self.input_texts['email'], self.input_texts['password'], 1)
-                        print("click, user ajoutée avec succès !")
+                        if self.is_valid_email(self.input_texts['email']):
+                            self.add_user(self.input_texts['pseudo'], self.input_texts['email'], self.input_texts['password'], 1)
+                            print("Utilisateur ajouté avec succès !")
+                            self.register_run = False
+                        else:
+                            print("Adresse e-mail non valide. Veuillez réessayer.")
+                    elif self.is_mouse_over_button(pygame.Rect(370,520,280,20)):
                         self.register_run = False
-                        
         
+
     def register(self):
-        while self.register_run:
-        
+        while self.register_run:        
             if self.page_inscription:
                 self.event_type()
                 self.Screen.fill(self.dark_grey)
                 self.solid_rect_radius(self.grey,350,50,350,500,8)
                 self.solid_rect_radius(self.light_grey,460,55,150,50,8)
                 self.text(20,'Créer votre compte',self.black,470,68)                
-                # self.solid_rect_radius(self.light_grey,390,150,280,30,5)
                 self.solid_rect_radius(self.blue,420,400,220,35,8)
                 self.text_align(21,"S'inscrire ici !",self.black,530,416)
+
+                if self.is_mouse_over_button(pygame.Rect(370,520,280,20)):
+                    self.text_align(18,"Tu as déjà un compte?",self.black,435,520)
+                else:
+                    self.text_align(15,"Tu as déjà un compte?",self.black,435,520)
 
                 
                 if self.is_mouse_over_button(pygame.Rect(390,150,280,30)):
@@ -95,5 +108,5 @@ class Inscription(Interface, User):
                     
                 self.update()
 
-               
+
                 

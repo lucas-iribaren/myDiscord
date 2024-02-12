@@ -28,7 +28,7 @@ CREATE TABLE channel(
 CREATE TABLE user( 
     id INT PRIMARY KEY AUTO_INCREMENT,
     pseudo VARCHAR(25),
-    mail VARCHAR(200) UNIQUE,
+    email VARCHAR(255) UNIQUE CHECK (REGEXP_LIKE(email, '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$')),
     password VARCHAR(200),
     id_role INT,
     FOREIGN KEY (id_role) REFERENCES role(id)
