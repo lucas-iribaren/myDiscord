@@ -13,7 +13,9 @@ class Accueil(Interface):
         self.input_texts = {'nom_utilisateur':'', 'password': ''}  
         self.active_input = None
         self.error_message = ""
-        self.home_accueil = True 
+        self.home_accueil = True
+        self.clicked_rect = None  # Pour garder en mémoire le rectangle cliqué précédemment
+        self.clicked_input = None 
   
     def handle_events_for_login(self):
         for event in pygame.event.get():
@@ -42,7 +44,15 @@ class Accueil(Interface):
                         else:
                             self.error_message = "Erreur, identifiant ou mot de passe invalide. Veuillez ressayer"
                     elif self.is_mouse_over_button(pygame.Rect(535, 420, 220, 35)):
-                        page_inscription.register()                                 
+                        page_inscription.register()
+                    
+                    else:
+                        # Vérifier si le clic est sur l'un des rectangles d'entrée de texte
+                        for input_rect in [(210, 345, 220, 35), (210, 420, 220, 35)]:
+                            if self.is_mouse_over_button(pygame.Rect(input_rect)):
+                                # Garder en mémoire le rectangle cliqué précédemment et activer l'entrée de texte
+                                self.clicked_rect = input_rect
+                                self.active_input = 'nom_utilisateur' if input_rect == (210, 345, 220, 35) else 'password'                                 
                      
 
     def text_entry_login(self):
@@ -53,6 +63,9 @@ class Accueil(Interface):
         
         self.text(16, self.input_texts['nom_utilisateur'], self.black, 220, 352)
         self.text(16, "*" * len(self.input_texts['password']), self.black, 220, 433)
+        
+        if self.clicked_input:
+            self.text(16, self.input_texts[self.clicked_input], self.black, self.clicked_rect[0] + 10, self.clicked_rect[1] + 7)
                         
         
     def verify_account_exist(self, nom_utilisateur_entry, password_entry):
