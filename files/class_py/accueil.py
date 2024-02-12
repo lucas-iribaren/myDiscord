@@ -56,10 +56,14 @@ class Accueil(Interface):
                      
 
     def text_entry_login(self):
+        if self.is_mouse_over_button(pygame.Rect(210,345,220,35)):
+            self.light_rect(self.black, 209, 344, 222, 39, 8)#Curseur selectionné
         self.solid_rect_radius(self.white, 210, 345, 220, 35,8)
-        self.light_rect(self.black, 210, 345, 220, 35, 2)
+        
+        if self.is_mouse_over_button(pygame.Rect(210,420,220,35)):
+            self.light_rect(self.black, 209, 419, 222, 39, 8)
         self.solid_rect_radius(self.white, 210, 420, 220, 35,8)
-        self.light_rect(self.black, 210, 420, 220, 35, 2)
+        
         
         self.text(16, self.input_texts['nom_utilisateur'], self.black, 220, 352)
         self.text(16, "*" * len(self.input_texts['password']), self.black, 220, 433)
