@@ -19,11 +19,11 @@ class PageProfil(Interface):
         
     def rect_server(self):
         # Zone des serveurs
-        self.solid_rect((64, 68, 75), 30, 100, 90, 1000)
+        self.solid_rect((64, 68, 75), 0, 0, 70, 1000)
         
     def create_server(self):
         # Coordonnées du cercle
-        circle_center = (38, 35)
+        circle_center = (35, 35)
         circle_radius = 28
         
         # Vérifier si la souris survole le cercle
