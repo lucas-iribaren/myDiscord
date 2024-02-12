@@ -1,6 +1,5 @@
 import pygame
-from files.class_py.interface import Interface    
-
+from files.class_py.interface import Interface
 
 class Profil(Interface):
     def __init__(self):
