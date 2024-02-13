@@ -14,6 +14,7 @@ class Inscription(Interface, User):
         self.input_texts = {'email':'', 'pseudo': '', 'password':''}
         self.active_input = None  # Pour suivre le champ de texte actif
         self.register_run = True
+        self.verif_connect = False
 
     def event_type(self):        
         for event in pygame.event.get():
@@ -48,10 +49,13 @@ class Inscription(Interface, User):
                         self.selected_rect = None
                         self.active_input = None
                         
-                    if self.is_mouse_over_button(pygame.Rect(420,400,220,35)):                        
-                        self.add_user(self.input_texts['pseudo'], self.input_texts['email'], self.input_texts['password'], 1)
-                        print("click, user ajoutée avec succès !")
-                        self.register_run = False
+                    if self.is_mouse_over_button(pygame.Rect(420,400,220,35)):
+                        if (self.input_texts['email'] != '' and
+                            self.input_texts['pseudo'] != '' and
+                            self.input_texts['password'] != ''):                        
+                                self.add_user(self.input_texts['pseudo'], self.input_texts['email'], self.input_texts['password'], 1)
+                                print("click, user ajoutée avec succès !")
+                                self.verif_connect = True
                         
         
     def register(self):
@@ -91,6 +95,9 @@ class Inscription(Interface, User):
                         elif self.active_input == 'password':
                             input_text = '*' * len(self.input_texts['password'])  # Afficher des étoiles à la place du mot de passe
                         self.text(15, input_text, self.black, self.selected_rect.x + 5, self.selected_rect.y + 5)
+                        
+            if self.verif_connect:
+                #mettre la petite fenêtre qui apparaît quand on se connecte
                     
                 self.update()
 
