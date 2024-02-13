@@ -15,7 +15,7 @@ class Accueil(Interface):
         self.error_message_login = ""
         self.home_accueil = True
         self.clicked_rect = None  # Pour garder en mémoire le rectangle cliqué précédemment
-        self.clicked_input = None 
+        self.clicked_input = None
   
     def handle_events_for_login(self):
         for event in pygame.event.get():
@@ -98,10 +98,10 @@ class Accueil(Interface):
     
     def draw_error_message_login(self):
         if self.error_message_login:
-            # Afficher le message d'erreur en rouge
-            self.text_align(18, self.error_message_login, self.pur_red, 500, 550)
-            # self.clock.tick(180)        
-                
+            self.solid_rect_radius(self.light_grey,620,20,360,55,8)
+            self.text_align(16, self.error_message_login, self.pur_red, 796, 45)
+            
+                            
     def button_login(self):
         if self.verify_account_exist(self.input_texts['nom_utilisateur'], self.input_texts['password']):
             page_profil.home_profil()
@@ -118,7 +118,6 @@ class Accueil(Interface):
             if self.home_accueil:
                 self.handle_events_for_login()
 
-# Drawing Rectangle
                 self.Screen.fill(self.dark_grey)
 
                 self.img(330, 160, 230, 220, "icones/logo")
@@ -137,8 +136,8 @@ class Accueil(Interface):
                 self.solid_rect_radius(self.blue, 535, 420, 220, 35, 8)
                 self.text_align(21, "Inscription", self.black, 642, 436)
                 # if self.is_mouse_over_button(pygame.Rect(210, 488, 220, 35)):
-                #     pygame.draw.rect(self.surface, self.pur_red, pygame.Rect(210, 488, 220, 35), 1)      
-                
+                #     pygame.draw.rect(self.surface, self.pur_red, pygame.Rect(210, 488, 220, 35), 1)          
+                           
                 self.draw_error_message_login()
 
                 self.update()
