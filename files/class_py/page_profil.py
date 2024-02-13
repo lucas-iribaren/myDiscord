@@ -34,8 +34,8 @@ class PageProfil(Interface):
             # Dessin de la croix - Survol
             pygame.draw.line(self.Screen, (188, 186, 184), (15, 35), (53, 35), 3)  # Ligne horizontale
             pygame.draw.line(self.Screen, (188, 186, 184), (35, 55), (35, 15), 3)  # Ligne verticale
-            self.solid_rect((0, 0, 0), 70, 20, 100, 50) # Zone de texte au survol du bouton
-            self.text(20, "Créer un serveur", (249, 249, 249), 70, 20)
+            self.img(130, 30, 130, 40, "icones/zone_texte_survol")
+            self.text(20, "Créer un serveur", (249, 249, 249), 80, 20)
         else:
             # Sans survol
             pygame.draw.circle(self.Screen, (188, 186, 184), circle_center, circle_radius)
@@ -56,8 +56,8 @@ class PageProfil(Interface):
             # Survol du cercle - Change la couleur de l'icone
             pygame.draw.circle(self.Screen, (114, 137, 218), circle_center, circle_radius + 2)
             self.img(35, 100, 50, 50, "icones/avatar_2")
-            self.solid_rect((0, 0, 0), 70, 50, 100, 50) # Zone de texte au survol du bouton
-            self.text(20, "Serveur privé", (249, 249, 249), 90, 100)
+            self.img(130, 100, 110, 40, "icones/zone_texte_survol") # Zone texte directionnel
+            self.text(20, "Serveur privé", (249, 249, 249), 90, 90)
         else:
             # Sans survol
             self.img(35, 100, 50, 50, "icones/avatar_0")
