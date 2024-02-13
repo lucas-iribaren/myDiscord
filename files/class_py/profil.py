@@ -15,6 +15,9 @@ class Profil(Interface):
         # Ajout du logo au milieu de la fenêtre
         self.img(550, 270, 100, 100, "icones/logo")
         self.text(25, self.channel_message, (249, 249, 249), 435, 320)
+
+        # Dessine la zone des channels privés
+        self.rect_pv_chanel()
         
     def rect_server(self):
         # Zone des serveurs
@@ -88,7 +91,6 @@ class Profil(Interface):
             self.rect_server()
             self.create_server()
             self.private_server()
-            self.rect_pv_chanel()
             self.update() 
 
         pygame.quit() 
