@@ -2,7 +2,7 @@ import pygame
 from files.class_py.interface import Interface    
 
 
-class PageProfil(Interface):
+class Profil(Interface):
     def __init__(self):
         super().__init__()  # Appelle le constructeur de la classe parente
         self.profil_run = False  # Initialise profil_run à False pour entrer dans la boucle principale

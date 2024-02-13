@@ -1,9 +1,9 @@
 import pygame
 from files.class_py.database import Database
 from files.class_py.interface import Interface
-from files.class_py.page_profil import PageProfil
-from files.class_py.page_inscription import Inscription
-page_profil = PageProfil()
+from files.class_py.profil import Profil
+from files.class_py.inscription import Inscription
+page_profil = Profil()
 page_inscription = Inscription()
 
 class Accueil(Interface):
