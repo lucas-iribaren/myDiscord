@@ -30,8 +30,15 @@ class Accueil(Interface):
                         self.input_texts[self.active_input] = self.input_texts[self.active_input][:-1]
                     elif event.key == pygame.K_TAB:
                         self.active_input = 'password' if self.active_input == 'nom_utilisateur' else 'nom_utilisateur'
+                    elif event.key == pygame.K_RETURN:
+                        if (self.input_texts['nom_utilisateur'] != '' and
+                            self.input_texts['password'] != ''):
+                                self.button_login()
+                        else:
+                            self.error_message_login = "Erreur, identifiant ou mot de passe invalide. Veuillez ressayer"
                     else:
                         self.input_texts[self.active_input] += event.unicode
+                    
                             
             # Event mouse          
             elif event.type == pygame.MOUSEBUTTONDOWN:

@@ -35,6 +35,16 @@ class Inscription(Interface, User):
                             self.active_input = 'password'
                         else:
                             self.active_input = 'email'
+                    elif event.key == pygame.K_RETURN:
+                        if (self.input_texts['email'] != '' and
+                            self.input_texts['pseudo'] != '' and
+                            self.input_texts['password'] != ''):                        
+                                self.add_user(self.input_texts['pseudo'], self.input_texts['email'], self.input_texts['password'], 1)
+                                print("click, user ajoutée avec succès !")
+                                # self.verif_connect = True
+                        else:
+                            print("erreur register")
+                            self.error_message_register = "Erreur, vous devez remplir toute les cases pour l'inscription"
                     else:
                         self.input_texts[self.active_input] += event.unicode
                             
