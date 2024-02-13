@@ -12,7 +12,7 @@ class Accueil(Interface):
         self.database = Database()
         self.input_texts = {'nom_utilisateur':'', 'password': ''}  
         self.active_input = None
-        self.error_message = ""
+        self.error_message_login = ""
         self.home_accueil = True
         self.clicked_rect = None  # Pour garder en mémoire le rectangle cliqué précédemment
         self.clicked_input = None 
@@ -42,9 +42,11 @@ class Accueil(Interface):
                             self.input_texts['password'] != ''):
                                 self.button_login()
                         else:
-                            self.error_message = "Erreur, identifiant ou mot de passe invalide. Veuillez ressayer"
+                            self.error_message_login = "Erreur, identifiant ou mot de passe invalide. Veuillez ressayer"
                     elif self.is_mouse_over_button(pygame.Rect(535, 420, 220, 35)):
+                        print("click on inscription")
                         page_inscription.register()
+                        self.home_accueil = False
                     
                     else:
                         # Vérifier si le clic est sur l'un des rectangles d'entrée de texte
@@ -81,17 +83,17 @@ class Accueil(Interface):
                 # Si l'utilisateur est trouvé dans la base de données
                 return True
             else:
-                self.error_message = "Erreur, nom d'utilisateur ou mot de passe incorrect"
+                self.error_message_login = "Erreur, nom d'utilisateur ou mot de passe incorrect"
                 return False
         else:
-            self.error_message = "Erreur, veuillez saisir un nom d'utilisateur et un mot de passe"
+            self.error_message_login = "Erreur, veuillez saisir un nom d'utilisateur et un mot de passe"
             return False
       
     
-    def draw_error_message(self):
-        if self.error_message:
+    def draw_error_message_login(self):
+        if self.error_message_login:
             # Afficher le message d'erreur en rouge
-            self.text_align(18, self.error_message, self.pur_red, 500, 550)
+            self.text_align(18, self.error_message_login, self.pur_red, 500, 550)
             # self.clock.tick(180)        
                 
     def button_login(self):
@@ -99,7 +101,7 @@ class Accueil(Interface):
             page_profil.home_profil()
             self.accueil_run = False            
         else:
-           self.draw_error_message()             
+           self.draw_error_message_login()             
         
     def home(self):
         self.accueil_run = True
@@ -131,7 +133,7 @@ class Accueil(Interface):
                 # if self.is_mouse_over_button(pygame.Rect(210, 488, 220, 35)):
                 #     pygame.draw.rect(self.surface, self.pur_red, pygame.Rect(210, 488, 220, 35), 1)      
                 
-                self.draw_error_message()
+                self.draw_error_message_login()
 
                 self.update()
                
