@@ -1,11 +1,12 @@
 import pygame
 from files.class_py.interface import Interface    
 
-
 class Profil(Interface):
     def __init__(self):
         super().__init__()  # Appelle le constructeur de la classe parente
         self.profil_run = False  # Initialise profil_run à False pour entrer dans la boucle principale
+        self.private_chanels = False
+        self.channel_message = "Veuillez choisir un serveur."
 
     def create_profile_page(self):
         # Remplit l'écran avec du gris
@@ -13,7 +14,7 @@ class Profil(Interface):
 
         # Ajout du logo au milieu de la fenêtre
         self.img(550, 270, 100, 100, "icones/logo")
-        self.text(25, "Veuillez choisir un serveur.", (249, 249, 249), 450, 320)
+        self.text(25, self.channel_message, (249, 249, 249), 435, 320)
         
     def rect_server(self):
         # Zone des serveurs
@@ -58,9 +59,23 @@ class Profil(Interface):
             self.img(35, 100, 50, 50, "icones/avatar_2")
             self.img(130, 100, 110, 40, "icones/zone_texte_survol") # Zone texte directionnel
             self.text(20, "Serveur privé", (249, 249, 249), 90, 90)
+
+            # Vérifie si le bouton a été cliqué
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button ==  1:
+                    self.private_chanels = not self.private_chanels  # Bascule l'affichage de la zone des channels privés
+                    if self.private_chanels:
+                        self.channel_message = "Veuillez sélectionner un channel." # Change le message lorsque le bouton est cliqué
+                    else:
+                        self.channel_message = "Veuillez choisir un serveur." # Rétablit le message par défaut lorsque le bouton est cliqué à nouveau
         else:
             # Sans survol
             self.img(35, 100, 50, 50, "icones/avatar_0")
+
+    def rect_pv_chanel(self):
+        # Dessine la zone des channels privés
+        if self.private_chanels:
+            self.solid_rect((64, 68, 75), 80, 0, 70, 1000)
 
     def home_profil(self):
         self.profil_run = True
@@ -68,10 +83,12 @@ class Profil(Interface):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.profil_run = False  # Sort de la boucle lorsque l'événement QUIT est détecté
-                    pygame.quit()
 
             self.create_profile_page()
             self.rect_server()
             self.create_server()
             self.private_server()
-            self.update()  
+            self.rect_pv_chanel()
+            self.update() 
+
+        pygame.quit() 
