@@ -83,13 +83,16 @@ class Accueil(Interface):
     def verify_account_exist(self, nom_utilisateur_entry, password_entry):
         # Vérifier si les entrées ne sont pas vides
         if nom_utilisateur_entry and password_entry:
-            sql = "SELECT pseudo, password FROM user WHERE pseudo = %s AND password = %s;"
-            user_data = self.database.fetch_all(sql, (nom_utilisateur_entry, password_entry))
+            sql = "SELECT pseudo, password FROM user WHERE pseudo = %s;"
+            user_data = self.database.fetch_one(sql, (nom_utilisateur_entry,))
             if user_data:
-                # Si l'utilisateur est trouvé dans la base de données
-                return True
+                if user_data[1] == password_entry:
+                     return True                   
+                else:                   
+                    self.error_message_login = "Erreur, le mot de passe n'est pas correct"
+                    return False
             else:
-                self.error_message_login = "Erreur, nom d'utilisateur ou mot de passe incorrect"
+                self.error_message_login = "Erreur, nom d'utilisateur incorrect"
                 return False
         else:
             self.error_message_login = "Erreur, veuillez saisir un nom d'utilisateur et un mot de passe"
@@ -105,9 +108,8 @@ class Accueil(Interface):
     def button_login(self):
         if self.verify_account_exist(self.input_texts['nom_utilisateur'], self.input_texts['password']):
             page_profil.home_profil()
-            self.accueil_run = False            
-        else:
-           self.draw_error_message_login()             
+            self.accueil_run = False                   
+                     
         
     def home(self):
         self.accueil_run = True
