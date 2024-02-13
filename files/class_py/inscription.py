@@ -1,4 +1,5 @@
 import pygame
+import re
 from files.class_py.user import User
 from files.class_py.interface import Interface
 
@@ -16,6 +17,10 @@ class Inscription(Interface, User):
         self.register_run = True
         self.verif_connect = False
 
+    def is_valid_email(self, email):
+        regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+        return re.match(regex, email) is not None
+    
     def event_type(self):        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -49,14 +54,15 @@ class Inscription(Interface, User):
                         self.selected_rect = None
                         self.active_input = None
                         
-                    if self.is_mouse_over_button(pygame.Rect(420,400,220,35)):
-                        if (self.input_texts['email'] != '' and
-                            self.input_texts['pseudo'] != '' and
-                            self.input_texts['password'] != ''):                        
+                    if self.is_mouse_over_button(pygame.Rect(420,400,220,35)):                        
+                            if self.is_valid_email(self.input_texts['email']):
                                 self.add_user(self.input_texts['pseudo'], self.input_texts['email'], self.input_texts['password'], 1)
-                                print("click, user ajoutée avec succès !")
-                                self.verif_connect = True
-                        
+                                print("Utilisateur ajouté avec succès !")
+                                self.register_run = False
+                            else:
+                                print("Adresse e-mail non valide. Veuillez réessayer.")
+                    elif self.is_mouse_over_button(pygame.Rect(370,520,280,20)):
+                            self.register_run = False
         
     def register(self):
         while self.register_run:
@@ -71,6 +77,10 @@ class Inscription(Interface, User):
                 self.solid_rect_radius(self.blue,420,400,220,35,8)
                 self.text_align(21,"S'inscrire ici !",self.black,530,416)
                 
+                if self.is_mouse_over_button(pygame.Rect(370,520,280,20)):
+                    self.text_align(18,"Tu as déjà un compte?",self.black,435,520)
+                else:
+                    self.text_align(15,"Tu as déjà un compte?",self.black,435,520)
                 if self.is_mouse_over_button(pygame.Rect(390,150,280,30)):
                     self.light_rect(self.black,390,150,280,30,1)#Curseur selectionné
                 self.solid_rect_radius(self.light_grey,390,150,280,30,5)#Bloc email
@@ -96,10 +106,11 @@ class Inscription(Interface, User):
                             input_text = '*' * len(self.input_texts['password'])  # Afficher des étoiles à la place du mot de passe
                         self.text(15, input_text, self.black, self.selected_rect.x + 5, self.selected_rect.y + 5)
                         
-            if self.verif_connect:
+                self.update()
+                if self.verif_connect:
+                    pass
                 #mettre la petite fenêtre qui apparaît quand on se connecte
                     
-                self.update()
 
                
                 
