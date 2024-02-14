@@ -3,8 +3,10 @@ from files.class_py.database import Database
 from files.class_py.interface import Interface
 from files.class_py.profil import Profil
 from files.class_py.inscription import Inscription
+from files.class_py.user import User
 page_profil = Profil()
 page_inscription = Inscription()
+user = User()
 
 class Accueil(Interface):
     def __init__(self):
@@ -85,12 +87,11 @@ class Accueil(Interface):
                         
         
     def verify_account_exist(self, nom_utilisateur_entry, password_entry):
-        # Vérifier si les entrées ne sont pas vides
         if nom_utilisateur_entry and password_entry:
             sql = "SELECT pseudo, password FROM user WHERE pseudo = %s;"
-            user_data = self.database.fetch_one(sql, (nom_utilisateur_entry,))
-            if user_data:
-                if user_data[1] == password_entry:
+            self.user_data = user.recup_user(nom_utilisateur_entry)
+            if self.user_data:
+                if self.user_data[1] == password_entry:
                      return True                   
                 else:                   
                     self.error_message_login = "Erreur, le mot de passe n'est pas correct"

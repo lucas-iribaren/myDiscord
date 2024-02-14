@@ -13,10 +13,12 @@ class Database:
     def execute_sql(self, query, params):
         self.cursor.execute(query, params or ())
         self.base.commit()
+        self.cursor.close()
 
     def fetch_all(self, query, params):
         self.cursor.execute(query, params or ())
         return self.cursor.fetchall()
+    
     
     def fetch_one(self, query, params):
         self.cursor.execute(query, params or ())
