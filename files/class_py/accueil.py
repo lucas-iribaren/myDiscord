@@ -3,8 +3,10 @@ from files.class_py.database import Database
 from files.class_py.interface import Interface
 from files.class_py.profil import Profil
 from files.class_py.inscription import Inscription
+from files.class_py.user import User
 page_profil = Profil()
 page_inscription = Inscription()
+user = User()
 
 class Accueil(Interface):
     def __init__(self):
@@ -14,8 +16,12 @@ class Accueil(Interface):
         self.active_input = None
         self.error_message_login = ""
         self.home_accueil = True
-        self.clicked_rect = None  # Pour garder en mémoire le rectangle cliqué précédemment
-        self.clicked_input = None 
+        self.clicked_rect = None  
+        self.clicked_input = None
+        self.clock = pygame.time.Clock()
+        self.error_timer = 0
+        self.error_duration = 1000
+        
   
     def handle_events_for_login(self):
         for event in pygame.event.get():
@@ -81,15 +87,17 @@ class Accueil(Interface):
                         
         
     def verify_account_exist(self, nom_utilisateur_entry, password_entry):
-        # Vérifier si les entrées ne sont pas vides
         if nom_utilisateur_entry and password_entry:
-            sql = "SELECT pseudo, password FROM user WHERE pseudo = %s AND password = %s;"
-            user_data = self.database.fetch_all(sql, (nom_utilisateur_entry, password_entry))
-            if user_data:
-                # Si l'utilisateur est trouvé dans la base de données
-                return True
+            sql = "SELECT pseudo, password FROM user WHERE pseudo = %s;"
+            self.user_data = user.recup_user(nom_utilisateur_entry)
+            if self.user_data:
+                if self.user_data[1] == password_entry:
+                     return True                   
+                else:                   
+                    self.error_message_login = "Erreur, le mot de passe n'est pas correct"
+                    return False
             else:
-                self.error_message_login = "Erreur, nom d'utilisateur ou mot de passe incorrect"
+                self.error_message_login = "Erreur, nom d'utilisateur incorrect"
                 return False
         else:
             self.error_message_login = "Erreur, veuillez saisir un nom d'utilisateur et un mot de passe"
@@ -98,16 +106,20 @@ class Accueil(Interface):
     
     def draw_error_message_login(self):
         if self.error_message_login:
-            # Afficher le message d'erreur en rouge
-            self.text_align(18, self.error_message_login, self.pur_red, 500, 550)
-            # self.clock.tick(180)        
-                
+            self.solid_rect_radius(self.light_grey,620,20,360,55,8)
+            self.text_align(16, self.error_message_login, self.pur_red, 796, 45)
+            self.error_timer += self.clock.tick()
+            if self.error_timer >= self.error_duration:
+                self.error_message_login = None
+                self.error_timer = 0
+            
+            
+                            
     def button_login(self):
         if self.verify_account_exist(self.input_texts['nom_utilisateur'], self.input_texts['password']):
             page_profil.home_profil()
-            self.accueil_run = False            
-        else:
-           self.draw_error_message_login()             
+            self.accueil_run = False                   
+                     
         
     def home(self):
         self.accueil_run = True
@@ -118,7 +130,6 @@ class Accueil(Interface):
             if self.home_accueil:
                 self.handle_events_for_login()
 
-# Drawing Rectangle
                 self.Screen.fill(self.dark_grey)
 
                 self.img(330, 160, 230, 220, "icones/logo")
@@ -137,8 +148,8 @@ class Accueil(Interface):
                 self.solid_rect_radius(self.blue, 535, 420, 220, 35, 8)
                 self.text_align(21, "Inscription", self.black, 642, 436)
                 # if self.is_mouse_over_button(pygame.Rect(210, 488, 220, 35)):
-                #     pygame.draw.rect(self.surface, self.pur_red, pygame.Rect(210, 488, 220, 35), 1)      
-                
+                #     pygame.draw.rect(self.surface, self.pur_red, pygame.Rect(210, 488, 220, 35), 1)          
+                           
                 self.draw_error_message_login()
 
                 self.update()
