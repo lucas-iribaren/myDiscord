@@ -1,3 +1,4 @@
+import pygame
 from datetime import datetime
 from files.class_py.interface import Interface
 from files.class_py.database import Database
