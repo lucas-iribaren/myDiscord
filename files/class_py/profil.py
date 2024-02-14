@@ -1,11 +1,16 @@
 import pygame
-from files.class_py.interface import Interface    
+from files.class_py.interface import Interface
+from files.class_py.message import Message
+from files.class_py.notification import Notification   
 
 
 class Profil(Interface):
-    def __init__(self):
+    def __init__(self, user):
         super().__init__()  # Appelle le constructeur de la classe parente
+        self.user = user
         self.profil_run = False  # Initialise profil_run à False pour entrer dans la boucle principale
+        self.message = Message(self.user)
+        self.notification = Notification(self.user)
 
     def create_profile_page(self):
         # Remplit l'écran avec du gris
