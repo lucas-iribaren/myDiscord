@@ -3,10 +3,6 @@ from files.class_py.database import Database
 from files.class_py.interface import Interface
 from files.class_py.profil import Profil
 from files.class_py.inscription import Inscription
-from files.class_py.user import User
-page_profil = Profil()
-page_inscription = Inscription()
-user = User()
 
 class Accueil(Interface):
     def __init__(self):
@@ -18,9 +14,10 @@ class Accueil(Interface):
         self.home_accueil = True
         self.clicked_rect = None  
         self.clicked_input = None
-        self.clock = pygame.time.Clock()
+        self.clock = pygame.time.Clock()        
+        self.page_register = Inscription()
         self.error_timer = 0
-        self.error_duration = 1000
+        self.error_duration = 3500
         
   
     def handle_events_for_login(self):
@@ -57,8 +54,8 @@ class Accueil(Interface):
                         else:
                             self.error_message_login = "Erreur, identifiant ou mot de passe invalide. Veuillez ressayer"
                     elif self.is_mouse_over_button(pygame.Rect(535, 420, 220, 35)):
-                        page_inscription.register_run = True
-                        page_inscription.register()
+                        self.page_register.register_run = True
+                        self.page_register.register()
                     
                     else:
                         # Vérifier si le clic est sur l'un des rectangles d'entrée de texte
@@ -89,7 +86,7 @@ class Accueil(Interface):
     def verify_account_exist(self, nom_utilisateur_entry, password_entry):
         if nom_utilisateur_entry and password_entry:
             sql = "SELECT pseudo, password FROM user WHERE pseudo = %s;"
-            self.user_data = user.recup_user(nom_utilisateur_entry)
+            self.user_data = self.database.fetch_one(sql, (nom_utilisateur_entry,))
             if self.user_data:
                 if self.user_data[1] == password_entry:
                      return True                   
@@ -117,7 +114,8 @@ class Accueil(Interface):
                             
     def button_login(self):
         if self.verify_account_exist(self.input_texts['nom_utilisateur'], self.input_texts['password']):
-            page_profil.home_profil()
+            self.page_profil = Profil(self.user_data)
+            self.page_profil.home_profil()
             self.accueil_run = False                   
                      
         

@@ -1,17 +1,20 @@
+import pygame
+from datetime import datetime
+from files.class_py.interface import Interface
 from files.class_py.database import Database
 from files.class_py.interface import Interface
 from files.class_py.accueil import Accueil
 from datetime import datetime
 accueil = Accueil()
 
-class Message(Interface, Database):
-    def __init__(self):         
+class Message(Database, Interface):
+    def __init__(self, user):         
         Database.__init__(self)
         Interface.__init__(self)
-        self.curent_time_message = datetime.now() 
-        self.input_texts_message = {'message':''}
-        self.user = accueil.user_data
-        self.active_input = None  # Pour suivre le champ de texte actif      
+        self.user = user
+        self.input_texts = {'message':''}
+        self.current_date_message = datetime.now()
+        self.active_input = None  # Pour suivre le champ de texte actif
         
     def add_message(self, input_text, user, heure, id_channel):
         sql = "INSERT INTO message(text,auteur,heure,id_channel) VALUES (%s,%s,%s,%s);"
