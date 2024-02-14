@@ -8,12 +8,7 @@ class Inscription(Interface, User):
         Interface.__init__(self)
         User.__init__(self)
         self.page_inscription = True
-        self.email_rect = pygame.Rect(390, 170, 280, 30)
-        self.pseudo_rect = pygame.Rect(390, 250, 280, 30)
-        self.password_rect = pygame.Rect(390, 330, 280, 30)
-        self.selected_rect = None  # Pour suivre le bloc sélectionné
-        self.input_texts = {'email':'', 'pseudo': '', 'password':''}
-        self.active_input = None  # Pour suivre le champ de texte actif
+        self.selected_rect = None
         self.register_run = True
         self.verif_connect = False
         self.error_message_register = ""
@@ -93,53 +88,42 @@ class Inscription(Interface, User):
         while self.register_run:
             if self.page_inscription:
                 self.event_type()
-                self.Screen.fill(self.dark_grey)
-                self.solid_rect_radius(self.grey,350,50,350,500,8)
-                self.solid_rect_radius(self.light_grey,460,55,150,50,8)
+                self.Screen.fill(self.dark_grey)#background
+                self.solid_rect_radius(self.grey,350,50,350,500,8)#bloc inscription
+                self.solid_rect_radius(self.light_grey,460,55,150,50,8)#bordure
                 self.text(20,'Créer votre compte',self.black,470,68)                
                 self.solid_rect_radius(self.blue,420,420,220,35,8)
                 self.text_align(21,"S'inscrire ici !",self.black,530,436)
-            
-                # Draw email rectangle
-                if self.is_mouse_over_button(pygame.Rect(370,520,280,20)):
-                    self.text_align(18,"Tu as déjà un compte?",self.black,435,520)
-                else:
-                    self.text_align(15,"Tu as déjà un compte?",self.black,435,520)
+
+
+                #Bloc Email
                 if self.is_mouse_over_button(pygame.Rect(390,170,280,30)):
                     self.light_rect(self.black,390,170,280,30,1)#Curseur selectionné
                 self.solid_rect_radius(self.light_grey,390,170,280,30,5)#Bloc email
                 self.text(19,"Email",self.white,390,140)
-                # Draw pseudo rectangle
+                #Bloc Pseudo
                 if self.is_mouse_over_button(pygame.Rect(390,250,280,30)):
                     self.light_rect(self.black,390,250,280,30,1)#Curseur selectionné
                 self.solid_rect_radius(self.light_grey, 390, 250, 280, 30, 5)#Bloc pseudo
                 self.text(19,"Nom d'utilisateur",self.white,390,220)
-                # Draw password rectangle
+                #Bloc Password
                 if self.is_mouse_over_button(pygame.Rect(390,330,280,30)):
                     self.light_rect(self.black,390,330,280,30,1)#Curseur selectionné
                 self.solid_rect_radius(self.light_grey, 390, 330, 280, 30, 5)#Bloc password
                 self.text(19,"Mot de passe",self.white,390,300)
                 
+                if self.is_mouse_over_button(pygame.Rect(370,520,280,20)):
+                    self.text_align(18,"Tu as déjà un compte?",self.black,435,520)
+                else:
+                    self.text_align(15,"Tu as déjà un compte?",self.black,435,520)
+                    
                 self.draw_error_message_register()
-
-                # Update text in selected rectangle
-                if self.selected_rect:
-                    self.light_rect(self.black, self.selected_rect.x, self.selected_rect.y, self.selected_rect.width, self.selected_rect.height, 1)  # Rectangle visible
-                    # Display the current text on the selected rectangle
-                    if self.active_input:
-                        if self.active_input == 'email':
-                            input_text = self.input_texts['email']
-                        elif self.active_input == 'pseudo':
-                            input_text = self.input_texts['pseudo']
-                        elif self.active_input == 'password':
-                            input_text = '*' * len(self.input_texts['password'])  # Display stars instead of password
-                        self.text(15, input_text, self.black, self.selected_rect.x + 5, self.selected_rect.y + 5)
-                        
-                self.update()
+                self.select_input()
                 if self.verif_connect:
                     pass
                 #mettre la petite fenêtre qui apparaît quand on se connecte
-                    
+                        
+                self.update()
 
-               
-                
+    def select_input(self):
+        pass
