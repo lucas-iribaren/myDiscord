@@ -1,4 +1,4 @@
-import pygame, time
+import pygame
 from files.class_py.database import Database
 from files.class_py.interface import Interface
 from files.class_py.profil import Profil
