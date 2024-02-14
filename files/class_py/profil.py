@@ -1,8 +1,9 @@
 import pygame
 from files.class_py.interface import Interface
 from files.class_py.message import Message
-from files.class_py.accueil import Accueil
-accueil = Accueil()
+# from files.class_py.accueil import Accueil
+from files.class_py.database import Database
+# accueil = Accueil()
 
 class Profil(Interface):
     def __init__(self):
@@ -11,6 +12,7 @@ class Profil(Interface):
         self.private_chanels = False
         self.channel_message = "Veuillez choisir un serveur."
         self.message = Message()
+        self.database = Database()
         self.active_input = None  # Pour suivre le champ de texte actif
         self.input_texts_message = {'message':''}        
 
@@ -94,7 +96,7 @@ class Profil(Interface):
                         self.input_texts_message[self.active_input] += event.unicode
             
     def button_send(self):
-        self.message.add_message(self.message.input_texts_message['message'], accueil.user_data, self.message.curent_time,1)
+        self.message.add_message(self.message.input_texts_message['message'], accueil.user_data, self.message.curent_time_message,1)
         self.message.message_display(350,250,300,200,7)
                 
 

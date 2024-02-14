@@ -22,7 +22,7 @@ class Notification(Database, Interface):
         larg_notif = 150
         high_notif = 50
         self.solid_rect_radius(self.light_grey, x_notif, y_notif, larg_notif, high_notif)
-        self.text(15, self.user, self.black, x_notif, y_notif - 30)
+        self.text(15, self.user.recup_user(self.message.user), self.black, x_notif, y_notif - 30)
         self.text(14, self.current_time_notif, self.white, x_notif + 30, y_notif - 30)
         self.text(13, self.message.input_texts_message['message'], self.white, x_notif, y_notif + 30)
         

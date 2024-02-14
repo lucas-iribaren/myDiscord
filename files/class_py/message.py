@@ -1,16 +1,14 @@
 from files.class_py.database import Database
 from files.class_py.interface import Interface
-from files.class_py.accueil import Accueil
 from datetime import datetime
-accueil = Accueil()
 
 class Message(Interface, Database):
-    def __init__(self):         
+    def __init__(self, user):         
         Database.__init__(self)
         Interface.__init__(self)
         self.curent_time_message = datetime.now() 
         self.input_texts_message = {'message':''}
-        self.user = accueil.user_data
+        self.user = user
         self.active_input = None  # Pour suivre le champ de texte actif      
         
     def add_message(self, input_text, user, heure, id_channel):
