@@ -1,11 +1,16 @@
 import pygame
-from files.class_py.interface import Interface    
-
+from files.class_py.interface import Interface
+from files.class_py.message import Message
+from files.class_py.accueil import Accueil
+accueil = Accueil()
 
 class Profil(Interface):
     def __init__(self):
         super().__init__()  # Appelle le constructeur de la classe parente
         self.profil_run = False  # Initialise profil_run à False pour entrer dans la boucle principale
+        self.message = Message()
+        self.active_input = None  # Pour suivre le champ de texte actif
+        self.input_texts_message = {'message':''}        
 
     def create_profile_page(self):
         # Remplit l'écran avec du gris
@@ -61,6 +66,23 @@ class Profil(Interface):
         else:
             # Sans survol
             self.img(35, 100, 50, 50, "icones/avatar_0")
+            
+    def event_writting_message(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()           
+            elif event.type == pygame.KEYDOWN:
+                if self.active_input:
+                    if event.key == pygame.K_BACKSPACE:
+                        self.input_texts_message[self.active_input] = self.input_texts_message[self.active_input][:-1]                        
+                    else:
+                        self.input_texts_message[self.active_input] += event.unicode
+            
+    # def button_send(self):
+    #     self.message.add_message(self.message.input_texts['message'], accueil.user_data, self.message.curent_time,1)
+    #     self.message.message_display()
+        
 
     def home_profil(self):
         self.profil_run = True
