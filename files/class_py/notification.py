@@ -17,9 +17,13 @@ class Notification(Database, Interface):
         self.execute_sql(sql, (self.message.input_texts_message['message'], self.user.recup_user(self.message.user), self.current_time_notif))
         
     def notification_display(self):
-        self.solid_rect_radius(self.light_grey, x_message, y_message, largeur_message, hauteur_message, radius_message)
-        self.text(15, self.user, self.black, x_message, y_message - 30)
-        self.text(14, self.curent_time_message, self.white, x_message + 30, y_message - 30)
-        self.text(13, self.input_texts_message['message'], self.white, x_message + 30, y_message + 30)
+        x_notif = 750
+        y_notif = 100
+        larg_notif = 150
+        high_notif = 50
+        self.solid_rect_radius(self.light_grey, x_notif, y_notif, larg_notif, high_notif)
+        self.text(15, self.user, self.black, x_notif, y_notif - 30)
+        self.text(14, self.current_time_notif, self.white, x_notif + 30, y_notif - 30)
+        self.text(13, self.message.input_texts_message['message'], self.white, x_notif, y_notif + 30)
         
         
