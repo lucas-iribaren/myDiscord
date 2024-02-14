@@ -17,7 +17,6 @@ class User(Database):
     def recup_user(self, username):
         sql = "SELECT pseudo, password FROM user WHERE pseudo = %s;"
         return self.fetch_one(sql, (username,))
-
     
     def role_upgrade(self, user_id, new_id_role):
         sql = "UPDATE user SET id_role = %s WHERE id = %s"
