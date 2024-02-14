@@ -1,5 +1,5 @@
 import pygame
-from files.class_py.interface import Interface    
+from files.class_py.interface import Interface 
 
 class Profil(Interface):
     def __init__(self):
@@ -61,16 +61,16 @@ class Profil(Interface):
             pygame.draw.circle(self.Screen, (114, 137, 218), circle_center, circle_radius + 2)
             self.img(35, 100, 50, 50, "icones/avatar_2")
             self.img(130, 100, 110, 40, "icones/zone_texte_survol") # Zone texte directionnel
-            self.text(20, "Serveur privé", (249, 249, 249), 90, 90)
+            self.text(20, "Messages privés", (249, 249, 249), 90, 90)
 
             # Vérifie si le bouton a été cliqué
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button ==  1:
                     self.private_chanels = not self.private_chanels  # Bascule l'affichage de la zone des channels privés
-                    if self.private_chanels:
-                        self.channel_message = "Veuillez sélectionner un channel." # Change le message lorsque le bouton est cliqué
-                    else:
-                        self.channel_message = "Veuillez choisir un serveur." # Rétablit le message par défaut lorsque le bouton est cliqué à nouveau
+                    # if self.private_chanels:
+                    #     self.channel_message = "Veuillez sélectionner un channel." # Change le message lorsque le bouton est cliqué
+                    # else:
+                    #     self.channel_message = "Veuillez choisir un serveur." # Rétablit le message par défaut lorsque le bouton est cliqué à nouveau
         else:
             # Sans survol
             self.img(35, 100, 50, 50, "icones/avatar_0")
@@ -78,7 +78,7 @@ class Profil(Interface):
     def rect_pv_chanel(self):
         # Dessine la zone des channels privés
         if self.private_chanels:
-            self.solid_rect((64, 68, 75), 80, 0, 70, 1000)
+            self.solid_rect((64, 68, 75), 80, 0, 90, 1000)
 
     def home_profil(self):
         self.profil_run = True
@@ -93,4 +93,4 @@ class Profil(Interface):
             self.private_server()
             self.update() 
 
-        pygame.quit() 
+        pygame.quit()
