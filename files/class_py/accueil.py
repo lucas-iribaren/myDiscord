@@ -1,4 +1,4 @@
-import pygame, time
+import pygame
 from files.class_py.database import Database
 from files.class_py.interface import Interface
 from files.class_py.profil import Profil
@@ -17,7 +17,7 @@ class Accueil(Interface):
         self.clock = pygame.time.Clock()        
         self.page_register = Inscription()
         self.error_timer = 0
-        self.error_duration = 1000
+        self.error_duration = 3500
         
   
     def handle_events_for_login(self):
