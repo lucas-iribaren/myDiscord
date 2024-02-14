@@ -1,16 +1,17 @@
 import pygame
 from files.class_py.interface import Interface
 from files.class_py.message import Message
-from files.class_py.accueil import Accueil
-accueil = Accueil()
+from files.class_py.notification import Notification
 
 class Profil(Interface):
-    def __init__(self):
+    def __init__(self, user):
         super().__init__()  # Appelle le constructeur de la classe parente
         self.profil_run = False  # Initialise profil_run à False pour entrer dans la boucle principale
         self.private_chanels = False
+        self.user = user
         self.channel_message = "Veuillez choisir un serveur."
-        self.message = Message()
+        self.message = Message(self.user)
+        self.notification = Notification(self.user)
         self.active_input = None  # Pour suivre le champ de texte actif
         self.input_texts_message = {'message':''}        
 
@@ -94,7 +95,7 @@ class Profil(Interface):
                         self.input_texts_message[self.active_input] += event.unicode
             
     def button_send(self):
-        self.message.add_message(self.message.input_texts_message['message'], accueil.user_data, self.message.curent_time,1)
+        self.message.add_message(self.message.input_texts['message'], self.user, self.message.current_date_message,1)
         self.message.message_display(350,250,300,200,7)
                 
 
@@ -117,4 +118,4 @@ class Profil(Interface):
             self.private_server()
             self.update() 
 
-        pygame.quit()
+        
