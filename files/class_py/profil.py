@@ -1,8 +1,7 @@
 import pygame
 from files.class_py.interface import Interface
 from files.class_py.message import Message
-from files.class_py.notification import Notification   
-
+from files.class_py.notification import Notification
 
 class Profil(Interface):
     def __init__(self, user):
@@ -96,7 +95,7 @@ class Profil(Interface):
                         self.input_texts_message[self.active_input] += event.unicode
             
     def button_send(self):
-        self.message.add_message(self.message.input_texts_message['message'], accueil.user_data, self.message.curent_time,1)
+        self.message.add_message(self.message.input_texts['message'], self.user, self.message.current_date_message,1)
         self.message.message_display(350,250,300,200,7)
                 
 
