@@ -23,7 +23,17 @@ class Inscription(Interface, User):
     def is_valid_email(self, email):
         regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
         return re.match(regex, email) is not None
-    
+
+    def valid_user(self):
+        if (self.input_texts['email'] != '' and self.input_texts['pseudo'] != '' and self.input_texts['password'] != ''):
+            if self.is_valid_email(self.input_texts['email']):
+                self.add_user(self.input_texts['pseudo'], self.input_texts['email'], self.input_texts['password'], 1)
+                self.error_message_register = "Votre compte à bien été ajouté !"
+            else:
+                self.error_message_register = "Erreur, l'adresse mail n'est pas valide."
+        else:
+            self.error_message_register = "Erreur, vous devez remplir toute les cases pour l'inscription."
+
     def event_type(self):        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -43,14 +53,7 @@ class Inscription(Interface, User):
                         else:
                             self.active_input = 'email'
                     elif event.key == pygame.K_RETURN:
-                        if (self.input_texts['email'] != '' and self.input_texts['pseudo'] != '' and self.input_texts['password'] != ''):
-                            if self.is_valid_email(self.input_texts['email']):
-                                self.add_user(self.input_texts['pseudo'], self.input_texts['email'], self.input_texts['password'], 1)
-                                self.error_message_register = "Votre compte à bien été ajouté !"
-                            else:
-                                self.error_message_register = "Erreur, l'adresse mail n'est pas valide."
-                        else:
-                            self.error_message_register = "Erreur, vous devez remplir toute les cases pour l'inscription."
+                        self.valid_user()
                     else:
                         self.input_texts[self.active_input] += event.unicode
                             
@@ -71,14 +74,7 @@ class Inscription(Interface, User):
                         self.active_input = None
                         
                     if self.is_mouse_over_button(pygame.Rect(420,420,220,35)): #Bouton 'inscription'
-                        if (self.input_texts['email'] != '' and self.input_texts['pseudo'] != '' and self.input_texts['password'] != ''):
-                            if self.is_valid_email(self.input_texts['email']):
-                                self.add_user(self.input_texts['pseudo'], self.input_texts['email'], self.input_texts['password'], 1)
-                                self.error_message_register = "Votre compte à bien été ajouté !"
-                            else:
-                                self.error_message_register = "Erreur, l'adresse mail n'est pas valide."
-                        else:
-                            self.error_message_register = "Erreur, vous devez remplir toute les cases pour l'inscription."
+                        self.valid_user()
 
                     elif self.is_mouse_over_button(pygame.Rect(370,520,280,20)): #Bouton 'Vous avez déjà un compte?'
                         self.register_run = False
@@ -108,7 +104,7 @@ class Inscription(Interface, User):
                 self.solid_rect_radius(self.light_grey,460,55,150,50,8)#bordure
                 self.text(20,'Créer votre compte',self.black,470,68)                
                 self.solid_rect_radius(self.blue,420,420,220,35,8)
-                self.text_align(21,"S'inscrire ici !",self.black,530,436)
+                self.text_align(21,"S'inscrire",self.black,530,436)
 
 
                 #Bloc Email
@@ -150,3 +146,6 @@ class Inscription(Interface, User):
             if self.active_input:
                 input_text = self.input_texts[self.active_input]
                 self.text(15, input_text, self.black, self.selected_rect.x + 5, self.selected_rect.y + 5)
+            else:
+                self.text(15, self.input_texts['email'], self.black, self.input_texts['email'].x + 5, self.input_texts['email'].y + 5)
+
