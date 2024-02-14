@@ -5,8 +5,7 @@ class Interface:
         self.W = 1000
         self.H = 600
         self.Screen = pygame.display.set_mode((self.W, self.H))
-        pygame.display.set_caption("Discord")
-        self.clock = pygame.time.Clock()
+        pygame.display.set_caption("Discord")        
         self.light_grey = (188, 186, 184)
         self.grey = (64, 68, 75)
         self.dark_grey = (54, 57, 63)

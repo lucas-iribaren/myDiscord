@@ -1,4 +1,4 @@
-import pygame
+import pygame, time
 from files.class_py.database import Database
 from files.class_py.interface import Interface
 from files.class_py.profil import Profil
@@ -14,8 +14,12 @@ class Accueil(Interface):
         self.active_input = None
         self.error_message_login = ""
         self.home_accueil = True
-        self.clicked_rect = None  # Pour garder en mémoire le rectangle cliqué précédemment
+        self.clicked_rect = None  
         self.clicked_input = None
+        self.clock = pygame.time.Clock()
+        self.error_timer = 0
+        self.error_duration = 1000
+        
   
     def handle_events_for_login(self):
         for event in pygame.event.get():
@@ -103,6 +107,11 @@ class Accueil(Interface):
         if self.error_message_login:
             self.solid_rect_radius(self.light_grey,620,20,360,55,8)
             self.text_align(16, self.error_message_login, self.pur_red, 796, 45)
+            self.error_timer += self.clock.tick()
+            if self.error_timer >= self.error_duration:
+                self.error_message_login = None
+                self.error_timer = 0
+            
             
                             
     def button_login(self):
