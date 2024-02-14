@@ -48,7 +48,7 @@ class Inscription(Interface, User):
                                 self.add_user(self.input_texts['pseudo'], self.input_texts['email'], self.input_texts['password'], 1)
                                 self.error_message_register = "Votre compte à bien été ajouté !"
                             else:
-                                self.error_message_register = "Erreur, l'adresse mail n'est pas conforme."
+                                self.error_message_register = "Erreur, l'adresse mail n'est pas valide."
                         else:
                             self.error_message_register = "Erreur, vous devez remplir toute les cases pour l'inscription."
                     else:
@@ -76,7 +76,7 @@ class Inscription(Interface, User):
                                 self.add_user(self.input_texts['pseudo'], self.input_texts['email'], self.input_texts['password'], 1)
                                 self.error_message_register = "Votre compte à bien été ajouté !"
                             else:
-                                self.error_message_register = "Erreur, l'adresse mail n'est pas conforme."
+                                self.error_message_register = "Erreur, l'adresse mail n'est pas valide."
                         else:
                             self.error_message_register = "Erreur, vous devez remplir toute les cases pour l'inscription."
 
