@@ -67,8 +67,8 @@ class Profil(Interface):
             # Survol du cercle - Change la couleur de l'icone
             pygame.draw.circle(self.Screen, (114, 137, 218), circle_center, circle_radius + 2)
             self.img(35, 100, 50, 50, "icones/avatar_2")
-            self.img(130, 100, 110, 40, "icones/zone_texte_survol") # Zone texte directionnel
-            self.text(20, "Messages privés", (249, 249, 249), 90, 90)
+            self.img(130, 100, 140, 40, "icones/zone_texte_survol") # Zone texte directionnel
+            self.text(20, "Messages privés", (249, 249, 249), 85, 90)
 
             # Vérifie si le bouton a été cliqué
             for event in pygame.event.get():
