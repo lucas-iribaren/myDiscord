@@ -18,6 +18,10 @@ class User(Database):
         sql = "UPDATE user SET id_role = %s WHERE id = %s"
         self.execute_sql(sql, (new_id_role, user_id))
         self.closing_connection()
+    
+    def display_user(self):
+        sql = "SELECT pseudo FROM user"
+        self.fetch_all(sql,())
 
     def delete_user(self, user_id):
         sql = "DELETE FROM user WHERE id = %s;"

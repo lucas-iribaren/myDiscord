@@ -18,6 +18,7 @@ class Inscription(Interface, User):
         self.clock = pygame.time.Clock()
         self.error_timer = 0
         self.error_duration = 3500
+        self.new_register = False
 
     def is_valid_email(self, email):
         regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
@@ -74,6 +75,9 @@ class Inscription(Interface, User):
                         
                     if self.is_mouse_over_button(pygame.Rect(420,420,220,35)): #Bouton 'inscription'
                         self.valid_user()
+                        self.register_run = False
+                        self.new_register = True
+                        self.error_message_register = "Votre compte à bien été crée"
 
                     elif self.is_mouse_over_button(pygame.Rect(370,520,280,20)): #Bouton 'Vous avez déjà un compte?'
                         self.register_run = False

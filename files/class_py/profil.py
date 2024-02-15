@@ -2,6 +2,7 @@ import pygame
 from files.class_py.interface import Interface
 from files.class_py.message import Message
 from files.class_py.notification import Notification
+from files.class_py.user import User
 
 class Profil(Interface):
     def __init__(self, user):
@@ -12,6 +13,7 @@ class Profil(Interface):
         self.channel_message = "Veuillez choisir un serveur."
         self.message = Message(self.user)
         self.notification = Notification(self.user)
+        self.user = User()
         self.active_input = None  # Pour suivre le champ de texte actif
         self.input_texts_message = {'message':''}        
 
@@ -82,6 +84,10 @@ class Profil(Interface):
             # Sans survol
             self.img(35, 100, 50, 50, "icones/avatar_0")
             
+    def text_input(self):
+        self.text(16,self.input_texts_message['message'], self.white, 330, 150)
+        
+            
     def event_writting_message(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -93,10 +99,21 @@ class Profil(Interface):
                         self.input_texts_message[self.active_input] = self.input_texts_message[self.active_input][:-1]                        
                     else:
                         self.input_texts_message[self.active_input] += event.unicode
+                        
+   
+    def display_button(self):
+        self.solid_rect(self.white,330,250,50,50)
+        
+    def display_member(self):
+        self.user.display_user()
             
     def button_send(self):
-        self.message.add_message(self.message.input_texts['message'], self.user, self.message.current_date_message,1)
-        self.message.message_display(350,250,300,200,7)
+        if self.private_chanels:
+            self.message.add_message(self.input_texts_message['message'], self.user, self.message.current_date_message,2)
+            self.message.message_display(self.input_texts_message['message'],350,250,300,200,7)
+        elif not self.private_chanels:
+            self.message.add_message(self.input_texts_message['message'], self.user, self.message.current_date_message,1)
+            self.message.message_display(self.input_texts_message['message'],350,250,300,200,7)      
                 
 
     def rect_pv_chanel(self):
@@ -111,11 +128,22 @@ class Profil(Interface):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.profil_run = False  # Sort de la boucle lorsque l'événement QUIT est détecté
+                
+                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    if self.is_mouse_over_button(pygame.Rect(330,250,50,50)):
+                        if self.input_texts_message['message'] != None:
+                            self.button_send()
+                            print('envoye')
+                        else:
+                            print("je trouve pas la valeur d'input")
+                    
 
             self.create_profile_page()
             self.rect_server()
             self.create_server()
             self.private_server()
+            self.display_button()
+            self.text_input
             self.update() 
 
         

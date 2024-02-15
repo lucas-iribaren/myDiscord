@@ -19,6 +19,7 @@ class Accueil(Interface):
         self.error_timer = 0
         self.error_duration = 3500
         
+        
   
     def handle_events_for_login(self):
         for event in pygame.event.get():
@@ -40,8 +41,7 @@ class Accueil(Interface):
                         else:
                             self.error_message_login = "Erreur, identifiant ou mot de passe invalide. Veuillez ressayer"
                     else:
-                        self.input_texts[self.active_input] += event.unicode
-                    
+                        self.input_texts[self.active_input] += event.unicode                    
                             
             # Event mouse          
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -55,8 +55,7 @@ class Accueil(Interface):
                             self.error_message_login = "Erreur, identifiant ou mot de passe invalide. Veuillez ressayer"
                     elif self.is_mouse_over_button(pygame.Rect(535, 420, 220, 35)):
                         self.page_register.register_run = True
-                        self.page_register.register()
-                    
+                        self.page_register.register()                    
                     else:
                         # Vérifier si le clic est sur l'un des rectangles d'entrée de texte
                         for input_rect in [(210, 345, 220, 35), (210, 420, 220, 35)]:
@@ -109,8 +108,7 @@ class Accueil(Interface):
             self.error_timer += self.clock.tick()
             if self.error_timer >= self.error_duration:
                 self.error_message_login = None
-                self.error_timer = 0
-            
+                self.error_timer = 0            
             
                             
     def button_login(self):
@@ -150,6 +148,15 @@ class Accueil(Interface):
                 #     pygame.draw.rect(self.surface, self.pur_red, pygame.Rect(210, 488, 220, 35), 1)          
                            
                 self.draw_error_message_login()
+                
+            elif self.page_register.new_register:
+                if self.error_timer >= self.error_duration:
+                    self.page_register.error_message_register = None
+                    self.error_timer = 0
+                else:
+                    self.solid_rect_radius(self.light_grey,620,20,360,55,8)
+                    self.text_align(16, self.page_register.error_message_register, self.pur_red, 796, 45)                  
+                    self.error_timer += self.clock.tick()           
 
-                self.update()
+            self.update()
                
