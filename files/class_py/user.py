@@ -1,8 +1,9 @@
 from files.class_py.database import Database
 
 class User(Database):
-    def __init__(self):
+    def __init__(self, user):
         Database.__init__(self)
+        self.user = user
         
     def add_user(self, pseudo, mail, password, id_categorie):
         sql = "INSERT INTO user (pseudo, mail, password, id_role) VALUES (%s, %s, %s, %s);"
@@ -13,6 +14,10 @@ class User(Database):
         sql = "UPDATE user SET pseudo = %s, mail = %s, password = %s, id_role = %s WHERE id = %s;"
         self.execute_sql(sql, (new_pseudo, new_mail, new_password, new_id_categorie, user_id))
         self.closing_connection()
+    
+    def get_user_id(self):
+        sql = "SELECT pseudo FROM user WHERE pseudo = %s"
+        self.fetch_one(sql, (self.user))
     
     def role_upgrade(self, user_id, new_id_role):
         sql = "UPDATE user SET id_role = %s WHERE id = %s"

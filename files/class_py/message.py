@@ -14,7 +14,9 @@ class Message(Database, Interface):
         
     def add_message(self, input_text, auteur, heure, id_channel):
         sql = "INSERT INTO message(text,auteur,heure,id_channel) VALUES (%s,%s,%s,%s);"
-        self.execute_sql(sql, (input_text, auteur, heure, id_channel))
+        heure_str = heure.strftime('%Y-%m-%d %H:%M:%S')  # Conversion de l'objet datetime en une chaîne de caractères
+        self.execute_sql(sql, (input_text, auteur, heure_str, id_channel))
+
         
     def three_last_messages(self):
         sql = "SELECT text, auteur, heure FROM notification ORDER BY heure DESC LIMIT 3"
