@@ -86,9 +86,9 @@ class Accueil(Interface):
         if nom_utilisateur_entry and password_entry:
             sql = "SELECT pseudo, password FROM user WHERE pseudo = %s;"
             self.user_data = self.database.fetch_one(sql, (nom_utilisateur_entry,))
-            if user_data:
-                if user_data[1] == password_entry:
-                    return True, user_data  # Retournez le résultat de la vérification ainsi que les données de l'utilisateur
+            if self.user_data:
+                if self.user_data[1] == password_entry:
+                    return True, self.user_data  # Retournez le résultat de la vérification ainsi que les données de l'utilisateur
                 else:
                     self.error_message_login = "Erreur, le mot de passe n'est pas correct"
             else:
