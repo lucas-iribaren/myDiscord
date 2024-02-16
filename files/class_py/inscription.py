@@ -2,10 +2,11 @@ import pygame, re
 from files.class_py.user import User
 from files.class_py.interface import Interface
 
-class Inscription(Interface, User):
+class Inscription(Interface):
     def __init__(self):
-        Interface.__init__(self)
-        User.__init__(self)
+        Interface.__init__(self)        
+        # self.user = self.user.user
+        # self.user = User(self.user)
         self.page_inscription = True
         self.input_texts = {'email':'', 'pseudo': '', 'password': ''}
         self.selected_rect = None
@@ -18,7 +19,8 @@ class Inscription(Interface, User):
         self.clock = pygame.time.Clock()
         self.error_timer = 0
         self.error_duration = 3500
-        self.new_register = False
+        self.new_register = False        
+        # print(self.user)
 
     def is_valid_email(self, email):
         regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'

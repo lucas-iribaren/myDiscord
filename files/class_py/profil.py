@@ -6,55 +6,27 @@ from files.class_py.user import User
 
 class Profil(Interface):
     def __init__(self, user):
-        super().__init__()  # Appelle le constructeur de la classe parente
-        self.profil_run = False  # Initialise profil_run à False pour entrer dans la boucle principale
+        super().__init__()
+        self.profil_run = False
         self.private_channels = False
         self.user = user
         self.channel_message = "Veuillez choisir un serveur."
         self.message = Message(self.user)
         self.notification = Notification(self.user)
         self.user = User(self.user)
-        self.active_input = None  # Pour suivre le champ de texte actif
-        self.input_texts_message = {'message':''}        
+        self.active_input = None
+        self.input_texts_message = {'message': ''}  # Initialisation avec une chaîne vide
 
     def create_profile_page(self):
-        # Remplit l'écran avec du gris
         self.Screen.fill((54, 57, 63))
-
-        # Ajout du logo au milieu de la fenêtre
         self.img(550, 270, 100, 100, "icones/logo")
         self.text(25, self.channel_message, (249, 249, 249), 435, 320)
-
-        # Dessine la zone des channels privés
         self.rect_pv_channel()
-        
-    def rect_server(self):
-        # Zone des serveurs
-        self.solid_rect((64, 68, 75), 0, 0, 70, 1000)
-        
-    def create_server(self):
-        # Coordonnées du bouton "Créer un serveur"
-        circle_center = (35, 35)
-        circle_radius = 28
-        
-        # Vérifie si la souris survole le bouton
-        mouse_pos = pygame.mouse.get_pos()
-        distance_to_circle = ((mouse_pos[0] - circle_center[0])**2 + (mouse_pos[1] - circle_center[1])**2) ** 0.5
-        
-        if distance_to_circle <= circle_radius:
-            # Survol du cercle - Change la couleur du bouton
-            pygame.draw.circle(self.Screen, (114, 137, 218), circle_center, circle_radius + 2)  # Cercle
-            # Dessin de la croix - Survol
-            pygame.draw.line(self.Screen, (188, 186, 184), (15, 35), (53, 35), 3)  # Ligne horizontale
-            pygame.draw.line(self.Screen, (188, 186, 184), (35, 55), (35, 15), 3)  # Ligne verticale
-            self.img(130, 30, 130, 40, "icones/zone_texte_survol")
-            self.text(20, "Créer un serveur", (249, 249, 249), 80, 20)
+        # Mise à jour de self.channel_message en fonction de self.private_channels
+        if self.private_channels:
+            self.channel_message = "Veuillez sélectionner un channel."
         else:
-            # Sans survol
-            pygame.draw.circle(self.Screen, (188, 186, 184), circle_center, circle_radius)
-            # Dessin de la croix - Sans survol
-            pygame.draw.line(self.Screen, (114, 137, 218), (15, 35), (53, 35), 3)  # Ligne horizontale
-            pygame.draw.line(self.Screen, (114, 137, 218), (35, 55), (35, 15), 3)  # Ligne verticale
+            self.channel_message = "Veuillez choisir un serveur."
 
     def private_server(self):
         # Coordonnées du bouton "Serveurs privé"
@@ -76,74 +48,57 @@ class Profil(Interface):
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button ==  1:
                     self.private_channels = not self.private_channels  # Bascule l'affichage de la zone des channels privés
-                    # if self.private_channels:
-                    #     self.channel_message = "Veuillez sélectionner un channel." # Change le message lorsque le bouton est cliqué
-                    # else:
-                    #     self.channel_message = "Veuillez choisir un serveur." # Rétablit le message par défaut lorsque le bouton est cliqué à nouveau
         else:
             # Sans survol
             self.img(35, 100, 50, 50, "icones/avatar_0")
-            
+
     def text_input(self):
-        self.text(16, self.input_texts_message['message'], (249, 249, 249), 330, 150)        
-            
+        self.text(16, self.input_texts_message['message'], (249, 249, 249), 330, 150)
+
     def event_writing_message(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                quit()           
+                quit()
             elif event.type == pygame.KEYDOWN:
                 if self.active_input:
                     if event.key == pygame.K_BACKSPACE:
-                        self.input_texts_message[self.active_input] = self.input_texts_message[self.active_input][:-1]                        
+                        self.input_texts_message[self.active_input] = self.input_texts_message[self.active_input][:-1]
                     else:
                         self.input_texts_message[self.active_input] += event.unicode
-                        
-   
+                        self.active_input = 'message'  # Mise à jour de self.active_input lors de la saisie du message
+
     def display_button(self):
         self.solid_rect((255, 255, 255), 330, 250, 50, 50)
-        
-    def display_member(self):
-        self.user.display_user()
-            
+
     def button_send(self):
+        auteur_id = self.user.get_user_id()
+        # Ajout de la vérification de self.private_channels pour décider du type de message à ajouter
         if self.private_channels:
-            auteur_id = self.user.get_user_id()  # Assurez-vous d'avoir une méthode pour obtenir l'ID de l'utilisateur
             self.message.add_message(self.input_texts_message['message'], auteur_id, self.message.current_date_message, 2)
-            self.message.message_display(self.input_texts_message['message'], 350, 250, 300, 200, 7)
-        elif not self.private_channels:
-            auteur_id = self.user.get_user_id()  # Assurez-vous d'avoir une méthode pour obtenir l'ID de l'utilisateur
+        else:
             self.message.add_message(self.input_texts_message['message'], auteur_id, self.message.current_date_message, 1)
-            self.message.message_display(self.input_texts_message['message'], 350, 250, 300, 200, 7)      
-                
+        self.message.message_display(self.input_texts_message['message'], 350, 250, 300, 200, 7)
 
     def rect_pv_channel(self):  # Correction de la typo dans le nom de la méthode
         # Dessine la zone des channels privés
         if self.private_channels:
             self.solid_rect((64, 68, 75), 80, 0, 90, 1000)
-                
 
     def home_profil(self):
         self.profil_run = True
         while self.profil_run:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.profil_run = False  # Sort de la boucle lorsque l'événement QUIT est détecté
-                
-                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    if self.is_mouse_over_button(pygame.Rect(330, 250, 50, 50)):
-                        if self.input_texts_message['message'] != None:
-                            self.button_send()
-                            print('envoyé')
-                        else:
-                            print("je ne trouve pas la valeur d'input")
-                    
+                    self.profil_run = False
 
             self.create_profile_page()
-            self.rect_server()
-            self.create_server()
+            # self.rect_server()
+            # self.create_server()
             self.private_server()
-            self.event_writing_message()
             self.display_button()
             self.text_input()
-            self.update() 
+            self.event_writing_message()  
+            self.button_send()  
+            self.update()
+

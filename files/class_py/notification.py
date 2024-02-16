@@ -10,7 +10,7 @@ class Notification(Database, Interface):
         self.current_time_notif = datetime.now()
         self.user = user
         self.message = Message(self.user)
-        self.user = User()
+        self.user = User(self.user)
         Database.__init__(self)
         Interface.__init__(self)
         self.clock = pygame.time.Clock()       

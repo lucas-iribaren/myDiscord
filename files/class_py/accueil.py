@@ -17,9 +17,7 @@ class Accueil(Interface):
         self.clock = pygame.time.Clock()        
         self.page_register = Inscription()
         self.error_timer = 0
-        self.error_duration = 3500
-        
-        
+        self.error_duration = 3500        
   
     def handle_events_for_login(self):
         for event in pygame.event.get():
@@ -85,7 +83,7 @@ class Accueil(Interface):
     def verify_account_exist(self, nom_utilisateur_entry, password_entry):
         if nom_utilisateur_entry and password_entry:
             sql = "SELECT pseudo, password FROM user WHERE pseudo = %s;"
-            self.user_data = self.database.fetch_one(sql, (nom_utilisateur_entry,))
+            self.user_data = self.database.fetch_one(sql, (nom_utilisateur_entry,))            
             if self.user_data:
                 if self.user_data[1] == password_entry:
                     return True, self.user_data  # Retournez le résultat de la vérification ainsi que les données de l'utilisateur
