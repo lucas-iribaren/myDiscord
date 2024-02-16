@@ -25,6 +25,9 @@ CREATE TABLE channel(
     id_categorie INT
 );
 
+INSERT INTO channel(nom,id_categorie)
+VALUES ("général",1);
+
 CREATE TABLE user( 
     id INT PRIMARY KEY AUTO_INCREMENT,
     pseudo VARCHAR(25),

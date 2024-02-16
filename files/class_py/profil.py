@@ -52,8 +52,8 @@ class Profil(Interface):
             # Sans survol
             self.img(35, 100, 50, 50, "icones/avatar_0")
 
-    def text_input(self):
-        self.text(16, self.input_texts_message['message'], (249, 249, 249), 330, 150)
+    # def text_input(self):
+    #     self.text(16, self.input_texts_message['message'], (249, 249, 249), 330, 150)
 
     def event_writing_message(self):
         for event in pygame.event.get():
@@ -68,17 +68,17 @@ class Profil(Interface):
                         self.input_texts_message[self.active_input] += event.unicode
                         self.active_input = 'message'  # Mise à jour de self.active_input lors de la saisie du message
 
-    def display_button(self):
-        self.solid_rect((255, 255, 255), 330, 250, 50, 50)
+    # def display_button(self):
+    #     self.solid_rect((255, 255, 255), 330, 250, 50, 50)
 
-    def button_send(self):
-        auteur_id = self.user.get_user_id()
-        # Ajout de la vérification de self.private_channels pour décider du type de message à ajouter
-        if self.private_channels:
-            self.message.add_message(self.input_texts_message['message'], auteur_id, self.message.current_date_message, 2)
-        else:
-            self.message.add_message(self.input_texts_message['message'], auteur_id, self.message.current_date_message, 1)
-        self.message.message_display(self.input_texts_message['message'], 350, 250, 300, 200, 7)
+    # def button_send(self):
+    #     auteur = self.user
+    #     # Ajout de la vérification de self.private_channels pour décider du type de message à ajouter
+    #     if self.private_channels:
+    #         self.message.add_message(self.input_texts_message['message'], auteur, self.message.current_date_message, 2)
+    #     else:
+    #         self.message.add_message(self.input_texts_message['message'], auteur, self.message.current_date_message, 1)
+    #     self.message.message_display(self.input_texts_message['message'], 350, 250, 300, 200, 7)
 
     def rect_pv_channel(self):  # Correction de la typo dans le nom de la méthode
         # Dessine la zone des channels privés
@@ -96,9 +96,9 @@ class Profil(Interface):
             # self.rect_server()
             # self.create_server()
             self.private_server()
-            self.display_button()
-            self.text_input()
+            # self.display_button()
+            # self.text_input()
             self.event_writing_message()  
-            self.button_send()  
+            # self.button_send()  
             self.update()
 

@@ -16,8 +16,12 @@ class User(Database):
         self.closing_connection()
     
     def get_user_id(self):
-        sql = "SELECT pseudo FROM user WHERE pseudo = %s"
-        self.fetch_one(sql, (self.user))
+        sql = "SELECT pseudo FROM user WHERE pseudo = %s" 
+        result = self.fetch_one(sql, (self.user,))
+        if result:
+            return result[1]
+        else:
+            return None
     
     def role_upgrade(self, user_id, new_id_role):
         sql = "UPDATE user SET id_role = %s WHERE id = %s"

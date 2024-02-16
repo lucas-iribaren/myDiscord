@@ -17,7 +17,7 @@ class Accueil(Interface):
         self.clock = pygame.time.Clock()        
         self.page_register = Inscription()
         self.error_timer = 0
-        self.error_duration = 3500        
+        self.error_duration = 3500               
   
     def handle_events_for_login(self):
         for event in pygame.event.get():
@@ -85,8 +85,10 @@ class Accueil(Interface):
             sql = "SELECT pseudo, password FROM user WHERE pseudo = %s;"
             self.user_data = self.database.fetch_one(sql, (nom_utilisateur_entry,))            
             if self.user_data:
+                self.username_user = self.user_data[0]
+                print(self.username_user)
                 if self.user_data[1] == password_entry:
-                    return True, self.user_data  # Retournez le résultat de la vérification ainsi que les données de l'utilisateur
+                    return True, self.user_data  
                 else:
                     self.error_message_login = "Erreur, le mot de passe n'est pas correct"
             else:
@@ -108,7 +110,7 @@ class Accueil(Interface):
                             
     def button_login(self):
         if self.verify_account_exist(self.input_texts['nom_utilisateur'], self.input_texts['password']):
-            self.page_profil = Profil(self.user_data)
+            self.page_profil = Profil(self.username_user)
             self.page_profil.home_profil()
             self.accueil_run = False                   
                      
