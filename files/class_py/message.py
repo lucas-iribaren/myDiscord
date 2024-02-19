@@ -8,8 +8,7 @@ class Message(Database):
         self.user = user
         self.interface = Interface()
         self.current_date_message = datetime.now()
-        self.input_texts_message = {'message':''}
-        
+        self.input_texts_message = {'message':''}        
 
     def add_message(self, input_text, auteur, heure, id_channel):
         sql = "INSERT INTO message(text, auteur, heure, id_channel) VALUES (%s, %s, %s, %s);"

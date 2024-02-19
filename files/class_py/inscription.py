@@ -16,8 +16,8 @@ class Inscription(Interface):
         self.pseudo_rect = pygame.Rect(390, 250, 280, 30)
         self.password_rect = pygame.Rect(390, 330, 280, 30)
         self.clock = pygame.time.Clock()
-        self.error_timer = 0
-        self.error_duration = 3500
+        self.error_timer_register = 0
+        self.error_duration_register = 3500
         self.new_register = False        
 
     def is_valid_email(self, email):
@@ -93,10 +93,10 @@ class Inscription(Interface):
         if self.error_message_register:
             self.solid_rect_radius(self.light_grey,620,20,360,55,8)
             self.text_align(16, self.error_message_register, self.pur_red, 796, 45)                  
-            self.error_timer += self.clock.tick()
-            if self.error_timer >= self.error_duration:
+            self.error_timer_register += self.clock.tick()
+            if self.error_timer_register >= self.error_duration_register:
                 self.error_message_register = None
-                self.error_timer = 0
+                self.error_timer_register = 0
 
     def register(self):
         while self.register_run:

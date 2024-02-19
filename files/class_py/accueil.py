@@ -16,8 +16,8 @@ class Accueil(Interface):
         self.clicked_input = None
         self.clock = pygame.time.Clock()        
         self.page_register = Inscription()
-        self.error_timer = 0
-        self.error_duration = 3500               
+        self.error_timer_home = 0
+        self.error_duration_home = 3500               
   
     def handle_events_for_login(self):
         for event in pygame.event.get():
@@ -102,10 +102,10 @@ class Accueil(Interface):
         if self.error_message_login:
             self.solid_rect_radius(self.light_grey,620,20,360,55,8)
             self.text_align(16, self.error_message_login, self.pur_red, 796, 45)
-            self.error_timer += self.clock.tick()
-            if self.error_timer >= self.error_duration:
+            self.error_timer_home += self.clock.tick()
+            if self.error_timer_home >= self.error_duration_home:
                 self.error_message_login = None
-                self.error_timer = 0            
+                self.error_timer_home = 0            
             
                             
     def button_login(self):
@@ -135,13 +135,13 @@ class Accueil(Interface):
                 self.text_align(21, "Inscription", self.black, 642, 436)
                 self.draw_error_message_login()
             elif self.page_register.new_register:
-                if self.error_timer >= self.error_duration:
+                if self.error_timer_home >= self.error_duration_home:
                     self.page_register.error_message_register = None
-                    self.error_timer = 0
+                    self.error_timer_home = 0
                 else:
                     self.solid_rect_radius(self.light_grey, 620, 20, 360, 55, 8)
                     self.text_align(16, self.page_register.error_message_register, self.pur_red, 796, 45)                  
-                    self.error_timer += self.clock.tick()
-            self.update()  # Assurez-vous d'avoir une méthode update() appropriée ou utilisez pygame.display.flip()
+                    self.error_timer_home += self.clock.tick()
+            self.update()  
 
                
