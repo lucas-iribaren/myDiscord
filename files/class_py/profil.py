@@ -16,10 +16,9 @@ class Profil(Interface):
         self.message = Message(self.user)
         self.notification = Notification(self.user)
         self.user_connected = User()
-        self.database = Database()        
-        self.input_texts_message = {'message':''}        
-        self.active_input_mes = None  
-        self.auteur = None        
+        self.database = Database()         
+        self.auteur = None 
+        self.input_message = self.message.input_texts_message['message']       
 
     def create_profile_page(self):
         self.Screen.fill((54, 57, 63))
@@ -74,11 +73,10 @@ class Profil(Interface):
                 pygame.quit()
                 quit()
             elif event.type == pygame.KEYDOWN:
-                if self.active_input_mes is not None:  
-                    if event.key == pygame.K_BACKSPACE:
-                        self.input_texts_message[self.active_input_mes] = self.input_texts_message[self.active_input_mes][:-1]  
-                    else:
-                        self.input_texts_message[self.active_input_mes] += event.unicode
+                if event.key == pygame.K_BACKSPACE:
+                    self.input_message = self.input_message[:-1]  
+                else:
+                    self.input_message += event.unicode
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_pos = pygame.mouse.get_pos()
                 if self.is_mouse_over_text_input(pygame.Rect(330, 150, 150, 80)):
@@ -87,7 +85,7 @@ class Profil(Interface):
                     self.active_input_mes = None  
 
                 if self.is_mouse_over_button(pygame.Rect(330, 250, 50, 50)):
-                    if self.input_texts_message['message'] != "":
+                    if self.input_message != "":
                         self.button_send()
                         print('envoyé')
                     else:
@@ -96,7 +94,7 @@ class Profil(Interface):
 
     def text_input(self):
         self.solid_rect(self.white, 330, 150, 150, 80)
-        self.text(16, self.input_texts_message['message'], self.pur_red, 330, 150)        
+        self.text(16, self.input_message, self.pur_red, 330, 150)        
         
     def rect_button_send(self):
         self.solid_rect(self.white, 330, 250, 50, 60)
@@ -105,10 +103,10 @@ class Profil(Interface):
         self.auteur = self.user
         print(self.auteur)
         if self.private_channels:
-            self.message.add_message(self.input_texts_message['message'], self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
+            self.message.add_message(self.input_message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
         elif not self.private_channels:
-            self.message.add_message(self.input_texts_message['message'], self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
-        self.message.message_display(self.input_texts_message['message'], self.auteur, 450, 380, 150, 90, 5)
+            self.message.add_message(self.input_message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
+        self.message.message_display(self.input_message, self.auteur, 450, 380, 150, 90, 5)
 
     def rect_pv_channel(self):  
         if self.private_channels:
@@ -123,11 +121,11 @@ class Profil(Interface):
             self.create_profile_page()
             self.rect_server()
             self.create_server()
-            self.private_server()            
+            self.private_server()
+            self.notification.add_notification()
+            self.notification.display_notification()            
             if self.private_channels:
                 self.text_input()
                 self.rect_button_send()
-                self.message.message_display(self.input_texts_message['message'], self.auteur, 450, 380, 150, 90, 5)
-
-                                  
+                self.message.message_display(self.input_message, self.auteur, 450, 380, 150, 90, 5)                                 
             self.update() 
