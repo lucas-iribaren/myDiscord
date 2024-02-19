@@ -103,7 +103,7 @@ class Profil(Interface):
         # Draw private channels area
         if self.private_chanels:
             self.solid_rect((64, 68, 75), 80, 0, 130, 1000) # Channels area
-            self.solid_rect_radius((0, 0, 0), 80, 0, 130, 30, 5) # Title of the area
+            self.solid_rect_radius((10, 10, 10), 80, 0, 130, 30, 5) # Title of the area
             self.text(20, "Messages Privés", (249, 249, 249), 90, 5) # Title
     
 
@@ -118,6 +118,4 @@ class Profil(Interface):
             self.rect_server()
             self.create_server()
             self.private_server()
-            self.update() 
-
-        
+            self.update()
