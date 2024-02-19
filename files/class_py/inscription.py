@@ -23,7 +23,7 @@ class Inscription(Interface, User):
         regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
         return re.match(regex, email) is not None
 
-    def add_user(self):
+    def add_users(self):
         if (self.input_texts['email'] != '' and self.input_texts['pseudo'] != '' and self.input_texts['password'] != ''):
             if self.is_valid_email(self.input_texts['email']):
                 self.add_user(self.input_texts['pseudo'], self.input_texts['email'], self.input_texts['password'], 1)
@@ -45,6 +45,7 @@ class Inscription(Interface, User):
                     if event.key == pygame.K_BACKSPACE:
                         self.input_texts[self.active_input] = self.input_texts[self.active_input][:-1]
                     elif event.key == pygame.K_TAB:
+                        self.active_input = 'password' if self.active_input == 'nom_utilisateur' else 'nom_utilisateur'
                         if self.active_input == 'email':
                             self.active_input = 'pseudo'
                         elif self.active_input == 'pseudo':
@@ -52,29 +53,15 @@ class Inscription(Interface, User):
                         else:
                             self.active_input = 'email'
                     elif event.key == pygame.K_RETURN:
-                        self.add_user()
+                        self.add_users()
                     else:
                         self.input_texts[self.active_input] += event.unicode
                             
             # Event mouse
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    if self.email_rect.collidepoint(event.pos):
-                        self.selected_rect = self.email_rect
-                        self.active_input = 'email'
-                    elif self.pseudo_rect.collidepoint(event.pos):
-                        self.selected_rect = self.pseudo_rect
-                        self.active_input = 'pseudo'
-                    elif self.password_rect.collidepoint(event.pos):
-                        self.selected_rect = self.password_rect
-                        self.active_input = 'password'
-                    else:
-                        self.selected_rect = None
-                        self.active_input = None
-                        
                     if self.is_mouse_over_button(pygame.Rect(420,420,220,35)): #Bouton 'inscription'
-                        self.add_user()
-
+                        self.add_users()
                     elif self.is_mouse_over_button(pygame.Rect(370,520,280,20)): #Bouton 'Vous avez déjà un compte?'
                         self.register_run = False
                     else:
@@ -84,11 +71,12 @@ class Inscription(Interface, User):
                                 # Garder en mémoire le rectangle cliqué précédemment et activer l'entrée de texte
                                 self.clicked_rect = input_rect
                                 self.active_input = 'email' if input_rect == (390, 170, 280, 30) else ('pseudo' if input_rect == (390, 250, 280, 30) else 'password')
-
+                     
     def draw_error_message_register(self):
         if self.error_message_register:
             self.solid_rect_radius(self.light_grey,620,20,360,55,8)
             self.text_align(16, self.error_message_register, self.pur_red, 796, 45)
+            self.light_rect(self.black,620,20,360,55,2)
             self.error_timer += self.clock.tick()
             if self.error_timer >= self.error_duration:
                 self.error_message_register = None
@@ -104,6 +92,9 @@ class Inscription(Interface, User):
         if self.is_mouse_over_button(pygame.Rect(390,330,280,30)):# Champ de texte MDP
             self.light_rect(self.black,390,330,280,30,1)
 
+        if self.is_mouse_over_button(pygame.Rect(420,420,220,35)):# Bouton inscription
+            self.light_rect(self.black,420,420,220,35,1)
+            
     def register(self):
         while self.register_run:
             if self.page_inscription:
@@ -141,12 +132,8 @@ class Inscription(Interface, User):
                 self.update()
 
     def select_input(self):
+        self.text(16, self.input_texts['email'], self.black, 400, 175)
+        self.text(16, self.input_texts['pseudo'], self.black, 400, 255)
+        self.text(16, self.input_texts['password'], self.black, 400, 335)
         if self.selected_rect:
-            self.light_rect(self.black, self.selected_rect.x, self.selected_rect.y,
-                            self.selected_rect.width, self.selected_rect.height, 1)
-            if self.active_input:
-                input_text = self.input_texts[self.active_input]
-                self.text(15, input_text, self.black, self.selected_rect.x + 5, self.selected_rect.y + 5)
-            else:
-                self.text(15, self.input_texts['email'], self.black, self.input_texts['email'].x + 5, self.input_texts['email'].y + 5)
-
+            self.text(16, self.input_texts[self.selected_rect], self.black, self.clicked_rect[0] + 10, self.clicked_rect[1] + 7)

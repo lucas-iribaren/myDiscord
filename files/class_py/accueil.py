@@ -17,7 +17,7 @@ class Accueil(Interface):
         self.clock = pygame.time.Clock()        
         self.page_register = Inscription()
         self.error_timer = 0
-        self.error_duration = 3500
+        self.error_duration = 1000
         
   
     def handle_events_for_login(self):
@@ -47,7 +47,6 @@ class Accueil(Interface):
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     if self.is_mouse_over_button(pygame.Rect( 210, 488, 220, 35)):
-                        print('click')
                         if (self.input_texts['nom_utilisateur'] != '' and
                             self.input_texts['password'] != ''):
                                 self.button_login()
