@@ -11,13 +11,15 @@ class Profil(Interface):
         self.profil_run = False  # Initialise profil_run à False pour entrer dans la boucle principale
         self.private_channels = False
         self.user = user
+        print(self.user)
         self.channel_message = "Veuillez choisir un serveur."
         self.message = Message(self.user)
         self.notification = Notification(self.user)
-        self.user = User()
+        self.user_connected = User()
         self.database = Database()        
-        self.input_message = self.message.input_texts_message['message']
-        self.active_input = None  # Pour suivre le champ de texte actif
+        self.input_texts_message = {'message':''}        
+        self.active_input_mes = None  # Pour suivre le champ de texte actif
+        self.auteur = None 
 
     def create_profile_page(self):
         # Remplit l'écran avec du gris
@@ -62,32 +64,37 @@ class Profil(Interface):
         # Dessine la zone des channels privés
         if self.private_channels:
             self.solid_rect((64, 68, 75), 80, 0, 90, 1000)
-
-    def text_input(self):
-        self.text(16, self.input_message, (249, 249, 249), 330, 150)
+        else:
+            pass  
 
     def display_button(self):
         self.solid_rect((255, 255, 255), 330, 250, 50, 50)
 
     def display_member(self):
-        self.user.display_user()
+        self.user_connected.display_user()
 
     def button_send(self):
-        auteur = self.user
+        self.auteur = self.user
+        print(self.auteur)
+        print(self.auteur)
+        print(self.auteur)
+        print(self.auteur)
+        print(self.auteur)
+        print(self.auteur)
+        print(self.auteur)
+        
         if self.private_channels:
-            self.message.add_message(self.input_message, auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 2)
-            self.message.message_display(self.input_message, 350, 250, 300, 200, 7)
+            self.message.add_message(self.input_texts_message['message'], self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 2)
         elif not self.private_channels:
-            self.message.add_message(self.input_message, auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
-            self.message.message_display(self.input_message, 350, 250, 300, 200, 7)
+            self.message.add_message(self.input_texts_message['message'], self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
             
-    # def get_user_id(self):
-    #     sql = "SELECT pseudo FROM user WHERE pseudo = %s" 
-    #     result = self.database.fetch_one(sql, (self.user,))
-    #     if result:
-    #         return result[1]
-    #     else:
-    #         return None
+    def get_user_id(self):
+        sql = "SELECT pseudo FROM user WHERE pseudo = %s" 
+        result = self.database.fetch_one(sql, (self.user,))
+        if result:
+            return result[1]
+        else:
+            return None
 
     def event_handling(self):
         for event in pygame.event.get():
@@ -95,22 +102,27 @@ class Profil(Interface):
                 pygame.quit()
                 quit()
             elif event.type == pygame.KEYDOWN:
-                if self.active_input:
-                    print(self.input_message)
+                if self.active_input_mes is not None:  # Vérifiez si active_input est défini
                     if event.key == pygame.K_BACKSPACE:
-                        self.input_message[self.active_input] = self.input_message[self.active_input][:-1]
+                        self.input_texts_message[self.active_input_mes] = self.input_texts_message[self.active_input_mes][:-1]  # Supprimer le dernier caractère
+                    elif event.key in (pygame.K_RETURN, pygame.K_KP_ENTER):  # Si l'utilisateur appuie sur Entrée, envoie le message
+                        self.button_send()
                     else:
-                        self.input_message[self.active_input] += event.unicode
-                        
+                        self.input_texts_message[self.active_input_mes] += event.unicode  # Ajouter le caractère unicode tapé
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.is_mouse_over_button(pygame.Rect(330, 250, 50, 50)):
-                    if self.input_message is not None:
+                    if self.input_texts_message['message'] != "":
                         self.button_send()
                         print('envoyé')
                     else:
-                        print("je ne trouve pas la valeur d'input")
+                        print("Veuillez saisir un message.")
                 elif event.button == 1:
                     self.private_server_toggle()
+                    
+
+    def text_input(self):
+        self.text(16, self.input_texts_message['message'], (249, 249, 249), 330, 150)
+        
 
     def private_server_toggle(self):
         # Coordonnées du bouton "Serveurs privé"
@@ -147,4 +159,5 @@ class Profil(Interface):
             self.create_server()
             self.display_button()
             self.text_input()
+            self.message.message_display(self.input_texts_message['message'],self.auteur, 350, 250, 300, 200, 7)
             self.update()

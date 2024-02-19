@@ -39,7 +39,7 @@ class Accueil(Interface):
                         else:
                             self.error_message_login = "Erreur, identifiant ou mot de passe invalide. Veuillez ressayer"
                     else:
-                        self.input_texts[self.active_input] += event.unicode                    
+                        self.input_texts[self.active_input] += event.unicode    
                             
             # Event mouse          
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -111,7 +111,6 @@ class Accueil(Interface):
     def button_login(self):
         if self.verify_account_exist(self.input_texts['nom_utilisateur'], self.input_texts['password']):
             self.page_profil = Profil(self.username_user)
-            print(self.username_user)
             self.page_profil.home_profil()
             self.accueil_run = False                   
                      
