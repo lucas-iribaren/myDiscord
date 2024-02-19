@@ -17,7 +17,7 @@ class Accueil(Interface):
         self.clock = pygame.time.Clock()        
         self.page_register = Inscription()
         self.error_timer = 0
-        self.error_duration = 3500
+        self.error_duration = 1000
         
   
     def handle_events_for_login(self):
@@ -110,7 +110,7 @@ class Accueil(Interface):
             if self.error_timer >= self.error_duration:
                 self.error_message_login = None
                 self.error_timer = 0
-            
+
             
                             
     def button_login(self):
