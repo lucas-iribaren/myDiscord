@@ -5,8 +5,7 @@ from files.class_py.interface import Interface
 class Inscription(Interface):
     def __init__(self):
         Interface.__init__(self)        
-        # self.user = self.user.user
-        # self.user = User(self.user)
+        self.user = User()
         self.page_inscription = True
         self.input_texts = {'email':'', 'pseudo': '', 'password': ''}
         self.selected_rect = None
@@ -20,7 +19,6 @@ class Inscription(Interface):
         self.error_timer = 0
         self.error_duration = 3500
         self.new_register = False        
-        # print(self.user)
 
     def is_valid_email(self, email):
         regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
@@ -29,7 +27,7 @@ class Inscription(Interface):
     def valid_user(self):
         if (self.input_texts['email'] != '' and self.input_texts['pseudo'] != '' and self.input_texts['password'] != ''):
             if self.is_valid_email(self.input_texts['email']):
-                self.add_user(self.input_texts['pseudo'], self.input_texts['email'], self.input_texts['password'], 1)
+                self.user.add_user(self.input_texts['pseudo'], self.input_texts['email'], self.input_texts['password'], 1)
                 self.error_message_register = "Votre compte à bien été ajouté !"
             else:
                 self.error_message_register = "Erreur, l'adresse mail n'est pas valide."
@@ -149,7 +147,10 @@ class Inscription(Interface):
             self.light_rect(self.black, self.selected_rect.x, self.selected_rect.y,
                             self.selected_rect.width, self.selected_rect.height, 1)
             if self.active_input:
-                input_text = self.input_texts[self.active_input]
+                if self.active_input == 'password': 
+                    input_text = '*' * len(self.input_texts[self.active_input])  
+                else:
+                    input_text = self.input_texts[self.active_input]
                 self.text(15, input_text, self.black, self.selected_rect.x + 5, self.selected_rect.y + 5)
             else:
                 self.text(15, self.input_texts['email'], self.black, self.input_texts['email'].x + 5, self.input_texts['email'].y + 5)

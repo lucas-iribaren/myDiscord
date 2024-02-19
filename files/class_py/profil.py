@@ -3,6 +3,7 @@ from files.class_py.interface import Interface
 from files.class_py.message import Message
 from files.class_py.notification import Notification
 from files.class_py.user import User
+from files.class_py.database import Database
 
 class Profil(Interface):
     def __init__(self, user):
@@ -13,9 +14,10 @@ class Profil(Interface):
         self.channel_message = "Veuillez choisir un serveur."
         self.message = Message(self.user)
         self.notification = Notification(self.user)
-        self.user = User(self.user)
+        self.user = User()
+        self.database = Database()        
+        self.input_message = self.message.input_texts_message['message']
         self.active_input = None  # Pour suivre le champ de texte actif
-        self.input_texts_message = {'message':''}
 
     def create_profile_page(self):
         # Remplit l'écran avec du gris
@@ -62,7 +64,7 @@ class Profil(Interface):
             self.solid_rect((64, 68, 75), 80, 0, 90, 1000)
 
     def text_input(self):
-        self.text(16, self.input_texts_message['message'], (249, 249, 249), 330, 150)
+        self.text(16, self.input_message, (249, 249, 249), 330, 150)
 
     def display_button(self):
         self.solid_rect((255, 255, 255), 330, 250, 50, 50)
@@ -73,11 +75,19 @@ class Profil(Interface):
     def button_send(self):
         auteur = self.user
         if self.private_channels:
-            self.message.add_message(self.input_texts_message['message'], auteur, self.message.current_date_message, 2)
-            self.message.message_display(self.input_texts_message['message'], 350, 250, 300, 200, 7)
+            self.message.add_message(self.input_message, auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 2)
+            self.message.message_display(self.input_message, 350, 250, 300, 200, 7)
         elif not self.private_channels:
-            self.message.add_message(self.input_texts_message['message'], auteur, self.message.current_date_message, 1)
-            self.message.message_display(self.input_texts_message['message'], 350, 250, 300, 200, 7)
+            self.message.add_message(self.input_message, auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
+            self.message.message_display(self.input_message, 350, 250, 300, 200, 7)
+            
+    def get_user_id(self):
+        sql = "SELECT pseudo FROM user WHERE pseudo = %s" 
+        result = self.database.fetch_one(sql, (self.user,))
+        if result:
+            return result[1]
+        else:
+            return None
 
     def event_handling(self):
         for event in pygame.event.get():
@@ -87,13 +97,13 @@ class Profil(Interface):
             elif event.type == pygame.KEYDOWN:
                 if self.active_input:
                     if event.key == pygame.K_BACKSPACE:
-                        self.input_texts_message[self.active_input] = self.input_texts_message[self.active_input][:-1]
+                        self.input_message[self.active_input] = self.input_message[self.active_input][:-1]
                     else:
-                        self.input_texts_message[self.active_input] += event.unicode
+                        self.input_message[self.active_input] += event.unicode
                         
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.is_mouse_over_button(pygame.Rect(330, 250, 50, 50)):
-                    if self.input_texts_message['message'] is not None:
+                    if self.input_message is not None:
                         self.button_send()
                         print('envoyé')
                     else:
@@ -110,6 +120,7 @@ class Profil(Interface):
         mouse_pos = pygame.mouse.get_pos()
         distance_to_circle = ((mouse_pos[0] - circle_center[0])**2 + (mouse_pos[1] - circle_center[1])**2) ** 0.5
 
+        # Dessine toujours le bouton, mais change sa couleur si le survol a lieu
         if distance_to_circle <= circle_radius:
             # Survol du cercle - Change la couleur de l'icone
             pygame.draw.circle(self.Screen, (114, 137, 218), circle_center, circle_radius + 2)
@@ -118,10 +129,13 @@ class Profil(Interface):
             self.text(20, "Messages privés", (249, 249, 249), 90, 90)
 
             # Vérifie si le bouton a été cliqué
-            self.private_channels = not self.private_channels  # Bascule l'affichage de la zone des channels privés
+            if pygame.mouse.get_pressed()[0]:
+                self.private_channels = not self.private_channels  # Bascule l'affichage de la zone des channels privés
         else:
             # Sans survol
+            pygame.draw.circle(self.Screen, (188, 186, 184), circle_center, circle_radius)
             self.img(35, 100, 50, 50, "icones/avatar_0")
+
 
     def home_profil(self):
         self.profil_run = True

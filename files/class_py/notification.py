@@ -10,7 +10,7 @@ class Notification(Database, Interface):
         self.current_time_notif = datetime.now()
         self.user = user
         self.message = Message(self.user)
-        self.user = User(self.user)
+        self.user = User()
         Database.__init__(self)
         Interface.__init__(self)
         self.clock = pygame.time.Clock()       
@@ -19,7 +19,7 @@ class Notification(Database, Interface):
         
     def add_notification(self):
         sql = "INSERT INTO notification(text,auteur,heure) VALUES (%s,%s,%s)"
-        self.execute_sql(sql, (self.message.input_texts['message'], self.user(self.message.user), self.current_time_notif))
+        self.execute_sql(sql, (self.message.input['message'], self.user(self.message.user), self.current_time_notif))
         
     def notification_display(self):
         x_notif = 750
