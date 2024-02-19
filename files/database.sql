@@ -25,6 +25,9 @@ CREATE TABLE channel(
     id_categorie INT
 );
 
+INSERT INTO channel(nom,id_categorie)
+VALUES ("général",1);
+
 CREATE TABLE user( 
     id INT PRIMARY KEY AUTO_INCREMENT,
     pseudo VARCHAR(25),
@@ -48,6 +51,8 @@ VALUES ('membre'),
 ('modérateur');
 
 INSERT INTO categorie(name)
+VALUES ('public'),
+("privé");
 
 INSERT INTO user (pseudo, mail, password, id_role) 
 VALUES ('lucas', 'lucas.discord@laplateforme.io', 'discord', 1);

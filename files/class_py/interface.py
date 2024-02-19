@@ -6,7 +6,7 @@ class Interface:
         self.H = 600
         self.Screen = pygame.display.set_mode((self.W, self.H))
         pygame.display.set_caption("Discord")
-        self.clock = pygame.time.Clock()
+        self.clock_tick_refresh = pygame.time.Clock()                
         self.light_grey = (188, 186, 184)
         self.grey = (64, 68, 75)
         self.dark_grey = (54, 57, 63)
@@ -60,17 +60,21 @@ class Interface:
     def is_mouse_over_button(self, button_rect):
         mouse_pos = pygame.mouse.get_pos()
         return button_rect.collidepoint(mouse_pos)
+    
+    def is_mouse_over_text_input(self, text_rect):
+        mouse_pos = pygame.mouse.get_pos()
+        return text_rect.collidepoint(mouse_pos)
         
     def update(self):
         pygame.display.flip()
         pygame.display.update()
-        self.clock.tick(60)
+        self.clock_tick_refresh.tick(60)  
         self.Screen.fill((0, 0, 0))
     
     def update_no_fill(self):
         pygame.display.flip()
         pygame.display.update()
-        self.clock.tick(60)
+        self.clock_tick_refresh.tick(60)  
 
     def get_size(self):
         return self.Screen.get_size()

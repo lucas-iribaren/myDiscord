@@ -16,9 +16,8 @@ class Accueil(Interface):
         self.clicked_input = None
         self.clock = pygame.time.Clock()        
         self.page_register = Inscription()
-        self.error_timer = 0
-        self.error_duration = 1000
-        
+        self.error_timer_home = 0
+        self.error_duration_home = 3500               
   
     def handle_events_for_login(self):
         for event in pygame.event.get():
@@ -40,8 +39,7 @@ class Accueil(Interface):
                         else:
                             self.error_message_login = "Erreur, identifiant ou mot de passe invalide. Veuillez ressayer"
                     else:
-                        self.input_texts[self.active_input] += event.unicode
-                    
+                        self.input_texts[self.active_input] += event.unicode    
                             
             # Event mouse          
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -87,35 +85,34 @@ class Accueil(Interface):
         # Vérifier si les entrées ne sont pas vides
         if nom_utilisateur_entry and password_entry:
             sql = "SELECT pseudo, password FROM user WHERE pseudo = %s;"
-            self.user_data = self.database.fetch_one(sql, (nom_utilisateur_entry,))
+            self.user_data = self.database.fetch_one(sql, (nom_utilisateur_entry,))            
             if self.user_data:
+                self.username_user = self.user_data[0]
+                print(self.username_user)
                 if self.user_data[1] == password_entry:
-                     return True                   
-                else:                   
+                    return True, self.user_data  
+                else:
                     self.error_message_login = "Erreur, le mot de passe n'est pas correct"
-                    return False
             else:
                 self.error_message_login = "Erreur, nom d'utilisateur incorrect"
-                return False
         else:
             self.error_message_login = "Erreur, veuillez saisir un nom d'utilisateur et un mot de passe"
-            return False
+        return False, None
       
     
     def draw_error_message_login(self):
         if self.error_message_login:
             self.solid_rect_radius(self.light_grey,620,20,360,55,8)
             self.text_align(16, self.error_message_login, self.pur_red, 796, 45)
-            self.error_timer += self.clock.tick()
-            if self.error_timer >= self.error_duration:
+            self.error_timer_home += self.clock.tick()
+            if self.error_timer_home >= self.error_duration_home:
                 self.error_message_login = None
-                self.error_timer = 0
-
+                self.error_timer_home = 0            
             
                             
     def button_login(self):
         if self.verify_account_exist(self.input_texts['nom_utilisateur'], self.input_texts['password']):
-            self.page_profil = Profil(self.user_data)
+            self.page_profil = Profil(self.username_user)
             self.page_profil.home_profil()
             self.accueil_run = False                   
                      
@@ -123,33 +120,30 @@ class Accueil(Interface):
     def home(self):
         self.accueil_run = True
         self.active_input = 'nom_utilisateur'  
-        
         while self.accueil_run:
-            
             if self.home_accueil:
                 self.handle_events_for_login()
-
                 self.Screen.fill(self.dark_grey)
-
                 self.img(330, 160, 230, 220, "icones/logo")
                 self.text_align(70, "MyDiscord", self.white, 610, 160)
-                
                 self.text_align(19, "Nom d'utilisateur", self.white, 268, 330)
                 self.text_align(19, "Mot de passe", self.white, 257, 405)
                 self.light_rect(self.light_grey, 160, 300, 670, 270, 5)
-                
-                self.text_entry_login()  # Appeler la fonction pour gérer la saisie de texte
-                
+                self.text_entry_login()
                 self.solid_rect_radius(self.blue, 210, 488, 220, 35, 8)
                 self.text_align(21, "Connexion", self.black, 315, 505)
                 self.text_align(21, "Ou", self.white, 485, 435)
-                
                 self.solid_rect_radius(self.blue, 535, 420, 220, 35, 8)
                 self.text_align(21, "Inscription", self.black, 642, 436)
-                # if self.is_mouse_over_button(pygame.Rect(210, 488, 220, 35)):
-                #     pygame.draw.rect(self.surface, self.pur_red, pygame.Rect(210, 488, 220, 35), 1)          
-                           
                 self.draw_error_message_login()
+            elif self.page_register.new_register:
+                if self.error_timer_home >= self.error_duration_home:
+                    self.page_register.error_message_register = None
+                    self.error_timer_home = 0
+                else:
+                    self.solid_rect_radius(self.light_grey, 620, 20, 360, 55, 8)
+                    self.text_align(16, self.page_register.error_message_register, self.pur_red, 796, 45)                  
+                    self.error_timer_home += self.clock.tick()
+            self.update()  
 
-                self.update()
                

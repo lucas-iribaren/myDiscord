@@ -1,7 +1,9 @@
 import pygame
+import pygame
 from datetime import datetime
 from files.class_py.database import Database
 from files.class_py.interface import Interface
+from files.class_py.message import Message
 from files.class_py.message import Message
 from files.class_py.user import User
 
@@ -19,7 +21,7 @@ class Notification(Database, Interface):
         
     def add_notification(self):
         sql = "INSERT INTO notification(text,auteur,heure) VALUES (%s,%s,%s)"
-        self.execute_sql(sql, (self.message.input_texts['message'], self.user(self.message.user), self.current_time_notif))
+        self.execute_sql(sql, (self.message.input['message'], self.user(self.message.user), self.current_time_notif))
         
     def notification_display(self):
         x_notif = 750
@@ -29,6 +31,12 @@ class Notification(Database, Interface):
         self.solid_rect_radius(self.light_grey, x_notif, y_notif, larg_notif, high_notif)
         self.text(15, self.user, self.black, x_notif, y_notif - 30)
         self.text(14, self.current_time_notif, self.white, x_notif + 30, y_notif - 30)
+        self.text(13, self.message.input_texts['message'], self.white, x_notif, y_notif + 30)
+        if self.error_timer >= self.error_duration:
+                self.user = None
+                self.current_time_notif = None
+                self.message.input_texts['message'] = None
+                self.error_timer = 0
         self.text(13, self.message.input_texts['message'], self.white, x_notif, y_notif + 30)
         if self.error_timer >= self.error_duration:
                 self.user = None

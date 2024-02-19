@@ -2,10 +2,10 @@ import pygame, re
 from files.class_py.user import User
 from files.class_py.interface import Interface
 
-class Inscription(Interface, User):
+class Inscription(Interface):
     def __init__(self):
-        Interface.__init__(self)
-        User.__init__(self)
+        Interface.__init__(self)        
+        self.user = User()
         self.page_inscription = True
         self.input_texts = {'email':'', 'pseudo': '', 'password': ''}
         self.selected_rect = None
@@ -16,8 +16,9 @@ class Inscription(Interface, User):
         self.pseudo_rect = pygame.Rect(390, 250, 280, 30)
         self.password_rect = pygame.Rect(390, 330, 280, 30)
         self.clock = pygame.time.Clock()
-        self.error_timer = 0
-        self.error_duration = 1000
+        self.error_timer_register = 0
+        self.error_duration_register = 3500
+        self.new_register = False        
 
     def is_valid_email(self, email):
         regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
@@ -26,7 +27,7 @@ class Inscription(Interface, User):
     def valid_user(self):
         if (self.input_texts['email'] != '' and self.input_texts['pseudo'] != '' and self.input_texts['password'] != ''):
             if self.is_valid_email(self.input_texts['email']):
-                self.add_user(self.input_texts['pseudo'], self.input_texts['email'], self.input_texts['password'], 1)
+                self.user.add_user(self.input_texts['pseudo'], self.input_texts['email'], self.input_texts['password'], 1)
                 self.error_message_register = "Votre compte à bien été ajouté !"
             else:
                 self.error_message_register = "Erreur, l'adresse mail n'est pas valide."
@@ -74,6 +75,9 @@ class Inscription(Interface, User):
                         
                     if self.is_mouse_over_button(pygame.Rect(420,420,220,35)): #Bouton 'inscription'
                         self.valid_user()
+                        self.register_run = False
+                        self.new_register = True
+                        self.error_message_register = "Votre compte à bien été crée"
 
                     elif self.is_mouse_over_button(pygame.Rect(370,520,280,20)): #Bouton 'Vous avez déjà un compte?'
                         self.register_run = False
@@ -89,10 +93,10 @@ class Inscription(Interface, User):
         if self.error_message_register:
             self.solid_rect_radius(self.light_grey,620,20,360,55,8)
             self.text_align(16, self.error_message_register, self.pur_red, 796, 45)                  
-            self.error_timer += self.clock.tick()
-            if self.error_timer >= self.error_duration:
+            self.error_timer_register += self.clock.tick()
+            if self.error_timer_register >= self.error_duration_register:
                 self.error_message_register = None
-                self.error_timer = 0
+                self.error_timer_register = 0
 
     def register(self):
         while self.register_run:
@@ -143,7 +147,10 @@ class Inscription(Interface, User):
             self.light_rect(self.black, self.selected_rect.x, self.selected_rect.y,
                             self.selected_rect.width, self.selected_rect.height, 1)
             if self.active_input:
-                input_text = self.input_texts[self.active_input]
+                if self.active_input == 'password': 
+                    input_text = '*' * len(self.input_texts[self.active_input])  
+                else:
+                    input_text = self.input_texts[self.active_input]
                 self.text(15, input_text, self.black, self.selected_rect.x + 5, self.selected_rect.y + 5)
             else:
                 self.text(15, self.input_texts['email'], self.black, self.input_texts['email'].x + 5, self.input_texts['email'].y + 5)
