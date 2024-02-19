@@ -23,7 +23,7 @@ class Inscription(Interface, User):
         regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
         return re.match(regex, email) is not None
 
-    def valid_user(self):
+    def add_user(self):
         if (self.input_texts['email'] != '' and self.input_texts['pseudo'] != '' and self.input_texts['password'] != ''):
             if self.is_valid_email(self.input_texts['email']):
                 self.add_user(self.input_texts['pseudo'], self.input_texts['email'], self.input_texts['password'], 1)
@@ -52,7 +52,7 @@ class Inscription(Interface, User):
                         else:
                             self.active_input = 'email'
                     elif event.key == pygame.K_RETURN:
-                        self.valid_user()
+                        self.add_user()
                     else:
                         self.input_texts[self.active_input] += event.unicode
                             
@@ -73,7 +73,7 @@ class Inscription(Interface, User):
                         self.active_input = None
                         
                     if self.is_mouse_over_button(pygame.Rect(420,420,220,35)): #Bouton 'inscription'
-                        self.valid_user()
+                        self.add_user()
 
                     elif self.is_mouse_over_button(pygame.Rect(370,520,280,20)): #Bouton 'Vous avez déjà un compte?'
                         self.register_run = False
@@ -94,6 +94,15 @@ class Inscription(Interface, User):
                 self.error_message_register = None
                 self.error_timer = 0
 
+    def mouse_effets(self):
+        if self.is_mouse_over_button(pygame.Rect(390,170,280,30)):# Champ de texte email
+            self.light_rect(self.black,390,170,280,30,1)
+
+        if self.is_mouse_over_button(pygame.Rect(390,250,280,30)):# Champ de texte pseudo
+            self.light_rect(self.black,390,250,280,30,1)
+
+        if self.is_mouse_over_button(pygame.Rect(390,330,280,30)):# Champ de texte MDP
+            self.light_rect(self.black,390,330,280,30,1)
     def register(self):
         while self.register_run:
             if self.page_inscription:
@@ -107,29 +116,25 @@ class Inscription(Interface, User):
 
 
                 #Bloc Email
-                if self.is_mouse_over_button(pygame.Rect(390,170,280,30)):
-                    self.light_rect(self.black,390,170,280,30,1)#Curseur selectionné
                 self.solid_rect_radius(self.light_grey,390,170,280,30,5)#Bloc email
                 self.text(19,"Email",self.white,390,140)
 
                 #Bloc Pseudo
-                if self.is_mouse_over_button(pygame.Rect(390,250,280,30)):
-                    self.light_rect(self.black,390,250,280,30,1)#Curseur selectionné
                 self.solid_rect_radius(self.light_grey, 390, 250, 280, 30, 5)#Bloc pseudo
                 self.text(19,"Nom d'utilisateur",self.white,390,220)
 
                 #Bloc Password
-                if self.is_mouse_over_button(pygame.Rect(390,330,280,30)):
-                    self.light_rect(self.black,390,330,280,30,1)#Curseur selectionné
                 self.solid_rect_radius(self.light_grey, 390, 330, 280, 30, 5)#Bloc password
                 self.text(19,"Mot de passe",self.white,390,300)
                 
+                #Retour accueil
                 if self.is_mouse_over_button(pygame.Rect(370,520,280,20)):
                     self.text_align(18,"Tu as déjà un compte?",self.black,435,520)
                 else:
                     self.text_align(15,"Tu as déjà un compte?",self.black,435,520)
                     
                 self.draw_error_message_register()
+                self.mouse_effets()
                 self.select_input()
                 
                 if self.verif_connect:
