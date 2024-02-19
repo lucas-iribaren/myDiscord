@@ -88,7 +88,7 @@ class Inscription(Interface, User):
     def draw_error_message_register(self):
         if self.error_message_register:
             self.solid_rect_radius(self.light_grey,620,20,360,55,8)
-            self.text_align(16, self.error_message_register, self.pur_red, 796, 45)                  
+            self.text_align(16, self.error_message_register, self.pur_red, 796, 45)
             self.error_timer += self.clock.tick()
             if self.error_timer >= self.error_duration:
                 self.error_message_register = None
@@ -103,6 +103,7 @@ class Inscription(Interface, User):
 
         if self.is_mouse_over_button(pygame.Rect(390,330,280,30)):# Champ de texte MDP
             self.light_rect(self.black,390,330,280,30,1)
+
     def register(self):
         while self.register_run:
             if self.page_inscription:
@@ -113,7 +114,6 @@ class Inscription(Interface, User):
                 self.text(20,'Créer votre compte',self.black,470,68)                
                 self.solid_rect_radius(self.blue,420,420,220,35,8)
                 self.text_align(21,"S'inscrire",self.black,530,436)
-
 
                 #Bloc Email
                 self.solid_rect_radius(self.light_grey,390,170,280,30,5)#Bloc email
@@ -137,9 +137,6 @@ class Inscription(Interface, User):
                 self.mouse_effets()
                 self.select_input()
                 
-                if self.verif_connect:
-                    pass
-                #mettre la petite fenêtre qui apparaît quand on se connecte
                         
                 self.update()
 

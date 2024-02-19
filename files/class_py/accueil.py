@@ -135,23 +135,24 @@ class Accueil(Interface):
                 self.text_align(70, "MyDiscord", self.white, 610, 160)
                 
                 self.light_rect(self.light_grey, 160, 300, 670, 270, 5)
+                # Champ de texte Utilisateur  
+                self.text_align(19, "Nom d'utilisateur", self.white, 268, 330) # Texte 
+                self.solid_rect_radius(self.white, 210, 345, 220, 35,8)# Bloc
+
+                # Champ de texte Mot de Passe
+                self.text_align(19, "Mot de passe", self.white, 257, 405)# Texte 
+                self.solid_rect_radius(self.white, 210, 420, 220, 35,8)# Bloc
                 
-                self.text_entry_login() 
-                
-                self.text_align(19, "Nom d'utilisateur", self.white, 268, 330) # Texte Utilisateur
-                self.solid_rect_radius(self.white, 210, 345, 220, 35,8)# Bloc  d'utilisateu
+                # Bloc connexion
+                self.solid_rect_radius(self.blue, 210, 488, 220, 35, 8)# Bloc 
+                self.text_align(21, "Connexion", self.black, 315, 505)# Texte
 
-                self.text_align(19, "Mot de passe", self.white, 257, 405)# Texte MDP
-                self.solid_rect_radius(self.white, 210, 420, 220, 35,8)# Bloc Mot de passe
-
-                self.solid_rect_radius(self.blue, 210, 488, 220, 35, 8)# Bloc connexion
-                self.text_align(21, "Connexion", self.black, 315, 505)
-
-                self.text_align(21, "Ou", self.white, 485, 435)
+                self.text_align(21, "Ou", self.white, 485, 435)# Texte
                 
                 self.solid_rect_radius(self.blue, 535, 420, 220, 35, 8)# Bloc Inscription
-                self.text_align(21, "Inscription", self.black, 642, 436)
+                self.text_align(21, "Inscription", self.black, 642, 436)# Texte
 
+                self.text_entry_login() 
                 self.draw_error_message_login() #Notification error
                 self.mouse_effects() # Surlignement souris
                 self.update()
