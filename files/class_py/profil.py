@@ -102,10 +102,9 @@ class Profil(Interface):
     def rect_pv_chanel(self):
         # Draw private channels area
         if self.private_chanels:
-            self.solid_rect((64, 68, 75), 80, 0, 100, 1000)
-            self.solid_rect((54, 55, 61), 80, 0, 100, 30)
-            self.solid_rect_radius((0, 0, 0), 80, 0, 100, 30, 5)
-            self.text(20, "Channels", (249, 249, 249), 85, 90)
+            self.solid_rect((64, 68, 75), 80, 0, 130, 1000) # Channels area
+            self.solid_rect_radius((0, 0, 0), 80, 0, 130, 30, 5) # Title of the area
+            self.text(20, "Messages Privés", (249, 249, 249), 90, 5) # Title
     
 
     def home_profil(self):
