@@ -17,7 +17,7 @@ class Inscription(Interface, User):
         self.password_rect = pygame.Rect(390, 330, 280, 30)
         self.clock = pygame.time.Clock()
         self.error_timer = 0
-        self.error_duration = 3500
+        self.error_duration = 1000
 
     def is_valid_email(self, email):
         regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
