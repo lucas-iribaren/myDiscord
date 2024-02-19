@@ -60,6 +60,10 @@ class Interface:
     def is_mouse_over_button(self, button_rect):
         mouse_pos = pygame.mouse.get_pos()
         return button_rect.collidepoint(mouse_pos)
+    
+    def is_mouse_over_text_input(self, text_rect):
+        mouse_pos = pygame.mouse.get_pos()
+        return text_rect.collidepoint(mouse_pos)
         
     def update(self):
         pygame.display.flip()
