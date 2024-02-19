@@ -21,7 +21,7 @@ class Profil(Interface):
 
     def create_profile_page(self):
         # Remplit l'écran avec du gris
-        self.Screen.fill((54, 57, 63))
+        self.Screen.fill((54, 57, 63))        
 
         # Ajout du logo au milieu de la fenêtre
         self.img(550, 270, 100, 100, "icones/logo")
@@ -81,13 +81,13 @@ class Profil(Interface):
             self.message.add_message(self.input_message, auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
             self.message.message_display(self.input_message, 350, 250, 300, 200, 7)
             
-    def get_user_id(self):
-        sql = "SELECT pseudo FROM user WHERE pseudo = %s" 
-        result = self.database.fetch_one(sql, (self.user,))
-        if result:
-            return result[1]
-        else:
-            return None
+    # def get_user_id(self):
+    #     sql = "SELECT pseudo FROM user WHERE pseudo = %s" 
+    #     result = self.database.fetch_one(sql, (self.user,))
+    #     if result:
+    #         return result[1]
+    #     else:
+    #         return None
 
     def event_handling(self):
         for event in pygame.event.get():
@@ -96,6 +96,7 @@ class Profil(Interface):
                 quit()
             elif event.type == pygame.KEYDOWN:
                 if self.active_input:
+                    print(self.input_message)
                     if event.key == pygame.K_BACKSPACE:
                         self.input_message[self.active_input] = self.input_message[self.active_input][:-1]
                     else:

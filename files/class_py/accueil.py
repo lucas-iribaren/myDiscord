@@ -111,6 +111,7 @@ class Accueil(Interface):
     def button_login(self):
         if self.verify_account_exist(self.input_texts['nom_utilisateur'], self.input_texts['password']):
             self.page_profil = Profil(self.username_user)
+            print(self.username_user)
             self.page_profil.home_profil()
             self.accueil_run = False                   
                      
