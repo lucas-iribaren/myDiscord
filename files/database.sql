@@ -71,5 +71,7 @@ DELETE FROM notification;
 
 
 
+
+
 -- INSERT INTO message (text, auteur)
 -- VALUES ('Contenu du message', 'Auteur du message');
