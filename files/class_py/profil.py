@@ -2,23 +2,25 @@ import pygame
 from files.class_py.interface import Interface
 from files.class_py.message import Message
 from files.class_py.notification import Notification
-from files.class_py.database import Database  # Correction de l'importation
+from files.class_py.database import Database  
 from files.class_py.user import User
 
 class Profil(Interface):
     def __init__(self, user):
         super().__init__()  
         self.profil_run = False  
-        self.private_channels = False  # Correction du nom de la variable
+        self.private_channels = False  
         self.user = user
         print(self.user)
         self.channel_message = ""
         self.message = Message(self.user)
-        self.notification = Notification(self.user)
+        self.notification = Notification()
         self.user_connected = User()
         self.database = Database()         
         self.auteur = None 
-        self.input_message = self.message.input_texts_message['message']       
+        self.clock = pygame.time.Clock()
+        self.input_message = self.message.input_texts_message['message']
+        self.delta_time = self.clock.tick(60) / 1000       
 
     def create_profile_page(self):
         self.Screen.fill((54, 57, 63))
@@ -65,7 +67,7 @@ class Profil(Interface):
             if pygame.mouse.get_pressed()[0]:
                 self.private_channels = not self.private_channels
         else:
-            self.img(35, 100, 50, 50, "icones/avatar_0")  # Correction de l'orthographe de "channel"
+            self.img(35, 100, 50, 50, "icones/avatar_0")  
 
     def event_handling(self):
         for event in pygame.event.get():
@@ -78,7 +80,6 @@ class Profil(Interface):
                 else:
                     self.input_message += event.unicode
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                mouse_pos = pygame.mouse.get_pos()
                 if self.is_mouse_over_text_input(pygame.Rect(330, 150, 150, 80)):
                     self.active_input_mes = 'message'  
                 else:
@@ -90,6 +91,9 @@ class Profil(Interface):
                         print('envoyé')
                     else:
                         print("Veuillez saisir un message.")
+                        
+                elif self.is_mouse_over_button(pygame.Rect(35, 100, 50, 50)):
+                    self.notification.add_notification(self.message.three_last_messages())
                                         
 
     def text_input(self):
@@ -121,11 +125,10 @@ class Profil(Interface):
             self.create_profile_page()
             self.rect_server()
             self.create_server()
-            self.private_server()
-            self.notification.add_notification()
-            self.notification.display_notification()            
+            self.private_server()                        
             if self.private_channels:
                 self.text_input()
                 self.rect_button_send()
-                self.message.message_display(self.input_message, self.auteur, 450, 380, 150, 90, 5)                                 
+                self.message.message_display(self.input_message, self.auteur, 450, 380, 150, 90, 5)
+                self.notification.display_notification(self.message.three_last_messages())                                 
             self.update() 
