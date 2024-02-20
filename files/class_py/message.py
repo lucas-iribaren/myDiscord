@@ -8,6 +8,8 @@ class Message(Database):
         self.user = user
         self.interface = Interface()
         self.current_date_message = datetime.now()
+        self.input_texts_message = {'message':''}        
+        self.active_input_mes = None 
 
     def add_message(self, input_text, auteur, heure, id_channel):
         sql = "INSERT INTO message(text, auteur, heure, id_channel) VALUES (%s, %s, %s, %s);"
@@ -17,6 +19,7 @@ class Message(Database):
     def three_last_messages(self):
         sql = "SELECT text, auteur, heure FROM notification ORDER BY heure DESC LIMIT 3"
         return self.fetch_all(sql, ())
+        
 
     def message_display(self, message, user, x_message, y_message, largeur_message, hauteur_message, radius_message):
         self.interface.text(15, user, self.interface.red, x_message, y_message - 30)
