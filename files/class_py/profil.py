@@ -28,7 +28,7 @@ class Profil(Interface):
         
     def rect_server(self):
         # Servers area
-        self.solid_rect((64, 68, 75), 0, 0, 70, 1000)
+        self.solid_rect(self.grey, 0, 0, 70, 1000)
         
     def create_server(self):
         # Coordonates of "Créer un serveur" 
@@ -41,18 +41,18 @@ class Profil(Interface):
         
         if distance_to_circle <= circle_radius:
             # Hoover of the circle - Change the color
-            pygame.draw.circle(self.Screen, (114, 137, 218), circle_center, circle_radius + 2)  # Circle
+            pygame.draw.circle(self.Screen, self.blue, circle_center, circle_radius + 2)  # Circle
             # Draw the cross - Hoover
-            pygame.draw.line(self.Screen, (188, 186, 184), (15, 35), (53, 35), 3)  # Horizontal line
-            pygame.draw.line(self.Screen, (188, 186, 184), (35, 55), (35, 15), 3)  # Vertical line
+            pygame.draw.line(self.Screen, self.light_grey, (15, 35), (53, 35), 3)  # Horizontal line
+            pygame.draw.line(self.Screen, self.light_grey, (35, 55), (35, 15), 3)  # Vertical line
             self.img(130, 30, 130, 40, "icones/zone_texte_survol")
-            self.text(20, "Créer un serveur", (249, 249, 249), 80, 20)
+            self.text(20, "Créer un serveur", self.white, 80, 20)
         else:
             # Wihtout hoover
-            pygame.draw.circle(self.Screen, (188, 186, 184), circle_center, circle_radius)
+            pygame.draw.circle(self.Screen, self.light_grey, circle_center, circle_radius)
             # Draw cross - without hoover
-            pygame.draw.line(self.Screen, (114, 137, 218), (15, 35), (53, 35), 3)  # Horizontal line
-            pygame.draw.line(self.Screen, (114, 137, 218), (35, 55), (35, 15), 3)  # Vertical line
+            pygame.draw.line(self.Screen, self.blue, (15, 35), (53, 35), 3)  # Horizontal line
+            pygame.draw.line(self.Screen, self.blue, (35, 55), (35, 15), 3)  # Vertical line
 
     def private_server(self):
         # Coordonate button : "Messages privé"
@@ -68,7 +68,7 @@ class Profil(Interface):
             pygame.draw.circle(self.Screen, (114, 137, 218), circle_center, circle_radius + 2)
             self.img(35, 100, 50, 50, "icones/avatar_2")
             self.img(130, 100, 140, 40, "icones/zone_texte_survol") # Text area
-            self.text(20, "Messages privés", (249, 249, 249), 85, 90)
+            self.text(20, "Messages privés", self.white, 85, 90)
 
             # Verify if the mouse is cliqued
             for event in pygame.event.get():
@@ -102,9 +102,9 @@ class Profil(Interface):
     def rect_pv_chanel(self):
         # Draw private channels area
         if self.private_chanels:
-            self.solid_rect((64, 68, 75), 80, 0, 130, 1000) # Channels area
-            self.solid_rect_radius((10, 10, 10), 80, 0, 130, 30, 5) # Title of the area
-            self.text(20, "Messages Privés", (249, 249, 249), 90, 5) # Title
+            self.solid_rect(self.grey, 80, 0, 130, 1000) # Channels area
+            self.solid_rect_radius(self.black, 80, 0, 130, 30, 5) # Title of the area
+            self.text(20, "Messages Privés", self.white, 90, 5) # Title
     
 
     def home_profil(self):
