@@ -53,7 +53,7 @@ class Profil(Interface):
             pygame.draw.line(self.Screen, (114, 137, 218), (15, 35), (53, 35), 3)  
             pygame.draw.line(self.Screen, (114, 137, 218), (35, 55), (35, 15), 3)
 
-    def private_server(self):  # Correction du nom de la méthode
+    def private_server(self): 
         circle_center = (35, 100)
         circle_radius = 28
         mouse_pos = pygame.mouse.get_pos()
@@ -80,7 +80,7 @@ class Profil(Interface):
                 else:
                     self.input_message += event.unicode
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                if self.is_mouse_over_text_input(pygame.Rect(330, 150, 150, 80)):
+                if self.is_mouse_over_button(pygame.Rect(330, 150, 150, 80)):
                     self.active_input_mes = 'message'  
                 else:
                     self.active_input_mes = None  
@@ -89,6 +89,8 @@ class Profil(Interface):
                     if self.input_message != "":
                         self.button_send()
                         print('envoyé')
+                        if self.button_send:
+                            self.input_message = None
                     else:
                         print("Veuillez saisir un message.")
                         
@@ -111,6 +113,7 @@ class Profil(Interface):
         elif not self.private_channels:
             self.message.add_message(self.input_message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
         self.message.message_display(self.input_message, self.auteur, 450, 380, 150, 90, 5)
+        
 
     def rect_pv_channel(self):  
         if self.private_channels:
@@ -121,6 +124,7 @@ class Profil(Interface):
     def home_profil(self):
         self.profil_run = True
         while self.profil_run:
+            self.notification.update_after_notif(self.delta_time)
             self.event_handling()
             self.create_profile_page()
             self.rect_server()
@@ -129,6 +133,5 @@ class Profil(Interface):
             if self.private_channels:
                 self.text_input()
                 self.rect_button_send()
-                self.message.message_display(self.input_message, self.auteur, 450, 380, 150, 90, 5)
                 self.notification.display_notification(self.message.three_last_messages())                                 
             self.update() 
