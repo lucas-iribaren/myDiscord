@@ -45,12 +45,11 @@ class Inscription(Interface, User):
                     if event.key == pygame.K_BACKSPACE:
                         self.input_texts[self.active_input] = self.input_texts[self.active_input][:-1]
                     elif event.key == pygame.K_TAB:
-                        self.active_input = 'password' if self.active_input == 'nom_utilisateur' else 'nom_utilisateur'
                         if self.active_input == 'email':
                             self.active_input = 'pseudo'
                         elif self.active_input == 'pseudo':
                             self.active_input = 'password'
-                        else:
+                        elif self.active_input == 'password':
                             self.active_input = 'email'
                     elif event.key == pygame.K_RETURN:
                         self.add_users()
