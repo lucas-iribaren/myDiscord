@@ -17,11 +17,11 @@ class Profil(Interface):
 
     def create_profile_page(self):
         # Fill the screen in gray
-        self.Screen.fill((54, 57, 63))
+        self.Screen.fill(self.dark_grey)
 
         # Add a logo
         self.img(550, 270, 100, 100, "icones/logo")
-        self.text(25, self.channel_message, (249, 249, 249), 435, 320)
+        self.text(25, self.channel_message, self.white, 435, 320)
 
         # Draw channels area
         self.rect_pv_chanel()
