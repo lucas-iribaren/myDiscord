@@ -89,11 +89,9 @@ class Profil(Interface):
                     if self.input_message != "":
                         self.button_send()
                         print('envoyé')
-                        if self.button_send:
-                            self.input_message = None
                     else:
                         print("Veuillez saisir un message.")
-                        
+                    
                 elif self.is_mouse_over_button(pygame.Rect(35, 100, 50, 50)):
                     self.notification.add_notification(self.message.three_last_messages())
                                         
@@ -111,9 +109,11 @@ class Profil(Interface):
         if self.private_channels:
             self.message.add_message(self.input_message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
         elif not self.private_channels:
-            self.message.add_message(self.input_message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
-        self.message.message_display(self.input_message, self.auteur, 450, 380, 150, 90, 5)
-        
+            self.message.add_message(self.input_message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)  
+        self.message.message_display(self.input_message, self.auteur, 450, 380, 150, 90, 5)  # Déplacer ici
+
+        # Réinitialiser l'entrée du message après l'avoir envoyé
+        self.input_message = ""       
 
     def rect_pv_channel(self):  
         if self.private_channels:
