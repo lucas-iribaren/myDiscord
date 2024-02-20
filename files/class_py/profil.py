@@ -72,7 +72,7 @@ class Profil(Interface):
 
             # Verify if the mouse is cliqued
             for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button ==  1:
+                if event.type == pygame.MOUSEBUTTONUP and event.button ==  1:
                     self.private_chanels = not self.private_chanels  # Toggle the display of the private channels area
                     # if self.private_chanels:
                     #     self.channel_message = "Veuillez sélectionner un channel." # Change le message lorsque le bouton est cliqué
