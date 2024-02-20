@@ -1,4 +1,4 @@
--- Active: 1707491285105@@127.0.0.1@3306@mydiscord
+-- Active: 1707745093959@@127.0.0.1@3306@mydiscord
 CREATE DATABASE myDiscord;
 
 USE myDiscord;
@@ -64,8 +64,6 @@ INSERT INTO user (pseudo, mail, password, id_role)
 VALUES ('lucy', 'lucy.discord@laplateforme.io', 'discord', 1);
 
 DELETE FROM notification;
-
-
 
 
 
