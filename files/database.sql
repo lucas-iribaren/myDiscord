@@ -54,6 +54,8 @@ VALUES
 
 DELETE FROM notification;
 
+# A FAIRE DANS L'ORDER
+
 DELETE FROM message WHERE id_channel = 1;
 
 DELETE FROM channel WHERE id = 1;
