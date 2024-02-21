@@ -9,7 +9,7 @@ class Profil(Interface):
     def __init__(self, user):
         super().__init__()  # Call the constructor of the parent class 
         self.profil_run = False  # Initialize profil_run to False to enter the main loop
-        self.private_chanels = False
+        self.private_channels = False
         self.user = user
         print(self.user)
         self.channel_message = ""
@@ -31,7 +31,7 @@ class Profil(Interface):
         self.img(550, 270, 100, 100, "icones/logo")
 
         # Draw channels area
-        self.rect_pv_chanel()
+        self.rect_pv_channel()
         
         self.text(25, self.channel_message, self.white, 435, 320)
         if self.private_channels:
@@ -88,7 +88,7 @@ class Profil(Interface):
             # Verify if the mouse is cliqued
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONUP and event.button ==  1:
-                    self.private_chanels = not self.private_chanels  # Toggle the display of the private channels area
+                    self.private_channels = not self.private_channels  # Toggle the display of the private channels area
                     # if self.private_chanels:
                     #     self.channel_message = "Veuillez sélectionner un channel." # Change le message lorsque le bouton est cliqué
                     # else:
@@ -116,7 +116,7 @@ class Profil(Interface):
             # Verify if the mouse is cliqued
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONUP and event.button ==  1:
-                    self.private_chanels = not self.private_chanels  # Toggle the display of the private channels area
+                    self.private_channels = not self.private_channels  # Toggle the display of the private channels area
         else:
             # Without hover
             self.img(35, 100, 50, 50, "icones/disconnect")    
@@ -168,9 +168,9 @@ class Profil(Interface):
         self.message_sent = True
         
 
-    def rect_pv_chanel(self):
+    def rect_pv_channel(self):
         # Draw private channels area
-        if self.private_chanels:
+        if self.private_channels:
             self.solid_rect(self.grey, 80, 0, 130, 1000) # Channels area
             self.solid_rect_radius(self.black, 80, 0, 130, 30, 5) # Title of the area
             self.text(20, "Messages Privés", self.white, 90, 5) # Title
