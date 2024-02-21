@@ -55,7 +55,7 @@ class Profil(Interface):
             pygame.draw.line(self.Screen, self.blue, (35, 55), (35, 15), 3)  # Vertical line
 
     def private_server(self):
-        # Coordonate button : "Messages privé"
+        # Coordonate button : "Messages privés"
         circle_center = (35, 100)
         circle_radius = 28
 
