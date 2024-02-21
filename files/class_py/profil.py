@@ -7,9 +7,9 @@ from files.class_py.user import User
 
 class Profil(Interface):
     def __init__(self, user):
-        super().__init__()  
-        self.profil_run = False  
-        self.private_channels = False  
+        super().__init__()  # Call the constructor of the parent class 
+        self.profil_run = False  # Initialize profil_run to False to enter the main loop
+        self.private_chanels = False
         self.user = user
         print(self.user)
         self.channel_message = ""
@@ -24,9 +24,16 @@ class Profil(Interface):
         self.message_sent = False      
 
     def create_profile_page(self):
-        self.Screen.fill((54, 57, 63))
+        # Fill the screen in gray
+        self.Screen.fill(self.dark_grey)
+
+        # Add a logo
         self.img(550, 270, 100, 100, "icones/logo")
-        self.text(25, self.channel_message, (249, 249, 249), 435, 320)
+
+        # Draw channels area
+        self.rect_pv_chanel()
+        
+        self.text(25, self.channel_message, self.white, 435, 320)
         if self.private_channels:
             self.channel_message = "Veuillez choisir une conversation"
             self.text(25, self.channel_message, (249, 249, 249), 435, 320)
@@ -35,42 +42,86 @@ class Profil(Interface):
         self.rect_pv_channel()  
 
     def rect_server(self):
-        self.solid_rect((64, 68, 75), 0, 0, 70, 1000)
-
+        # Servers area
+        self.solid_rect(self.grey, 0, 0, 70, 1000)
+        
     def create_server(self):
+        # Coordonates of "Créer un serveur" 
         circle_center = (35, 35)
         circle_radius = 28
+        
+        # Verify if the mouse is hover the button
         mouse_pos = pygame.mouse.get_pos()
         distance_to_circle = ((mouse_pos[0] - circle_center[0])**2 + (mouse_pos[1] - circle_center[1])**2) ** 0.5
         
         if distance_to_circle <= circle_radius:
-            pygame.draw.circle(self.Screen, (114, 137, 218), circle_center, circle_radius + 2) 
-            pygame.draw.line(self.Screen, (188, 186, 184), (15, 35), (53, 35), 3)  
-            pygame.draw.line(self.Screen, (188, 186, 184), (35, 55), (35, 15), 3)  
-            self.img(130, 30, 130, 40, "icones/zone_texte_survol")
-            self.text(20, "Créer un serveur", (249, 249, 249), 80, 20)
+            # Hover of the circle - Change the color
+            pygame.draw.circle(self.Screen, self.blue, circle_center, circle_radius + 2)  # Circle
+            # Draw the cross - hover
+            pygame.draw.line(self.Screen, self.light_grey, (15, 35), (53, 35), 3)  # Horizontal line
+            pygame.draw.line(self.Screen, self.light_grey, (35, 55), (35, 15), 3)  # Vertical line
+            self.img(130, 30, 130, 40, "icones/text_area_hover")
+            self.text(20, "Créer un serveur", self.white, 80, 20)
         else:
-            pygame.draw.circle(self.Screen, (188, 186, 184), circle_center, circle_radius)
-            pygame.draw.line(self.Screen, (114, 137, 218), (15, 35), (53, 35), 3)  
-            pygame.draw.line(self.Screen, (114, 137, 218), (35, 55), (35, 15), 3)
+            # Wihtout hover
+            pygame.draw.circle(self.Screen, self.light_grey, circle_center, circle_radius)
+            # Draw cross - without hover
+            pygame.draw.line(self.Screen, self.blue, (15, 35), (53, 35), 3)  # Horizontal line
+            pygame.draw.line(self.Screen, self.blue, (35, 55), (35, 15), 3)  # Vertical line
 
-    def private_server(self): 
+    def private_server(self):
+        # Coordonate button : "Messages privés"
         circle_center = (35, 100)
         circle_radius = 28
+
+        # Verify if the mouse is hover the circle
         mouse_pos = pygame.mouse.get_pos()
         distance_to_circle = ((mouse_pos[0] - circle_center[0])**2 + (mouse_pos[1] - circle_center[1])**2) ** 0.5
 
         if distance_to_circle <= circle_radius:
-            pygame.draw.circle(self.Screen, (114, 137, 218), circle_center, circle_radius + 2)
+            # Hover of the circle - Change the color of the icon
+            pygame.draw.circle(self.Screen, self.blue, circle_center, circle_radius + 2)
             self.img(35, 100, 50, 50, "icones/avatar_2")
-            self.img(130, 100, 140, 40, "icones/zone_texte_survol")
-            self.text(20, "Messages privés", (249, 249, 249), 85, 90)
-            if pygame.mouse.get_pressed()[0]:
-                self.private_channels = not self.private_channels
-        else:
-            self.img(35, 100, 50, 50, "icones/avatar_0")  
+            self.img(130, 100, 140, 40, "icones/text_area_hover") # Text area
+            self.text(20, "Messages privés", self.white, 85, 90)
 
-    def event_handling(self):
+            # Verify if the mouse is cliqued
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONUP and event.button ==  1:
+                    self.private_chanels = not self.private_chanels  # Toggle the display of the private channels area
+                    # if self.private_chanels:
+                    #     self.channel_message = "Veuillez sélectionner un channel." # Change le message lorsque le bouton est cliqué
+                    # else:
+                    #     self.channel_message = "Veuillez choisir un serveur." # Rétablit le message par défaut lorsque le bouton est cliqué à nouveau
+        else:
+            # Without hover
+            self.img(35, 100, 50, 50, "icones/avatar_0")
+
+    def disconnect_button(self):
+        # Coordonate button "Se déconnecter"
+        circle_center = (35, 100)
+        circle_radius = 28
+
+        # Verify if the mouse is hover the circle
+        mouse_pos = pygame.mouse.get_pos()
+        distance_to_circle = ((mouse_pos[0] - circle_center[0])**2 + (mouse_pos[1] - circle_center[1])**2) ** 0.5
+
+        if distance_to_circle <= circle_radius:
+            # Hover of the circle - Change the color of the icon
+            pygame.draw.circle(self.Screen, self.blue, circle_center, circle_radius + 2)
+            self.img(35, 550, 50, 50, "icones/disconnect")
+            self.img(130, 100, 140, 550, "icones/text_area_hover") # Text area
+            self.text(20, "Se déconnecter", self.white, 85, 90)
+
+            # Verify if the mouse is cliqued
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONUP and event.button ==  1:
+                    self.private_chanels = not self.private_chanels  # Toggle the display of the private channels area
+        else:
+            # Without hover
+            self.img(35, 100, 50, 50, "icones/disconnect")    
+            
+    def event_writting_message(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -117,16 +168,21 @@ class Profil(Interface):
         self.message_sent = True
         
 
-    def rect_pv_channel(self):  
-        if self.private_channels:
-            self.solid_rect((64, 68, 75), 80, 0, 130, 1000) 
-            self.solid_rect_radius((0, 0, 0), 80, 0, 130, 30, 5) 
-            self.text(20, "Messages Privés", (249, 249, 249), 90, 5)
+    def rect_pv_chanel(self):
+        # Draw private channels area
+        if self.private_chanels:
+            self.solid_rect(self.grey, 80, 0, 130, 1000) # Channels area
+            self.solid_rect_radius(self.black, 80, 0, 130, 30, 5) # Title of the area
+            self.text(20, "Messages Privés", self.white, 90, 5) # Title
+    
 
     def home_profil(self):
         self.profil_run = True
         while self.profil_run:
-            self.event_handling()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.profil_run = False  # Exit the loop when the QUIT event is detected
+
             self.create_profile_page()
             self.rect_server()
             self.create_server()
