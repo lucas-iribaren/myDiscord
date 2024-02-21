@@ -10,7 +10,7 @@ class Notification(Database):
         super().__init__()
         self.error_timer = 0
         self.error_duration = 1000
-        self.time = datetime.now()
+        # self.time = datetime.now()
         self.interface = Interface()
 
     def add_notification(self, three_last_messages):

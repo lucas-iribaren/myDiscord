@@ -17,8 +17,12 @@ class Message(Database):
         print(input_text)
 
     def three_last_messages(self):
-        sql = "SELECT text, auteur, heure FROM notification ORDER BY heure DESC LIMIT 3"
+        sql = "SELECT text, auteur, heure FROM message ORDER BY heure DESC LIMIT 3"
         return self.fetch_all(sql, ())
+    
+    def last_message(self):
+        sql = "SELECT text FROM message ORDER BY text DESC LIMIT 1"
+        return self.fetch_one(sql, ())
         
 
     def message_display(self, message, user, x_message, y_message, largeur_message, hauteur_message, radius_message):
