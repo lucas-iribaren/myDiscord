@@ -44,4 +44,4 @@ class Notification(Database):
 
     def clear_notifications(self):
         sql = "DELETE FROM notification"
-        self.execute_sql(sql)
+        self.execute_sql(sql, ())
