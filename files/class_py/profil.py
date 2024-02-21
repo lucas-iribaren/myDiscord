@@ -159,13 +159,14 @@ class Profil(Interface):
 
     def button_send(self):
         self.auteur = self.user
-        print(self.auteur)
+        print("User:",self.auteur)
         if self.private_channels:
             self.message.add_message(self.input_message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
         elif not self.private_channels:
             self.message.add_message(self.input_message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
         self.input_message = None
         self.message_sent = True
+        print(self.message_sent)
         
 
     def rect_pv_channel(self):
@@ -190,7 +191,7 @@ class Profil(Interface):
             if self.private_channels:
                 if self.message_sent:
                     self.last_msg = self.message.last_message()
-                    print(self.last_msg)
+                    print("dernier message",self.last_msg)
                     self.message.message_display(self.last_msg, self.auteur, 450, 380, 150, 90, 5)
                     self.text_input()
                     self.rect_button_send()
