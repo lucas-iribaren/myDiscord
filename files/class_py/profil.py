@@ -83,7 +83,7 @@ class Profil(Interface):
             self.img(35, 100, 50, 50, "icones/avatar_0")
 
     def disconnect_button(self):
-        # Coordonate button : "Se déconnecter"
+        # Coordonate button "Se déconnecter"
         circle_center = (35, 100)
         circle_radius = 28
 
