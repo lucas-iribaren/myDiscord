@@ -27,7 +27,7 @@ class Notification(Database):
         high_notif = 50
         radius_notif = 5
 
-        for index, notification in enumerate(self.notifications):
+        for index, notification in enumerate(three_last_messages):
             message_text, message_author, message_time = notification
             message_time = str(message_time)
             # Afficher la notification

@@ -3,7 +3,6 @@ from files.class_py.database import Database
 from files.class_py.interface import Interface
 from files.class_py.profil import Profil
 from files.class_py.inscription import Inscription
-# from files.class_py.notification import Notification
 
 class Accueil(Interface):
     def __init__(self):
@@ -118,7 +117,6 @@ class Accueil(Interface):
     def button_login(self):
         if self.verify_account_exist(self.input_texts['nom_utilisateur'], self.input_texts['password']):
             self.page_profil = Profil(self.username_user)
-            # self.notif = Notification()
             self.page_profil.home_profil()
             self.accueil_run = False                      
                      
