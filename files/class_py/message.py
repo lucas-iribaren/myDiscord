@@ -26,7 +26,7 @@ class Message(Database):
         
 
     def message_display(self, message, user, x_message, y_message, largeur_message, hauteur_message, radius_message):
-        message_text = str(message)
+        message_text = str(message).strip("()',")
         self.interface.text(15, user, self.interface.red, x_message, y_message - 30)
         self.interface.text(14, self.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), self.interface.white, x_message + 30, y_message - 30)
         self.interface.solid_rect_radius(self.interface.light_grey, x_message, y_message, largeur_message, hauteur_message, radius_message)
