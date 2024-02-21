@@ -22,8 +22,7 @@ class Message(Database):
     
     def last_message(self):
         sql = "SELECT text FROM message ORDER BY text DESC LIMIT 1;"
-        return self.fetch_one(sql, ())
-        
+        return self.fetch_one(sql, ())        
 
     def message_display(self, message, user, x_message, y_message, largeur_message, hauteur_message, radius_message):
         self.interface.text(15, user, self.interface.red, x_message, y_message - 30)

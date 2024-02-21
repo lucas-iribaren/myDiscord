@@ -93,7 +93,6 @@ class Profil(Interface):
                         print("Veuillez saisir un message.")
                     
                 elif self.is_mouse_over_button(pygame.Rect(35, 100, 50, 50)):
-                    # Ajouter une notification
                     self.notification.add_notification("Nouveau message", self.user, pygame.time.get_ticks())
 
     def text_input(self):
