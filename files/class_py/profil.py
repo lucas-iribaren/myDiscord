@@ -28,10 +28,7 @@ class Profil(Interface):
         self.Screen.fill(self.dark_grey)
 
         # Add a logo
-        self.img(550, 270, 100, 100, "icones/logo")
-
-        # Draw channels area
-        self.rect_pv_channel()
+        self.img(550, 270, 100, 100, "icones/logo")       
         
         self.text(25, self.channel_message, self.white, 435, 320)
         if self.private_channels:
@@ -121,7 +118,7 @@ class Profil(Interface):
             # Without hover
             self.img(35, 100, 50, 50, "icones/disconnect")    
             
-    def event_writting_message(self):
+    def event_handling(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -180,10 +177,7 @@ class Profil(Interface):
     def home_profil(self):
         self.profil_run = True
         while self.profil_run:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.profil_run = False  # Exit the loop when the QUIT event is detected
-
+            self.event_handling()
             self.create_profile_page()
             self.rect_server()
             self.create_server()
@@ -202,4 +196,4 @@ class Profil(Interface):
                     self.rect_button_send()
                     self.notification.display_notification(self.message.three_last_messages())
                     self.notification.update_after_notif(self.delta_time)                                 
-            self.update() 
+            self.update()  
