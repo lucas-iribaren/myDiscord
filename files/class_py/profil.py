@@ -11,6 +11,7 @@ class Profil(Interface):
         self.profil_run = False  
         self.private_channels = False  
         self.user = user
+        print(self.user)
         self.channel_message = ""
         self.message = Message(self.user)
         self.notification = Notification()
@@ -20,7 +21,6 @@ class Profil(Interface):
         self.clock = pygame.time.Clock()
         self.input_message = self.message.input_texts_message['message']
         self.delta_time = self.clock.tick(60) / 1000       
-        self.message_sent = False 
 
     def create_profile_page(self):
         self.Screen.fill((54, 57, 63))
@@ -89,11 +89,14 @@ class Profil(Interface):
                     if self.input_message != "":
                         self.button_send()
                         print('envoyé')
+                        if self.button_send:
+                            self.input_message = None
                     else:
                         print("Veuillez saisir un message.")
-                    
+                        
                 elif self.is_mouse_over_button(pygame.Rect(35, 100, 50, 50)):
-                    self.notification.add_notification("Nouveau message", self.user, pygame.time.get_ticks())
+                    self.notification.add_notification(self.message.three_last_messages())
+                                        
 
     def text_input(self):
         self.solid_rect(self.white, 330, 150, 150, 80)
@@ -104,13 +107,13 @@ class Profil(Interface):
 
     def button_send(self):
         self.auteur = self.user
-        print(f"User connecté :",self.auteur)
+        print(self.auteur)
         if self.private_channels:
             self.message.add_message(self.input_message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
         elif not self.private_channels:
-            self.message.add_message(self.input_message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)  
-        self.message_sent = True  
-        self.input_message = ""       
+            self.message.add_message(self.input_message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
+        self.message.message_display(self.input_message, self.auteur, 450, 380, 150, 90, 5)
+        
 
     def rect_pv_channel(self):  
         if self.private_channels:
@@ -121,23 +124,14 @@ class Profil(Interface):
     def home_profil(self):
         self.profil_run = True
         while self.profil_run:
+            self.notification.update_after_notif(self.delta_time)
             self.event_handling()
             self.create_profile_page()
             self.rect_server()
             self.create_server()
             self.private_server()                        
             if self.private_channels:
-                if self.message_sent:
-                    self.last_msg = self.message.last_message()              
-                    print(f"Dernier message :",self.last_msg)                
-                    self.message.message_display(self.last_msg, self.auteur, 450, 380, 150, 90, 5)
-                    self.text_input()
-                    self.rect_button_send()
-                    self.notification.display_notification(self.message.three_last_messages())  
-                    self.notification.update_after_notif(self.delta_time) 
-                else:                   
-                    self.text_input()
-                    self.rect_button_send()
-                    self.notification.display_notification(self.message.three_last_messages())  
-                    self.notification.update_after_notif(self.delta_time)
+                self.text_input()
+                self.rect_button_send()
+                self.notification.display_notification(self.message.three_last_messages())                                 
             self.update() 
