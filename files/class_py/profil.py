@@ -40,17 +40,17 @@ class Profil(Interface):
         distance_to_circle = ((mouse_pos[0] - circle_center[0])**2 + (mouse_pos[1] - circle_center[1])**2) ** 0.5
         
         if distance_to_circle <= circle_radius:
-            # Hoover of the circle - Change the color
+            # Hover of the circle - Change the color
             pygame.draw.circle(self.Screen, self.blue, circle_center, circle_radius + 2)  # Circle
-            # Draw the cross - Hoover
+            # Draw the cross - hover
             pygame.draw.line(self.Screen, self.light_grey, (15, 35), (53, 35), 3)  # Horizontal line
             pygame.draw.line(self.Screen, self.light_grey, (35, 55), (35, 15), 3)  # Vertical line
-            self.img(130, 30, 130, 40, "icones/text_area_hoover")
+            self.img(130, 30, 130, 40, "icones/text_area_hover")
             self.text(20, "Créer un serveur", self.white, 80, 20)
         else:
-            # Wihtout hoover
+            # Wihtout hover
             pygame.draw.circle(self.Screen, self.light_grey, circle_center, circle_radius)
-            # Draw cross - without hoover
+            # Draw cross - without hover
             pygame.draw.line(self.Screen, self.blue, (15, 35), (53, 35), 3)  # Horizontal line
             pygame.draw.line(self.Screen, self.blue, (35, 55), (35, 15), 3)  # Vertical line
 
@@ -102,10 +102,10 @@ class Profil(Interface):
 
         # If the mouse is over the circle
         if distance_to_circle <= circle_radius:
-            # Hoover of the circle - Change the color of the icon
+            # Hover of the circle - Change the color of the icon
             pygame.draw.circle(self.Screen, self.blue, circle_center, circle_radius + 2)
             self.img(35, 100, 50, 50, "icones/avatar_2")
-            self.img(130, 100, 140, 40, "icones/text_area_hoover") # Text area
+            self.img(130, 100, 140, 40, "icones/text_area_hover") # Text area
             self.text(20, "Messages privés", self.white, 85, 90)
 
             # Verify if the mouse is cliqued
@@ -117,7 +117,7 @@ class Profil(Interface):
             self.img(35, 100, 50, 50, "icones/avatar_0")
 
     def disconnect_button(self):
-        # Coordonate button : "Se déconnecter"
+        # Coordonate button "Se déconnecter"
         circle_center = (35, 100)
         circle_radius = 28
 
@@ -126,10 +126,10 @@ class Profil(Interface):
         distance_to_circle = ((mouse_pos[0] - circle_center[0])**2 + (mouse_pos[1] - circle_center[1])**2) ** 0.5
 
         if distance_to_circle <= circle_radius:
-            # Hoover of the circle - Change the color of the icon
+            # Hover of the circle - Change the color of the icon
             pygame.draw.circle(self.Screen, self.blue, circle_center, circle_radius + 2)
             self.img(35, 550, 50, 50, "icones/disconnect")
-            self.img(130, 100, 140, 550, "icones/text_area_hoover") # Text area
+            self.img(130, 100, 140, 550, "icones/text_area_hover") # Text area
             self.text(20, "Se déconnecter", self.white, 85, 90)
 
             # Verify if the mouse is cliqued
@@ -137,7 +137,7 @@ class Profil(Interface):
                 if event.type == pygame.MOUSEBUTTONUP and event.button ==  1:
                     self.private_chanels = not self.private_chanels  # Toggle the display of the private channels area
         else:
-            # Without hoover
+            # Without hover
             self.img(35, 100, 50, 50, "icones/disconnect")    
             
     def event_writting_message(self):
