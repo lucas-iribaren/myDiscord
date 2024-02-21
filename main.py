@@ -6,4 +6,3 @@ accueil = Accueil()
 pygame.init()
 
 accueil.home()
-                                                                                                                                                                                                                                                                                                                                      

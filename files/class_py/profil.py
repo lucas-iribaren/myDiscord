@@ -51,37 +51,41 @@ class Profil(Interface):
             # Wihtout hoover
             pygame.draw.circle(self.Screen, self.light_grey, circle_center, circle_radius)
             # Draw cross - without hoover
-            pygame.draw.line(self.Screen, self.blue, (15, 35), (53, 35), 3)  # Horizontal line
+            pygame.draw.line(self.Screen, self.blue, (15, 35), (5   3, 35), 3)  # Horizontal line
             pygame.draw.line(self.Screen, self.blue, (35, 55), (35, 15), 3)  # Vertical line
 
     def private_server(self):
-        # Coordonate button : "Messages privés"
+        # Coordinates of the "Private Messages" button
         circle_center = (35, 100)
         circle_radius = 28
 
-        # Verify if the mouse is hover the circle
+        # Check if the mouse is hovering over the circle
         mouse_pos = pygame.mouse.get_pos()
-        distance_to_circle = ((mouse_pos[0] - circle_center[0])**2 + (mouse_pos[1] - circle_center[1])**2) ** 0.5
+        distance_to_circle = ((mouse_pos[0] - circle_center[0]) ** 2 + (mouse_pos[1] - circle_center[1]) ** 2) ** 0.5
 
+        # If the mouse is over the circle
         if distance_to_circle <= circle_radius:
-            # Hoover of the circle - Change the color of the icon
+            # Change the color of the circle
             pygame.draw.circle(self.Screen, (114, 137, 218), circle_center, circle_radius + 2)
             self.img(35, 100, 50, 50, "icones/avatar_2")
-            self.img(130, 100, 140, 40, "icones/zone_texte_survol") # Text area
-            self.text(20, "Messages privés", self.white, 85, 90)
+            self.img(130, 100, 140, 40, "icones/zone_texte_survol")  # Text area
+            self.text(20, "Private Messages", self.white, 85, 90)
 
-            # Verify if the mouse is cliqued
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONUP and event.button ==  1:
-                    self.private_chanels = not self.private_chanels  # Toggle the display of the private channels area
-                    # if self.private_chanels:
-                    #     self.channel_message = "Veuillez sélectionner un channel." # Change le message lorsque le bouton est cliqué
-                    # else:
-                    #     self.channel_message = "Veuillez choisir un serveur." # Rétablit le message par défaut lorsque le bouton est cliqué à nouveau
+            # Check if the mouse button was initially pressed
+            mouse_pressed = pygame.mouse.get_pressed()[0]
+            if mouse_pressed and not self.mouse_was_pressed:
+                self.private_chanels = not self.private_chanels  # Toggle the display of the private channels area
+                # Add any other logic you want to execute on mouse click
+            self.mouse_was_pressed = mouse_pressed  # Update the mouse button state
+
         else:
-            # Without hoover
+            # Without hover
             self.img(35, 100, 50, 50, "icones/avatar_0")
-            
+
+        # Propagate events to the main loop
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.profil_run = False  # Exit the loop when the QUIT event is detected
     def event_writting_message(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
