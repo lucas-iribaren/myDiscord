@@ -99,10 +99,6 @@ class Profil(Interface):
             # Without hover
             self.img(35, 100, 50, 50, "icones/avatar_0")
 
-        # Propagate events to the main loop
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.profil_run = False  # Exit the loop when the QUIT event is detected
     def disconnect_button(self):
         # Coordonate button : "Se déconnecter"
         circle_center = (35, 100)
@@ -155,6 +151,7 @@ class Profil(Interface):
     def event_handling(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                self.profil_run = False
                 pygame.quit()
                 quit()
             elif event.type == pygame.KEYDOWN:
@@ -171,7 +168,6 @@ class Profil(Interface):
                 if self.is_mouse_over_button(pygame.Rect(330, 250, 50, 50)):
                     if self.input_message != "":
                         self.button_send()
-                        print('envoyé')
                         if self.button_send:
                             self.input_message = None
                     else:
@@ -182,11 +178,17 @@ class Profil(Interface):
                                         
 
     def text_input(self):
-        self.solid_rect(self.white, 330, 150, 150, 80)
-        self.text(16, self.input_message, self.pur_red, 330, 150)        
+        self.solid_rect_radius(self.light_grey, 250, 530, 500, 50, 10)
+        self.text(16, self.input_message, self.black, 260, 535)        
         
     def rect_button_send(self):
-        self.solid_rect(self.white, 330, 250, 50, 60)
+        if self.is_mouse_over_button(pygame.Rect(760, 530, 50, 50)):
+            self.solid_rect_radius(self.dark_red, 760, 530, 50, 50, 8)
+            self.light_rect_radius(self.black,750, 560, 50, 50,1, 8)
+        else:
+            self.solid_rect_radius(self.light_grey, 760, 530, 50, 50, 10)
+
+
 
     def button_send(self):
         self.auteur = self.user

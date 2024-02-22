@@ -49,8 +49,8 @@ class Interface:
     def light_rect(self, color, x, y, largeur, hauteur, epaisseur):
         pygame.draw.rect(self.Screen, color, pygame.Rect(x, y, largeur, hauteur),  epaisseur, 5)
 
-    def light_rect1(self, color, x, y, largeur, hauteur, epaisseur):
-        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y, largeur, hauteur),  epaisseur, 100)
+    def light_rect_radius(self, color, x, y, largeur, hauteur, epaisseur, radius):
+        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y, largeur, hauteur),  epaisseur, radius)
                 
     def draw_overlay(self, coloralpha, x, y, largeur, hauteur):
         overlay_surface = pygame.Surface((largeur, hauteur), pygame.SRCALPHA)
