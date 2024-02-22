@@ -101,7 +101,7 @@ class Profil(Interface):
 
     def disconnect_button(self):
         # Coordonate button : "Se déconnecter"
-        circle_center = (35, 100)
+        circle_center = (35, 550)
         circle_radius = 28
 
         # Verify if the mouse is hover the circle
@@ -112,9 +112,9 @@ class Profil(Interface):
         if distance_to_circle <= circle_radius:
             # Hover of the circle - Change the color of the icon
             pygame.draw.circle(self.Screen, self.blue, circle_center, circle_radius + 2)
-            self.img(35, 100, 50, 50, "icones/avatar_2")
-            self.img(130, 100, 140, 40, "icones/text_area_hover") # Text area
-            self.text(20, "Messages privés", self.white, 85, 90)
+            self.img(35, 550, 50, 50, "icones/disconnect_light_grey")
+            self.img(130, 550, 140, 40, "icones/text_area_hover") # Text area
+            self.text(20, "Se déconnecter", self.white, 85, 540)
 
             # Verify if the mouse is cliqued
             for event in pygame.event.get():
@@ -122,31 +122,8 @@ class Profil(Interface):
                     self.private_channels = not self.private_channels  # Toggle the display of the private channels area
         else:
             # Without hover
-            self.img(35, 100, 50, 50, "icones/avatar_0")
-
-    def disconnect_button(self):
-        # Coordonate button "Se déconnecter"
-        circle_center = (35, 100)
-        circle_radius = 28
-
-        # Verify if the mouse is hover the circle
-        mouse_pos = pygame.mouse.get_pos()
-        distance_to_circle = ((mouse_pos[0] - circle_center[0])**2 + (mouse_pos[1] - circle_center[1])**2) ** 0.5
-
-        if distance_to_circle <= circle_radius:
-            # Hover of the circle - Change the color of the icon
-            pygame.draw.circle(self.Screen, self.blue, circle_center, circle_radius + 2)
-            self.img(35, 550, 50, 50, "icones/disconnect")
-            self.img(130, 100, 140, 550, "icones/text_area_hover") # Text area
-            self.text(20, "Se déconnecter", self.white, 85, 90)
-
-            # Verify if the mouse is cliqued
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONUP and event.button ==  1:
-                    self.private_channels = not self.private_channels  # Toggle the display of the private channels area
-        else:
-            # Without hover
-            self.img(35, 100, 50, 50, "icones/disconnect")    
+            pygame.draw.circle(self.Screen, self.light_grey, circle_center, circle_radius + 2)
+            self.img(35, 550, 50, 50, "icones/disconnect_blue")  
             
     def event_handling(self):
         for event in pygame.event.get():
@@ -217,6 +194,7 @@ class Profil(Interface):
             self.create_profile_page()
             self.rect_server()
             self.create_server()
+            self.disconnect_button()
             self.private_server()                        
             if self.private_channels:
                 if self.message_sent:
