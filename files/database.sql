@@ -1,4 +1,4 @@
--- Active: 1707490841602@@127.0.0.1@3306
+-- Active: 1707745093959@@127.0.0.1@3306@mydiscord
 CREATE DATABASE myDiscord;
 
 USE myDiscord;
@@ -80,10 +80,10 @@ VALUES ("Général"),
 
 UPDATE categorie
 SET id = CASE
-    WHEN id = 8 THEN 1
-    WHEN id = 9 THEN 2
-    WHEN id = 10 THEN 3
-    WHEN id = 11 THEN 4
+    WHEN id = 11 THEN 1
+    WHEN id = 12 THEN 2
+    WHEN id = 13 THEN 3
+    WHEN id = 14 THEN 4
 END;
 
 INSERT INTO channel(nom,id_categorie)
@@ -93,25 +93,8 @@ VALUES ("règle",1),
 
 UPDATE channel
 SET id = CASE
-    WHEN id = 20 THEN 1
-    WHEN id = 21 THEN 2
-    WHEN id = 22 THEN 3
+    WHEN id = 11 THEN 1
+    WHEN id = 12 THEN 2
+    WHEN id = 13 THEN 3
+    WHEN id = 14 THEN 3
 END;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--- INSERT INTO message (text, auteur)
--- VALUES ('Contenu du message', 'Auteur du message');
