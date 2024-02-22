@@ -41,10 +41,6 @@ INSERT INTO role (name)
 VALUES ('membre'),
 ('modérateur');
 
-INSERT INTO categorie(name)
-VALUES ('public'),
-("privé");
-
 INSERT INTO user (pseudo, mail, password, id_role) 
 VALUES 
     ('lucas', 'lucas.discord@laplateforme.io', 'discord', 1),
