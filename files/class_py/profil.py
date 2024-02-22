@@ -2,30 +2,42 @@ import pygame
 from files.class_py.interface import Interface
 from files.class_py.message import Message
 from files.class_py.notification import Notification
+from files.class_py.database import Database  
+from files.class_py.user import User
 
 class Profil(Interface):
     def __init__(self, user):
         super().__init__()  # Call the constructor of the parent class 
         self.profil_run = False  # Initialize profil_run to False to enter the main loop
-        self.private_chanels = False
+        self.private_channels = False
         self.user = user
-        self.channel_message = "Veuillez choisir un serveur."
+        print(self.user)
+        self.channel_message = ""
         self.message = Message(self.user)
-        self.notification = Notification(self.user)
-        self.active_input = None  # Follow the active text field
-        self.input_texts_message = {'message':''}        
+        self.notification = Notification()
+        self.user_connected = User()
+        self.database = Database()         
+        self.auteur = None 
+        self.clock = pygame.time.Clock()
+        self.input_message = self.message.input_texts_message['message']
+        self.delta_time = self.clock.tick(60) / 1000
+        self.message_sent = False      
 
     def create_profile_page(self):
         # Fill the screen in gray
         self.Screen.fill(self.dark_grey)
 
         # Add a logo
-        self.img(550, 270, 100, 100, "icones/logo")
-        self.text(25, self.channel_message, self.white, 435, 320)
-
-        # Draw channels area
-        self.rect_pv_chanel()
+        self.img(550, 270, 100, 100, "icones/logo")       
         
+        self.text(25, self.channel_message, self.white, 435, 320)
+        if self.private_channels:
+            self.channel_message = "Veuillez choisir une conversation"
+            self.text(25, self.channel_message, (249, 249, 249), 435, 320)
+        else:
+            self.channel_message = "Veuillez choisir un serveur"            
+        self.rect_pv_channel()  
+
     def rect_server(self):
         # Servers area
         self.solid_rect(self.grey, 0, 0, 70, 1000)
@@ -135,31 +147,62 @@ class Profil(Interface):
             # Verify if the mouse is cliqued
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONUP and event.button ==  1:
-                    self.private_chanels = not self.private_chanels  # Toggle the display of the private channels area
+                    self.private_channels = not self.private_channels  # Toggle the display of the private channels area
         else:
             # Without hover
             self.img(35, 100, 50, 50, "icones/disconnect")    
             
-    def event_writting_message(self):
+    def event_handling(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                quit()           
+                quit()
             elif event.type == pygame.KEYDOWN:
-                if self.active_input:
-                    if event.key == pygame.K_BACKSPACE:
-                        self.input_texts_message[self.active_input] = self.input_texts_message[self.active_input][:-1]                        
-                    else:
-                        self.input_texts_message[self.active_input] += event.unicode
-            
-    def button_send(self):
-        self.message.add_message(self.message.input_texts['message'], self.user, self.message.current_date_message,1)
-        self.message.message_display(350,250,300,200,7)
-                
+                if event.key == pygame.K_BACKSPACE:
+                    self.input_message = self.input_message[:-1]  
+                else:
+                    self.input_message += event.unicode
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if self.is_mouse_over_button(pygame.Rect(330, 150, 150, 80)):
+                    self.active_input_mes = 'message'  
+                else:
+                    self.active_input_mes = None  
 
-    def rect_pv_chanel(self):
+                if self.is_mouse_over_button(pygame.Rect(330, 250, 50, 50)):
+                    if self.input_message != "":
+                        self.button_send()
+                        print('envoyé')
+                        if self.button_send:
+                            self.input_message = None
+                    else:
+                        print("Veuillez saisir un message.")
+                        
+                elif self.is_mouse_over_button(pygame.Rect(35, 100, 50, 50)):
+                    self.notification.add_notification(self.message.three_last_messages())
+                                        
+
+    def text_input(self):
+        self.solid_rect(self.white, 330, 150, 150, 80)
+        self.text(16, self.input_message, self.pur_red, 330, 150)        
+        
+    def rect_button_send(self):
+        self.solid_rect(self.white, 330, 250, 50, 60)
+
+    def button_send(self):
+        self.auteur = self.user
+        print("User:",self.auteur)
+        if self.private_channels:
+            self.message.add_message(self.input_message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
+        elif not self.private_channels:
+            self.message.add_message(self.input_message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
+        self.input_message = None
+        self.message_sent = True
+        print(self.message_sent)
+        
+
+    def rect_pv_channel(self):
         # Draw private channels area
-        if self.private_chanels:
+        if self.private_channels:
             self.solid_rect(self.grey, 80, 0, 130, 1000) # Channels area
             self.solid_rect_radius(self.black, 80, 0, 130, 30, 5) # Title of the area
             self.text(20, "Messages Privés", self.white, 90, 5) # Title
@@ -168,12 +211,23 @@ class Profil(Interface):
     def home_profil(self):
         self.profil_run = True
         while self.profil_run:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.profil_run = False  # Exit the loop when the QUIT event is detected
-
+            self.event_handling()
             self.create_profile_page()
             self.rect_server()
             self.create_server()
-            self.private_server()
-            self.update()
+            self.private_server()                        
+            if self.private_channels:
+                if self.message_sent:
+                    self.last_msg = self.message.last_message()
+                    print("dernier message",self.last_msg)
+                    self.message.message_display(self.last_msg, self.auteur, 450, 380, 150, 90, 5)
+                    self.text_input()
+                    self.rect_button_send()
+                    self.notification.display_notification(self.message.three_last_messages())
+                    self.notification.update_after_notif(self.delta_time) 
+                else:
+                    self.text_input()
+                    self.rect_button_send()
+                    self.notification.display_notification(self.message.three_last_messages())
+                    self.notification.update_after_notif(self.delta_time)                                 
+            self.update()  
