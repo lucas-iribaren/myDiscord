@@ -165,7 +165,7 @@ class Profil(Interface):
                 else:
                     self.active_input_mes = None  
 
-                if self.is_mouse_over_button(pygame.Rect(330, 250, 50, 50)):
+                if self.is_mouse_over_button(pygame.Rect(760, 530, 50, 50)):
                     if self.input_message != "":
                         self.button_send()
                         if self.button_send:
