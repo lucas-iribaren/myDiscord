@@ -80,19 +80,19 @@ class Profil(Interface):
             # Change the color of the circle
             pygame.draw.circle(self.Screen, (114, 137, 218), circle_center, circle_radius + 2)
             self.img(35, 100, 50, 50, "icones/avatar_2")
-            self.img(130, 100, 140, 40, "icones/text_area_hoover")  # Text area
+            self.img(130, 100, 140, 40, "icones/text_area_hover")  # Text area
             self.text(20, "Private Messages", self.white, 85, 90)
 
             # Check if the mouse button was initially pressed
             mouse_pressed = pygame.mouse.get_pressed()[0]
             if mouse_pressed and not self.mouse_was_pressed:
-                self.private_chanels = not self.private_chanels  # Toggle the display of the private channels area
+                self.private_channels = not self.private_channels  # Toggle the display of the private channels area
                 # Add any other logic you want to execute on mouse click
             self.mouse_was_pressed = mouse_pressed  # Update the mouse button state
             # Hoover of the circle - Change the color of the icon
             pygame.draw.circle(self.Screen, self.blue, circle_center, circle_radius + 2)
             self.img(35, 100, 50, 50, "icones/avatar_2")
-            self.img(130, 100, 140, 40, "icones/text_area_hoover") # Text area
+            self.img(130, 100, 140, 40, "icones/text_area_hover") # Text area
             self.text(20, "Messages privés", self.white, 85, 90)
 
         else:
@@ -123,7 +123,7 @@ class Profil(Interface):
             # Verify if the mouse is cliqued
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONUP and event.button ==  1:
-                    self.private_chanels = not self.private_chanels  # Toggle the display of the private channels area
+                    self.private_channels = not self.private_channels  # Toggle the display of the private channels area
         else:
             # Without hover
             self.img(35, 100, 50, 50, "icones/avatar_0")
