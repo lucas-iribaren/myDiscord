@@ -17,43 +17,43 @@ class Interface:
         self.pur_red = (255, 0, 0)    
         self.dark_red = (120,11,11)    
 
-    def img(self, x, y, largeur, hauteur, image_name):
+    def img(self, x, y, width, height, image_name):
         image = pygame.image.load(f'files/images/{image_name}.png')
-        image = pygame.transform.scale(image, (largeur, hauteur))
+        image = pygame.transform.scale(image, (width, height))
         self.Screen.blit(image, (x - image.get_width()//2, y - image.get_height()//2))
 
-    def img_background(self, x, y, largeur, hauteur, image_name):
+    def img_background(self, x, y, width, height, image_name):
         image = pygame.image.load(f'files/image/{image_name}.png').convert()
-        image = pygame.transform.scale(image, (largeur, hauteur))
+        image = pygame.transform.scale(image, (width, height))
         image.set_alpha(115)
         self.Screen.blit(image, (x - image.get_width()//2, y - image.get_height()//2))
 
-    def text(self, texte_size, texte_content, color, x, y):
-        font = pygame.font.Font('files/font/helvetica_neue_regular.otf', texte_size)
-        Texte = font.render(texte_content, True, color)
-        Texte_rect = Texte.get_rect(topleft=(x, y))
-        self.Screen.blit(Texte, Texte_rect)
+    def text(self, text_size, text_content, color, x, y):
+        font = pygame.font.Font('files/font/helvetica_neue_regular.otf', text_size)
+        text = font.render(text_content, True, color)
+        text_rect = text.get_rect(topleft=(x, y))
+        self.Screen.blit(text, text_rect)
 
-    def text_align(self, texte_size, texte_content,color, x, y):
-        font = pygame.font.Font('files/font/helvetica_neue_regular.otf', texte_size) 
-        Texte = font.render(texte_content, True, color)
-        Texte_rect = Texte.get_rect(center=(x, y))
-        self.Screen.blit(Texte, Texte_rect)
+    def text_align(self, text_size, text_content,color, x, y):
+        font = pygame.font.Font('files/font/helvetica_neue_regular.otf', text_size) 
+        text = font.render(text_content, True, color)
+        text_rect = text.get_rect(center=(x, y))
+        self.Screen.blit(text, text_rect)
 
-    def solid_rect(self,color, x, y, largeur, hauteur):
-        pygame.draw.rect(self.Screen, color, pygame.Rect(x , y, largeur, hauteur))
+    def solid_rect(self,color, x, y, width, height):
+        pygame.draw.rect(self.Screen, color, pygame.Rect(x , y, width, height))
     
-    def solid_rect_radius(self, color, x, y, largeur,hauteur , radius):
-        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y,largeur, hauteur),0,radius)   
+    def solid_rect_radius(self, color, x, y, width,height , radius):
+        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y,width, height),0,radius)   
 
-    def light_rect(self, color, x, y, largeur, hauteur, epaisseur):
-        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y, largeur, hauteur),  epaisseur, 5)
+    def light_rect(self, color, x, y, width, height, epaisseur):
+        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y, width, height),  epaisseur, 5)
 
-    def light_rect_radius(self, color, x, y, largeur, hauteur, epaisseur, radius):
-        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y, largeur, hauteur),  epaisseur, radius)
+    def light_rect_radius(self, color, x, y, width, height, epaisseur, radius):
+        pygame.draw.rect(self.Screen, color, pygame.Rect(x, y, width, height),  epaisseur, radius)
                 
-    def draw_overlay(self, coloralpha, x, y, largeur, hauteur):
-        overlay_surface = pygame.Surface((largeur, hauteur), pygame.SRCALPHA)
+    def draw_overlay(self, coloralpha, x, y, width, height):
+        overlay_surface = pygame.Surface((width, height), pygame.SRCALPHA)
         overlay_surface.fill(coloralpha)
         self.Screen.blit(overlay_surface, (x, y))
         

@@ -1,8 +1,9 @@
 import pygame
 
-from files.class_py.accueil import Accueil
-accueil = Accueil()
+from files.class_py.home import Home
+starting = Home()
 
 pygame.init()
 
-accueil.home()
+# Start the discord
+starting.home()
