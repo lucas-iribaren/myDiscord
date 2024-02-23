@@ -172,7 +172,6 @@ class Profil(Interface):
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.is_mouse_over_button(pygame.Rect(250, 530, 500, 50)):
                     self.active_input_mes = 1
-                    print(self.active_input_mes)  
                  
             elif self.active_input_mes == 1:
                 if event.type == pygame.KEYDOWN:
