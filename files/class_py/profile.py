@@ -23,8 +23,7 @@ class Profile(Interface):
         self.delta_time = self.clock.tick(60) / 1000
         self.message_sent = False
         self.active_input_mes = 0 
-        self.input_message = ""     
-             
+        self.input_message = ""             
 
     def create_profile_page(self):
         # Fill the screen in gray
@@ -238,7 +237,6 @@ class Profile(Interface):
             if self.private_channels:
                 if self.message_sent:
                     self.last_msg = self.message.last_message()
-                    print("dernier message",self.last_msg)
                     self.message.message_display(self.last_msg, self.author, 450, 380, 150, 90, 5)
                     self.text_input()
                     self.rect_button_send()
