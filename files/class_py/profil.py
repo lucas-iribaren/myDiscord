@@ -116,10 +116,9 @@ class Profil(Interface):
             self.img(130, 550, 140, 40, "icones/text_area_hover") # Text area
             self.text(20, "Se déconnecter", self.white, 85, 540)
 
-            # Verify if the mouse is cliqued
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONUP and event.button ==  1:
-                    self.private_channels = not self.private_channels  # Toggle the display of the private channels area
+            # # Verify if the mouse is cliqued
+            # for event in pygame.event.get():
+            #     if event.type == pygame.MOUSEBUTTONUP and event.button ==  1:
         else:
             # Without hover
             pygame.draw.circle(self.Screen, self.light_grey, circle_center, circle_radius + 2)
