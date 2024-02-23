@@ -123,11 +123,11 @@ class Profile(Interface):
             mouse_pressed = pygame.mouse.get_pressed()[0]
             if mouse_pressed and not self.mouse_was_pressed:
                 # Display a message box
-                response = self.show_confirmation_dialog("Déconnexion", "Ëtes-vous sûre de vouloir vous déconnecter ?", buttons=("Oui", "Non"))
+                response = self.show_confirmation_dialog("Déconnexion", "Êtes-vous sûre de vouloir vous déconnecter ?", buttons=("Oui", "Non"))
                 if response == 0: # If the user click "Oui"
                     print("Déconnexion en cours...")
                 else:
-                    print("Annulation de la déconnexion.")
+                    print("Annulation de la déconnexion.") # If the user click "Non"
             self.mouse_was_pressed = mouse_pressed # Update the mouse button state 
         else:
             # Without hover
@@ -136,17 +136,16 @@ class Profile(Interface):
 
     def show_confirmation_dialog(self, title, message, buttons=("Oui", "Non")):
         # Draw dialog background
-        self.solid_rect_radius(self.black, 300, 200, 400, 200, 10)
-        self.solid_rect_radius(self.white, 300, 200, 400, 200, 10)
+        self.solid_rect_radius(self.light_grey, 300, 200, 400, 200, 10)
 
         # Draw title
-        self.text_align(24, "Déconnexion", self.blue, 500, 220)
+        self.text_align(24, "Déconnexion", self.black, 500, 220)
 
         # Draw message
-        self.text(18, "Ëtes-vous sûre de vouloir vous déconnecter ?", self.black, 320, 260)
+        self.text(18, "Êtes-vous sûre de vouloir vous déconnecter ?", self.black, 350, 260)
 
         for i, button_text in enumerate(buttons):
-            button_rect = pygame.Rect(350 + i * (80 + 20), 280, 80, 40)
+            button_rect = pygame.Rect(400, 380 + i * (40 + 20), 80, 40)
             pygame.draw.rect(self.Screen, self.blue, button_rect) # Draw button background
             self.text(18, button_text, self.white, button_rect.centerx, button_rect.centery) # Draw button text
 
@@ -158,7 +157,7 @@ class Profile(Interface):
                 if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                     mouse_pos = event.pos
                     for i, _ in enumerate(buttons):
-                        button_rect = pygame.Rect(350 + i * (80 + 20), 280, 80, 40)
+                        button_rect = pygame.Rect(400, 380 + i * (40 + 20), 80, 40)
                         if button_rect.collidepoint(mouse_pos):
                             return i
             
@@ -190,7 +189,7 @@ class Profile(Interface):
                         
                 elif self.is_mouse_over_button(pygame.Rect(35, 100, 50, 50)):
                     self.notification.add_notification(self.message.three_last_messages())
-                                        
+                                      
 
     def text_input(self):
         self.solid_rect_radius(self.light_grey, 250, 530, 500, 50, 10)
