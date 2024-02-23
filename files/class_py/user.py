@@ -4,14 +4,14 @@ class User(Database):
     def __init__(self):
         Database.__init__(self)        
         
-    def add_user(self, pseudo, mail, password, id_categorie):
+    def add_user(self, pseudo, mail, password, id_category):
         sql = "INSERT INTO user (pseudo, mail, password, id_role) VALUES (%s, %s, %s, %s);"
-        self.execute_sql(sql, (pseudo, mail, password, id_categorie))
+        self.execute_sql(sql, (pseudo, mail, password, id_category))
         self.closing_connection()
         
-    def update_user(self, user_id, new_pseudo, new_mail, new_password, new_id_categorie):
+    def update_user(self, user_id, new_pseudo, new_mail, new_password, new_id_category):
         sql = "UPDATE user SET pseudo = %s, mail = %s, password = %s, id_role = %s WHERE id = %s;"
-        self.execute_sql(sql, (new_pseudo, new_mail, new_password, new_id_categorie, user_id))
+        self.execute_sql(sql, (new_pseudo, new_mail, new_password, new_id_category, user_id))
         self.closing_connection()
         
     def recup_info_user(self):

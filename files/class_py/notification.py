@@ -30,16 +30,16 @@ class Notification(Database):
         for index, notification in enumerate(three_last_messages):
             message_text, message_author, message_time = notification           
             message_time = str(message_time)
-            # Affichage des notifications
+            # Dipslay notifications
             self.interface.solid_rect_radius(self.interface.light_grey, x_notif, y_notif + index * 80, larg_notif, high_notif, radius_notif)
             self.interface.text(17, message_author, self.interface.black, x_notif, y_notif - 30 + index * 80)
             self.interface.text(12, message_time, self.interface.white, x_notif + 30, y_notif - 30 + index * 80)
             self.interface.text(16, message_text, self.interface.white, x_notif, y_notif + 30 + index * 80)
         
-        # Mise à jour du timer
+        # Update timer
         self.error_timer += self.clock.tick()
         if self.error_timer >= self.error_duration:
-            # Réinitialisation des valeurs après la durée spécifiée
+            # Reset values after timer
             self.error_timer = 0
 
     def update_after_notif(self, delta_time):

@@ -6,10 +6,10 @@ from files.class_py.notification import Notification
 from files.class_py.database import Database  
 from files.class_py.user import User
 
-class Profil(Interface):
+class Profile(Interface):
     def __init__(self, user):
         super().__init__()  # Call the constructor of the parent class 
-        self.profil_run = False  # Initialize profil_run to False to enter the main loop
+        self.profile_run = False  # Initialize profile_run to False to enter the main loop
         self.private_channels = False
         self.user = user
         print(self.user)
@@ -18,7 +18,7 @@ class Profil(Interface):
         self.notification = Notification()
         self.user_connected = User()
         self.database = Database()
-        self.auteur = None 
+        self.author = None 
         self.clock = pygame.time.Clock()
         self.delta_time = self.clock.tick(60) / 1000
         self.message_sent = False
@@ -165,7 +165,7 @@ class Profil(Interface):
     def event_handling(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.profil_run = False
+                self.profile_run = False
                 pygame.quit()
                 quit()
                 
@@ -205,12 +205,12 @@ class Profil(Interface):
 
 
     def button_send(self, message):
-        self.auteur = self.user
-        print("User:",self.auteur)
+        self.author = self.user
+        print("User:",self.author)
         if self.private_channels:
-            self.message.add_message(message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
+            self.message.add_message(message, self.author, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
         elif not self.private_channels:
-            self.message.add_message(message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
+            self.message.add_message(message, self.author, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
         message = ""
         self.message_sent = True
         print(self.message_sent)
@@ -224,9 +224,9 @@ class Profil(Interface):
             self.text(20, "Messages Privés", self.white, 90, 5) # Title
     
 
-    def home_profil(self):
-        self.profil_run = True
-        while self.profil_run:
+    def home_profile(self):
+        self.profile_run = True
+        while self.profile_run:
             self.text_input()
             self.rect_button_send()
             self.event_handling()
@@ -239,7 +239,7 @@ class Profil(Interface):
                 if self.message_sent:
                     self.last_msg = self.message.last_message()
                     print("dernier message",self.last_msg)
-                    self.message.message_display(self.last_msg, self.auteur, 450, 380, 150, 90, 5)
+                    self.message.message_display(self.last_msg, self.author, 450, 380, 150, 90, 5)
                     self.text_input()
                     self.rect_button_send()
                     self.notification.display_notification(self.message.three_last_messages())
