@@ -17,12 +17,14 @@ class Profil(Interface):
         self.message = Message(self.user)
         self.notification = Notification()
         self.user_connected = User()
-        self.database = Database()         
+        self.database = Database()
         self.auteur = None 
         self.clock = pygame.time.Clock()
-        self.input_message = self.message.input_texts_message['message']
         self.delta_time = self.clock.tick(60) / 1000
-        self.message_sent = False      
+        self.message_sent = False
+        self.active_input_mes = 0 
+        self.input_message = ""     
+             
 
     def create_profile_page(self):
         # Fill the screen in gray
@@ -166,22 +168,24 @@ class Profil(Interface):
                 self.profil_run = False
                 pygame.quit()
                 quit()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_BACKSPACE:
-                    self.input_message = self.input_message[:-1]  
-                else:
-                    self.input_message += event.unicode
+                
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                if self.is_mouse_over_button(pygame.Rect(330, 150, 150, 80)):
-                    self.active_input_mes = 'message'  
-                else:
-                    self.active_input_mes = None  
+                if self.is_mouse_over_button(pygame.Rect(250, 530, 500, 50)):
+                    self.active_input_mes = 1
+                    print(self.active_input_mes)  
+                 
+            elif self.active_input_mes == 1:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_BACKSPACE:
+                        self.input_message = self.input_message[:-1]  
+                    else:
+                        self.input_message += event.unicode            
 
-                if self.is_mouse_over_button(pygame.Rect(330, 250, 50, 50)):
+                if self.is_mouse_over_button(pygame.Rect(760, 530, 50, 50)):
                     if self.input_message != "":
-                        self.button_send()
-                        if self.button_send:
-                            self.input_message = None
+                        self.button_send(self.input_message)                        
+                        self.input_message = ""
+                        self.active_input_mes = 0
                     else:
                         print("Veuillez saisir un message.")
                         
@@ -201,15 +205,14 @@ class Profil(Interface):
             self.solid_rect_radius(self.light_grey, 760, 530, 50, 50, 10)
 
 
-
-    def button_send(self):
+    def button_send(self, message):
         self.auteur = self.user
         print("User:",self.auteur)
         if self.private_channels:
-            self.message.add_message(self.input_message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
+            self.message.add_message(message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
         elif not self.private_channels:
-            self.message.add_message(self.input_message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
-        self.input_message = None
+            self.message.add_message(message, self.auteur, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
+        message = ""
         self.message_sent = True
         print(self.message_sent)
         
@@ -225,6 +228,8 @@ class Profil(Interface):
     def home_profil(self):
         self.profil_run = True
         while self.profil_run:
+            self.text_input()
+            self.rect_button_send()
             self.event_handling()
             self.create_profile_page()
             self.rect_server()
