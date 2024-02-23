@@ -163,21 +163,21 @@ class Home(Interface):
                 
                 self.light_rect(self.light_grey, 160, 300, 670, 270, 5)
                 # User text field  
-                self.text_align(19, "Username", self.white, 268, 330) # Text 
+                self.text_align(19, "Nom d'utilisateur", self.white, 268, 330) # Text 
                 self.solid_rect_radius(self.white, 210, 345, 220, 35,8)# Block
 
                 # Password text field
-                self.text_align(19, "Password", self.white, 257, 405)# Text 
+                self.text_align(19, "Mot de passe", self.white, 257, 405)# Text 
                 self.solid_rect_radius(self.white, 210, 420, 220, 35,8)# Block
                 
                 # Login button
                 self.solid_rect_radius(self.blue, 210, 488, 220, 35, 8)# Block 
-                self.text_align(21, "Login", self.black, 315, 505)# Text
+                self.text_align(21, "Connexion", self.black, 315, 505)# Text
 
-                self.text_align(21, "Or", self.white, 485, 435)# Text
+                self.text_align(21, "Ou", self.white, 485, 435)# Text
                 
                 self.solid_rect_radius(self.blue, 535, 420, 220, 35, 8)# Register button
-                self.text_align(21, "Register", self.black, 642, 436)# Text
+                self.text_align(21, "Inscription", self.black, 642, 436)# Text
 
                 self.text_entry_login() 
                 self.draw_error_message_login() # Notification error
