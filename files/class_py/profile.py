@@ -286,9 +286,7 @@ class Profile(Interface):
                     self.text_input()
                     self.rect_button_send()
                     self.solid_rect_radius(self.grey, 230, 10, 90, 35, 3)
-                    self.text(22, self.friend, self.white, 240, 15)
-                    
-            self.private_server()
+                    self.text(22, self.friend, self.white, 240, 15)                    
             
             for index, username in enumerate(self.usernames):
                 y_position = 30 + index * 30
