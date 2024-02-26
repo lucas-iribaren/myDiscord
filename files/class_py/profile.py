@@ -24,7 +24,7 @@ class Profile(Interface):
         self.message_sent = False
         self.active_input_mes = 0 
         self.input_message = ""     
-             
+        self.usernames = self.retrieve_usernames()
 
     def create_profile_page(self):
         # Fill the screen in gray
@@ -90,7 +90,6 @@ class Profile(Interface):
             mouse_pressed = pygame.mouse.get_pressed()[0]
             if mouse_pressed and not self.mouse_was_pressed:
                 self.private_channels = not self.private_channels  # Toggle the display of the private channels area
-                # Add any other logic you want to execute on mouse click
             self.mouse_was_pressed = mouse_pressed  # Update the mouse button state
             # Hoover of the circle - Change the color of the icon
             pygame.draw.circle(self.Screen, self.blue, circle_center, circle_radius + 2)
@@ -208,8 +207,7 @@ class Profile(Interface):
                         
                 elif self.is_mouse_over_button(pygame.Rect(35, 100, 50, 50)):
                     self.notification.add_notification(self.message.three_last_messages())
-                                      
-
+                                        
     def text_input(self):
         self.solid_rect_radius(self.light_grey, 250, 530, 500, 50, 10)
         self.text(16, self.input_message, self.black, 260, 535)        
@@ -233,7 +231,6 @@ class Profile(Interface):
         self.message_sent = True
         print(self.message_sent)
         
-
     def rect_pv_channel(self):
         # Draw private channels area
         if self.private_channels:
@@ -241,6 +238,15 @@ class Profile(Interface):
             self.solid_rect_radius(self.black, 80, 0, 130, 30, 5) # Title of the area
             self.text(20, "Messages Privés", self.white, 90, 5) # Title
     
+    def retrieve_usernames(self):
+        sql = "SELECT pseudo FROM user;"
+        self.users = self.database.fetch_all(sql,())
+        return [user[0] for user in self.users] if self.users else []
+    
+    def retrieve_user_role(self, username):
+        sql = "SELECT id_role FROM user WHERE pseudo = %s;"
+        user_role = self.database.fetch_one(sql, (username,))
+        return user_role[0] if user_role else None
 
     def home_profile(self):
         self.profile_run = True
@@ -252,7 +258,19 @@ class Profile(Interface):
             self.rect_server()
             self.create_server()
             self.disconnect_button()
-            self.private_server()                        
+            self.private_server()
+            
+            for index, username in enumerate(self.usernames):
+                y_position = 30 + index * 30
+                
+                role_sql = self.retrieve_user_role(username)
+                text_color = self.red if role_sql == 2 else self.white
+
+                if self.is_mouse_over_button(pygame.Rect(850, y_position, 130, 30)):
+                    self.solid_rect_radius(self.grey, 850, y_position, 130, 30, 2)
+                    
+                self.text(19, username, text_color, 865, (y_position + 5))             
+
             if self.private_channels:
                 if self.message_sent:
                     self.last_msg = self.message.last_message()
