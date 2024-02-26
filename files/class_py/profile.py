@@ -145,19 +145,28 @@ class Profile(Interface):
         self.text(18, "Êtes-vous sûre de vouloir vous déconnecter ?", self.black, 350, 260)
 
         # Define button width, height
-        button_width =  80
-        button_height =  40
+        button_width =  60
+        button_height =  35
 
         # Define specific positions for each button (x, y)
         button_positions = {
-        "Oui": (380,  350),  # Position (x, y) for "Oui" button
-        "Non": (480,  350)   # Position (x, y) for "Non" button
-    }
+        "Oui": (350,  300),  # Position for "Oui" button
+        "Non": (490,  330)   # Position for "Non" button
+        }
+
+        # Define specific positions for each text (x, y)
+        text_positions = {
+            "Oui": (370, 300),  # Position for "Oui" text
+            "Non": (500, 330)   # Position for "Non" text
+        }
 
         for button_text, (button_x, button_y) in button_positions.items():
             button_rect = pygame.Rect(button_x, button_y, button_width, button_height)
             pygame.draw.rect(self.Screen, self.blue, button_rect)  # Draw button background
-            self.text(18, button_text, self.white, button_rect.centerx, button_rect.centery)  # Draw button text
+        
+            # Use the specific text position
+            text_x, text_y = text_positions[button_text]
+            self.text(18, button_text, self.white, text_x, text_y)  # Draw button text
 
         pygame.display.flip()
 
@@ -170,7 +179,7 @@ class Profile(Interface):
                         button_rect = pygame.Rect(button_x, button_y, button_width, button_height)
                         if button_rect.collidepoint(mouse_pos):
                             return buttons.index(button_text)
-                
+                    
     def event_handling(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
