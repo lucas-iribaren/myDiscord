@@ -37,6 +37,8 @@ class Profile(Interface):
         self.text(25, self.channel_message, self.white, 435, 320)
         if self.private_channels:
             self.channel_message = "Veuillez choisir une conversation"
+        elif self.private_channels and self.friend:
+            self.channel_message = ""
             self.text(25, self.channel_message, (249, 249, 249), 435, 320)
         else:
             self.channel_message = "Veuillez choisir un serveur"            
@@ -273,11 +275,11 @@ class Profile(Interface):
             
             if self.private_channels:                       
                 if self.friend:  # if a friend is clicked
+                    self.channel_message = ""
                     self.text_input()
                     self.rect_button_send()
                     self.solid_rect_radius(self.grey, 230, 10, 90, 35, 3)
                     self.text(22, self.friend, self.white, 240, 15)
-                    self.channel_message = ""
                     
                 if self.message_sent:
                     self.last_msg = self.message.last_message()
