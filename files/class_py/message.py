@@ -7,7 +7,10 @@ class Message(Database):
         super().__init__()
         self.user = user
         self.interface = Interface()
-        self.current_date_message = datetime.now()         
+        self.current_date_message = datetime.now()
+        self.input_texts_message = {'message':''}        
+        self.active_input_mes = None
+        self.y_offset = 0 
 
     def add_message(self, input_text, auteur, heure, id_channel):
         sql = "INSERT INTO message(text, auteur, heure, id_channel) VALUES (%s, %s, %s, %s);"
@@ -20,16 +23,14 @@ class Message(Database):
     
     def last_message(self):
         sql = "SELECT text FROM message ORDER BY heure DESC LIMIT 1"
-        return self.fetch_one(sql, ())
-        
+        return self.fetch_one(sql, ())        
 
-    def message_display(self, message, user, index, x_message, largeur_message, hauteur_message, radius_message):
+    def message_display(self, message, user, x_message, y_message, largeur_message, hauteur_message, radius_message):
         message_text = str(message).strip("()',")
-        y_message = 50 + index * (hauteur_message + 20)
-        
-        self.interface.text(15, user, self.interface.red, x_message, y_message - 30)
-        self.interface.text(14, self.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), self.interface.white, x_message + 30, y_message - 30)
-        self.interface.solid_rect_radius(self.interface.light_grey, x_message, y_message, largeur_message, hauteur_message, radius_message)
-        self.interface.text(13, message_text, self.interface.black, x_message + 30, y_message + 30)
+        self.interface.text(15, user, self.interface.red, x_message, y_message + self.y_offset - 30)
+        self.interface.text(14, self.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), self.interface.white, x_message + 30, y_message+ self.y_offset - 30)
+        self.interface.solid_rect_radius(self.interface.light_grey, x_message, y_message+ self.y_offset, largeur_message, hauteur_message, radius_message)
+        self.interface.text(13, message_text, self.interface.black, x_message + 30, y_message+ self.y_offset + 30)
+        self.y_offset =+ 100
 
         

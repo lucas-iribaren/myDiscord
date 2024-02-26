@@ -23,7 +23,8 @@ class Profile(Interface):
         self.delta_time = self.clock.tick(60) / 1000
         self.message_sent = False
         self.active_input_mes = 0 
-        self.input_message = ""     
+        self.input_message = ""        
+        self.friend = ""
         self.usernames = self.retrieve_usernames()
 
     def create_profile_page(self):
@@ -36,6 +37,8 @@ class Profile(Interface):
         self.text(25, self.channel_message, self.white, 435, 320)
         if self.private_channels:
             self.channel_message = "Veuillez choisir une conversation"
+        elif self.private_channels and self.friend:
+            self.channel_message = ""
             self.text(25, self.channel_message, (249, 249, 249), 435, 320)
         else:
             self.channel_message = "Veuillez choisir un serveur"            
@@ -167,18 +170,10 @@ class Profile(Interface):
                 self.profile_run = False
                 pygame.quit()
                 quit()
-                
-            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:                              
                 if self.is_mouse_over_button(pygame.Rect(250, 530, 500, 50)):
                     self.active_input_mes = 1
-                 
-            elif self.active_input_mes == 1:
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_BACKSPACE:
-                        self.input_message = self.input_message[:-1]  
-                    else:
-                        self.input_message += event.unicode            
-
                 if self.is_mouse_over_button(pygame.Rect(760, 530, 50, 50)):
                     if self.input_message != "":
                         self.button_send(self.input_message)                        
@@ -186,10 +181,32 @@ class Profile(Interface):
                         self.active_input_mes = 0
                     else:
                         print("Veuillez saisir un message.")
-                        
-                elif self.is_mouse_over_button(pygame.Rect(35, 100, 50, 50)):
-                    self.notification.add_notification(self.message.three_last_messages())
-                                        
+                    
+                elif self.private_channels:
+                    if self.is_mouse_over_button(pygame.Rect(80, 60, 130, 30)):
+                        self.friend = "Lucy"
+                    elif self.is_mouse_over_button(pygame.Rect(80, 100, 130, 30)):
+                        self.friend = "Lucas"
+                    elif self.is_mouse_over_button(pygame.Rect(80, 140, 130, 30)):
+                        self.friend = "Valentin"
+                    elif self.is_mouse_over_button(pygame.Rect(80, 180, 130, 30)):
+                        self.friend = "Chiara"
+                
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    self.input_message = self.input_message[:-1]
+                elif event.key == pygame.K_RETURN:
+                    if self.input_message != "":
+                        self.button_send(self.input_message)                        
+                        self.input_message = ""
+                        self.active_input_mes = 0
+                    else:
+                        print("Veuillez saisir un message.")  
+                else:
+                    self.input_message += event.unicode
+
+                                                                 
+
     def text_input(self):
         self.solid_rect_radius(self.light_grey, 250, 530, 500, 50, 10)
         self.text(16, self.input_message, self.black, 260, 535)        
@@ -219,7 +236,30 @@ class Profile(Interface):
             self.solid_rect(self.grey, 80, 0, 130, 1000) # Channels area
             self.solid_rect_radius(self.black, 80, 0, 130, 30, 5) # Title of the area
             self.text(20, "Messages Privés", self.white, 90, 5) # Title
-    
+            
+            
+    def display_user(self):       
+        self.solid_rect_radius(self.dark_grey, 80, 60, 130, 30, 3)
+        self.text_align(17, "Lucy", self.light_grey, 130, 70)
+        self.solid_rect_radius(self.dark_grey, 80, 100, 130, 30, 3)
+        self.text_align(17, "Lucas", self.light_grey, 130, 110)
+        self.solid_rect_radius(self.dark_grey, 80, 140, 130, 30, 3)
+        self.text_align(17, "Valentin", self.light_grey, 130, 150)
+        self.solid_rect_radius(self.dark_grey, 80, 180, 130, 30, 3)
+        self.text_align(17, "Chiara", self.light_grey, 130, 190)
+        if self.is_mouse_over_button(pygame.Rect(80,60,130,30)):
+            self.solid_rect_radius(self.light_grey,80,60,130,30,3)
+            self.text_align(17, "Lucy", self.black, 130, 70)
+        elif self.is_mouse_over_button(pygame.Rect(80,100,130,30)):
+            self.solid_rect_radius(self.light_grey,80,100,130,30,3)
+            self.text_align(17, "Lucas", self.black, 130, 110)
+        elif self.is_mouse_over_button(pygame.Rect(80,140,130,30)):
+            self.solid_rect_radius(self.light_grey, 80, 140, 130, 30, 3)
+            self.text_align(17, "Valentin", self.black, 130, 150)
+        elif self.is_mouse_over_button(pygame.Rect(80,180,130,30)):
+            self.solid_rect_radius(self.light_grey, 80, 180, 130, 30, 3)
+            self.text_align(17, "Chiara", self.black, 130, 190)             
+                
     def retrieve_usernames(self):
         sql = "SELECT pseudo FROM user;"
         self.users = self.database.fetch_all(sql,())
@@ -232,14 +272,22 @@ class Profile(Interface):
 
     def home_profile(self):
         self.profile_run = True
-        while self.profile_run:
-            self.text_input()
-            self.rect_button_send()
-            self.event_handling()
+        while self.profile_run:                       
             self.create_profile_page()
             self.rect_server()
             self.create_server()
             self.disconnect_button()
+            self.private_server()
+            self.event_handling()                                   
+            
+            if self.private_channels:                       
+                if self.friend:  # if a friend is clicked
+                    self.channel_message = ""
+                    self.text_input()
+                    self.rect_button_send()
+                    self.solid_rect_radius(self.grey, 230, 10, 90, 35, 3)
+                    self.text(22, self.friend, self.white, 240, 15)
+                    
             self.private_server()
             
             for index, username in enumerate(self.usernames):
@@ -256,15 +304,12 @@ class Profile(Interface):
             if self.private_channels:
                 if self.message_sent:
                     self.last_msg = self.message.last_message()
-                    print("dernier message",self.last_msg)
-                    self.message.message_display(self.last_msg, self.author, 450, 380, 150, 90, 5)
-                    self.text_input()
-                    self.rect_button_send()
-                    self.notification.display_notification(self.message.three_last_messages())
-                    self.notification.update_after_notif(self.delta_time) 
-                else:
-                    self.text_input()
-                    self.rect_button_send()
-                    self.notification.display_notification(self.message.three_last_messages())
-                    self.notification.update_after_notif(self.delta_time)                                 
+                    self.message.message_display(self.last_msg, self.author, 450, 380, 150, 90, 5)                    
+                
+                self.notification.display_notification(self.message.three_last_messages())
+                self.notification.update_after_notif(self.delta_time)
+                self.display_user()                            
             self.update()  
+  
+ 
+  
