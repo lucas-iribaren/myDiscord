@@ -31,6 +31,9 @@ class Message(Database):
         self.interface.text(14, self.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), self.interface.white, x_message + 30, y_message+ self.y_offset - 30)
         self.interface.solid_rect_radius(self.interface.light_grey, x_message, y_message+ self.y_offset, largeur_message, hauteur_message, radius_message)
         self.interface.text(13, message_text, self.interface.black, x_message + 30, y_message+ self.y_offset + 30)
-        self.y_offset =+ 100
+        self.y_offset += 100
 
-        
+    def add_and_display_message(self, input_text, auteur, heure, id_channel, x_message, y_message, largeur_message, hauteur_message, radius_message):
+        self.add_message(input_text, auteur, heure, id_channel)
+        last_message = self.last_message()
+        self.message_display(last_message, auteur, x_message, y_message, largeur_message, hauteur_message, radius_message)    

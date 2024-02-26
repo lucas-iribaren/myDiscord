@@ -1,6 +1,6 @@
 from files.class_py.database import Database
 
-class User(Database):
+class SqlManager(Database):
     def __init__(self):
         Database.__init__(self)        
         
@@ -33,5 +33,7 @@ class User(Database):
         sql = "DELETE FROM user WHERE id = %s;"
         self.execute_sql(sql, (user_id,))
         self.closing_connection()
-        
     
+    def display_user(self):
+        sql = "SELECT * FROM user"
+        return self.fetch_all(sql)

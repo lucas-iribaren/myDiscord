@@ -34,13 +34,23 @@ class Notification(Database):
             self.interface.solid_rect_radius(self.interface.light_grey, x_notif, y_notif + index * 80, larg_notif, high_notif, radius_notif)
             self.interface.text(17, message_author, self.interface.black, x_notif, y_notif - 30 + index * 80)
             self.interface.text(12, message_time, self.interface.white, x_notif + 30, y_notif - 30 + index * 80)
-            self.interface.text(16, message_text, self.interface.white, x_notif, y_notif + 30 + index * 80)
+            self.interface.text(16, message_text, self.interface.black, x_notif + 5, y_notif + 5  + index * 80)
         
         # Update timer
         self.error_timer += self.clock.tick()
         if self.error_timer >= self.error_duration:
             # Reset values after timer
             self.error_timer = 0
+
+    def draw_error_message_profile(self):
+        if self.error_message_profile:
+            self.solid_rect_radius(self.light_grey,620,20,360,55,8)
+            self.text_align(16, self.error_message_register, self.pur_red, 796, 45)
+            self.light_rect(self.black,620,20,360,55,2)
+            self.error_timer += self.clock.tick()
+            if self.error_timer >= self.error_duration:
+                self.error_message_register = None
+                self.error_timer = 0
 
     def update_after_notif(self, delta_time):
         self.error_timer += delta_time

@@ -4,9 +4,9 @@ from files.class_py.interface import Interface
 from files.class_py.message import Message
 from files.class_py.notification import Notification
 from files.class_py.database import Database  
-from files.class_py.user import User
+from files.class_py.SqlManager import SqlManager
 
-class Profile(Interface):
+class Profile(Interface, SqlManager):
     def __init__(self, user):
         super().__init__()  # Call the constructor of the parent class 
         self.profile_run = False  # Initialize profile_run to False to enter the main loop
@@ -16,7 +16,6 @@ class Profile(Interface):
         self.channel_message = ""
         self.message = Message(self.user)
         self.notification = Notification()
-        self.user_connected = User()
         self.database = Database()
         self.author = None 
         self.clock = pygame.time.Clock()
@@ -26,6 +25,7 @@ class Profile(Interface):
         self.input_message = ""     
         self.usernames = self.retrieve_usernames()
 
+     
     def create_profile_page(self):
         # Fill the screen in gray
         self.Screen.fill(self.dark_grey)
@@ -185,8 +185,7 @@ class Profile(Interface):
                         self.input_message = ""
                         self.active_input_mes = 0
                     else:
-                        print("Veuillez saisir un message.")
-                        
+                        self.error_message_profile("Veuillez saisir un message.")                        
                 elif self.is_mouse_over_button(pygame.Rect(35, 100, 50, 50)):
                     self.notification.add_notification(self.message.three_last_messages())
                                         
@@ -201,17 +200,14 @@ class Profile(Interface):
         else:
             self.solid_rect_radius(self.light_grey, 760, 530, 50, 50, 10)
 
-
     def button_send(self, message):
         self.author = self.user
-        print("User:",self.author)
         if self.private_channels:
             self.message.add_message(message, self.author, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
         elif not self.private_channels:
             self.message.add_message(message, self.author, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
         message = ""
         self.message_sent = True
-        print(self.message_sent)
         
     def rect_pv_channel(self):
         # Draw private channels area
@@ -230,6 +226,7 @@ class Profile(Interface):
         user_role = self.database.fetch_one(sql, (username,))
         return user_role[0] if user_role else None
 
+
     def home_profile(self):
         self.profile_run = True
         while self.profile_run:
@@ -241,7 +238,6 @@ class Profile(Interface):
             self.create_server()
             self.disconnect_button()
             self.private_server()
-            
             for index, username in enumerate(self.usernames):
                 y_position = 30 + index * 30
                 
@@ -267,3 +263,4 @@ class Profile(Interface):
                     self.notification.display_notification(self.message.three_last_messages())
                     self.notification.update_after_notif(self.delta_time)                                 
             self.update()  
+
