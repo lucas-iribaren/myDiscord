@@ -205,9 +205,7 @@ class Profile(Interface):
                     else:
                         print("Veuillez saisir un message.")  
                 else:
-                    self.input_message += event.unicode
-
-                                                                 
+                    self.input_message += event.unicode                                                                 
 
     def text_input(self):
         self.solid_rect_radius(self.light_grey, 250, 530, 500, 50, 10)
@@ -217,9 +215,10 @@ class Profile(Interface):
         if self.is_mouse_over_button(pygame.Rect(760, 530, 50, 50)):
             self.solid_rect_radius(self.blue, 760, 530, 50, 50, 8)
             self.light_rect_radius(self.black,760, 530, 50, 50,1, 8)
+            self.img(760,530,50,50,"icones/logo_send")
         else:
-            self.solid_rect_radius(self.light_grey, 760, 530, 50, 50, 8)
-
+            self.solid_rect_radius(self.light_grey, 760, 530, 35, 50, 8)
+            self.img(760,530,50,50,"icones/logo_send")
 
     def button_send(self, message):
         self.author = self.user
