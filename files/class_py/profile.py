@@ -144,23 +144,33 @@ class Profile(Interface):
         # Draw message
         self.text(18, "Êtes-vous sûre de vouloir vous déconnecter ?", self.black, 350, 260)
 
-        for i, button_text in enumerate(buttons):
-            button_rect = pygame.Rect(400, 380 + i * (40 + 20), 80, 40)
-            pygame.draw.rect(self.Screen, self.blue, button_rect) # Draw button background
-            self.text(18, button_text, self.white, button_rect.centerx, button_rect.centery) # Draw button text
+        # Define button width, height
+        button_width =  80
+        button_height =  40
+
+        # Define specific positions for each button (x, y)
+        button_positions = {
+        "Oui": (380,  350),  # Position (x, y) for "Oui" button
+        "Non": (480,  350)   # Position (x, y) for "Non" button
+    }
+
+        for button_text, (button_x, button_y) in button_positions.items():
+            button_rect = pygame.Rect(button_x, button_y, button_width, button_height)
+            pygame.draw.rect(self.Screen, self.blue, button_rect)  # Draw button background
+            self.text(18, button_text, self.white, button_rect.centerx, button_rect.centery)  # Draw button text
 
         pygame.display.flip()
 
         # Return the index of the clicked button
         while True:
             for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                if event.type == pygame.MOUSEBUTTONUP and event.button ==   1:
                     mouse_pos = event.pos
-                    for i, _ in enumerate(buttons):
-                        button_rect = pygame.Rect(400, 380 + i * (40 + 20), 80, 40)
+                    for button_text, (button_x, button_y) in button_positions.items():
+                        button_rect = pygame.Rect(button_x, button_y, button_width, button_height)
                         if button_rect.collidepoint(mouse_pos):
-                            return i
-            
+                            return buttons.index(button_text)
+                
     def event_handling(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
