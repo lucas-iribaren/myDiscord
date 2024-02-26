@@ -183,13 +183,15 @@ class Profile(Interface):
                         print("Veuillez saisir un message.")
                     
                 elif self.private_channels:
-                    if self.is_mouse_over_button(pygame.Rect(80, 60, 130, 30)):
+                    if self.is_mouse_over_button(pygame.Rect(80,50,130,30)):
+                        self.friend = ""
+                    elif self.is_mouse_over_button(pygame.Rect(80, 90, 130, 30)):
                         self.friend = "Lucy"
-                    elif self.is_mouse_over_button(pygame.Rect(80, 100, 130, 30)):
+                    elif self.is_mouse_over_button(pygame.Rect(80, 130, 130, 30)):
                         self.friend = "Lucas"
-                    elif self.is_mouse_over_button(pygame.Rect(80, 140, 130, 30)):
+                    elif self.is_mouse_over_button(pygame.Rect(80, 170, 130, 30)):
                         self.friend = "Valentin"
-                    elif self.is_mouse_over_button(pygame.Rect(80, 180, 130, 30)):
+                    elif self.is_mouse_over_button(pygame.Rect(80, 210, 130, 30)):
                         self.friend = "Chiara"
                 
             elif event.type == pygame.KEYDOWN:
@@ -213,10 +215,10 @@ class Profile(Interface):
         
     def rect_button_send(self):
         if self.is_mouse_over_button(pygame.Rect(760, 530, 50, 50)):
-            self.solid_rect_radius(self.dark_red, 760, 530, 50, 50, 8)
-            self.light_rect_radius(self.black,750, 560, 50, 50,1, 8)
+            self.solid_rect_radius(self.blue, 760, 530, 50, 50, 8)
+            self.light_rect_radius(self.black,760, 530, 50, 50,1, 8)
         else:
-            self.solid_rect_radius(self.light_grey, 760, 530, 50, 50, 10)
+            self.solid_rect_radius(self.light_grey, 760, 530, 50, 50, 8)
 
 
     def button_send(self, message):
@@ -235,30 +237,34 @@ class Profile(Interface):
         if self.private_channels:
             self.solid_rect(self.grey, 80, 0, 130, 1000) # Channels area
             self.solid_rect_radius(self.black, 80, 0, 130, 30, 5) # Title of the area
-            self.text(20, "Messages Privés", self.white, 90, 5) # Title
+            self.text(20, "Messages Privés", self.white, 90, 5) # Title            
             
-            
-    def display_user(self):       
-        self.solid_rect_radius(self.dark_grey, 80, 60, 130, 30, 3)
-        self.text_align(17, "Lucy", self.light_grey, 130, 70)
-        self.solid_rect_radius(self.dark_grey, 80, 100, 130, 30, 3)
-        self.text_align(17, "Lucas", self.light_grey, 130, 110)
-        self.solid_rect_radius(self.dark_grey, 80, 140, 130, 30, 3)
-        self.text_align(17, "Valentin", self.light_grey, 130, 150)
-        self.solid_rect_radius(self.dark_grey, 80, 180, 130, 30, 3)
-        self.text_align(17, "Chiara", self.light_grey, 130, 190)
-        if self.is_mouse_over_button(pygame.Rect(80,60,130,30)):
-            self.solid_rect_radius(self.light_grey,80,60,130,30,3)
-            self.text_align(17, "Lucy", self.black, 130, 70)
-        elif self.is_mouse_over_button(pygame.Rect(80,100,130,30)):
-            self.solid_rect_radius(self.light_grey,80,100,130,30,3)
-            self.text_align(17, "Lucas", self.black, 130, 110)
-        elif self.is_mouse_over_button(pygame.Rect(80,140,130,30)):
-            self.solid_rect_radius(self.light_grey, 80, 140, 130, 30, 3)
-            self.text_align(17, "Valentin", self.black, 130, 150)
-        elif self.is_mouse_over_button(pygame.Rect(80,180,130,30)):
-            self.solid_rect_radius(self.light_grey, 80, 180, 130, 30, 3)
-            self.text_align(17, "Chiara", self.black, 130, 190)             
+    def display_user(self):
+        self.solid_rect_radius(self.black, 80, 50, 130, 30, 3)
+        self.text_align(19,"Amis", self.white, 140, 65)     
+        self.solid_rect_radius(self.dark_grey, 80, 90, 130, 30, 3)
+        self.text_align(17, "Lucy", self.light_grey, 140, 100)
+        self.solid_rect_radius(self.dark_grey, 80, 130, 130, 30, 3)
+        self.text_align(17, "Lucas", self.light_grey, 140, 140)
+        self.solid_rect_radius(self.dark_grey, 80, 170, 130, 30, 3)
+        self.text_align(17, "Valentin", self.light_grey, 140, 180)
+        self.solid_rect_radius(self.dark_grey, 80, 210, 130, 30, 3)
+        self.text_align(17, "Chiara", self.light_grey, 140, 220)
+        if self.is_mouse_over_button(pygame.Rect(80,50,130,30)):
+            self.solid_rect_radius(self.white, 80, 50, 130, 30, 3)
+            self.text_align(19,"Amis", self.black, 140, 65)
+        elif self.is_mouse_over_button(pygame.Rect(80,90,130,30)):
+            self.solid_rect_radius(self.light_grey,80,90,130,30,3)
+            self.text_align(17, "Lucy", self.black, 140, 100)
+        elif self.is_mouse_over_button(pygame.Rect(80,130,130,30)):
+            self.solid_rect_radius(self.light_grey,80,130,130,30,3)
+            self.text_align(17, "Lucas", self.black, 140, 140)
+        elif self.is_mouse_over_button(pygame.Rect(80,170,130,30)):
+            self.solid_rect_radius(self.light_grey, 80, 170, 130, 30, 3)
+            self.text_align(17, "Valentin", self.black, 140, 180)
+        elif self.is_mouse_over_button(pygame.Rect(80,210,130,30)):
+            self.solid_rect_radius(self.light_grey, 80, 210, 130, 30, 3)
+            self.text_align(17, "Chiara", self.black, 140, 220)             
                 
     def retrieve_usernames(self):
         sql = "SELECT pseudo FROM user;"
