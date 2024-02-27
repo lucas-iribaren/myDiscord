@@ -1,6 +1,6 @@
-from files.class_py.database import Database
+from files.class_py.Database import Database
 from datetime import datetime
-from files.class_py.interface import Interface
+from files.class_py.Interface import Interface
 
 class Message(Database):
     def __init__(self, user):

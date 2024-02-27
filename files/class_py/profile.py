@@ -1,12 +1,12 @@
 import pygame
 from pygame.locals import *
-from files.class_py.interface import Interface
-from files.class_py.message import Message
-from files.class_py.notification import Notification
-from files.class_py.database import Database  
-from files.class_py.user import User
+from files.class_py.Interface import Interface
+from files.class_py.Message import Message
+from files.class_py.Notification import Notification
+from files.class_py.Database import Database  
+from files.class_py.SqlManager import SqlManager
 
-class Profile(Interface):
+class Profile(Interface, SqlManager):
     def __init__(self, user):
         super().__init__()  # Call the constructor of the parent class 
         self.profile_run = False  # Initialize profile_run to False to enter the main loop
@@ -16,7 +16,6 @@ class Profile(Interface):
         self.channel_message = ""
         self.message = Message(self.user)
         self.notification = Notification()
-        self.user_connected = User()
         self.database = Database()
         self.author = None 
         self.clock = pygame.time.Clock()

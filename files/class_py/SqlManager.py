@@ -1,6 +1,6 @@
-from files.class_py.database import Database
+from files.class_py.Database import Database
 
-class User(Database):
+class SqlManager(Database):
     def __init__(self):
         Database.__init__(self)        
         
