@@ -1,10 +1,10 @@
 import pygame
 from pygame.locals import *
-from files.class_py.Interface import Interface
-from files.class_py.message import Message
-from files.class_py.notification import Notification
-from files.class_py.Database import Database  
-from files.class_py.SqlManager import SqlManager
+from class_py.pages.Interface import Interface
+from class_py.communication.message import Message
+from class_py.communication.notification import Notification
+from class_py.database.Database import Database  
+from class_py.database.SqlManager import SqlManager
 
 class Profile(Interface, SqlManager):
     def __init__(self, user):

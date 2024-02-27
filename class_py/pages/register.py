@@ -1,6 +1,6 @@
 import pygame, re
-from files.class_py.SqlManager import SqlManager
-from files.class_py.Interface import Interface
+from class_py.database.SqlManager import SqlManager
+from class_py.pages.Interface import Interface
 
 class Register(Interface, SqlManager):
     def __init__(self):
