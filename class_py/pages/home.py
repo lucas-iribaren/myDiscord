@@ -1,5 +1,5 @@
 import pygame
-from class_py.database import Database
+from class_py.database.Database import Database
 from class_py.pages.Interface import Interface
 from class_py.pages.profile import Profile
 from class_py.pages.register import Register
