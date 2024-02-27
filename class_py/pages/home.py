@@ -1,5 +1,5 @@
 import pygame
-from class_py.database import Database
+from class_py.database.Database import Database
 from class_py.pages.Interface import Interface
 from class_py.pages.profile import Profile
 from class_py.pages.register import Register
@@ -22,7 +22,6 @@ class Home(Interface):
         self.page_register = Register()
         self.error_timer = 0
         self.error_duration = 1000
-
   
     def handle_events_for_login(self):
         """
