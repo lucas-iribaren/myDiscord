@@ -1,11 +1,11 @@
 import pygame, re
-from files.class_py.user import User
-from files.class_py.interface import Interface
+from class_py.database.SqlManager import SqlManager
+from class_py.pages.Interface import Interface
 
-class Register(Interface, User):
+class Register(Interface, SqlManager):
     def __init__(self):
         Interface.__init__(self)
-        User.__init__(self)
+        SqlManager.__init__(self)
         self.register_page = True
         self.input_texts = {'email':'', 'pseudo': '', 'password': ''}
         self.selected_rect = None

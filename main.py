@@ -1,6 +1,6 @@
 import pygame
 
-from files.class_py.home import Home
+from class_py.pages.home import Home
 starting = Home()
 
 pygame.init()

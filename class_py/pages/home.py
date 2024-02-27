@@ -1,8 +1,8 @@
 import pygame
-from files.class_py.database import Database
-from files.class_py.interface import Interface
-from files.class_py.profile import Profile
-from files.class_py.register import Register
+from class_py.database import Database
+from class_py.pages.Interface import Interface
+from class_py.pages.profile import Profile
+from class_py.pages.register import Register
 # from files.class_py.notification import Notification
 
 class Home(Interface):
