@@ -34,4 +34,17 @@ class SqlManager(Database):
         self.execute_sql(sql, (user_id,))
         self.closing_connection()
         
+    def add_message(self, input_text, auteur, heure, id_channel):
+        sql = "INSERT INTO message(text, auteur, heure, id_channel) VALUES (%s, %s, %s, %s);"
+        self.execute_sql(sql, (input_text, auteur, heure, id_channel))
+        print(input_text)
+
+    def three_last_messages(self):
+        sql = "SELECT text, auteur, heure FROM message ORDER BY heure DESC LIMIT 3"
+        return self.fetch_all(sql, ())
+    
+    def last_message(self):
+        sql = "SELECT text FROM message ORDER BY heure DESC LIMIT 1"
+        return self.fetch_one(sql, ())
+        
     

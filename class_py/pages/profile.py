@@ -8,10 +8,11 @@ from class_py.database.SqlManager import SqlManager
 
 class Profile(Interface, SqlManager):
     def __init__(self, user):
-        super().__init__()  # Call the constructor of the parent class 
-        self.profile_run = False  # Initialize profile_run to False to enter the main loop
-        self.private_channels = False
         self.user = user
+        Interface().__init__()
+        SqlManager(self.user).__init__()# Call the constructor of the parent class 
+        self.profile_run = False  # Initialize profile_run to False to enter the main loop
+        self.private_channels = False        
         print(self.user)
         self.channel_message = ""
         self.message = Message(self.user)
