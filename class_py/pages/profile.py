@@ -147,6 +147,17 @@ class Profile(Interface, SqlManager):
             # Without hover
             pygame.draw.circle(self.Screen, self.light_grey, circle_center, circle_radius + 2)
             self.img(35, 550, 50, 50, "icones/disconnect_blue")
+
+    def dialog_disconnect(self):
+        # Button - "Oui"
+        if self.is_mouse_over_button(pygame.Rect(390,  300,  50,  30)) and self.show_disconnect_dialog: # Hoover
+            self.solid_rect_radius(self.blue,  390,  300,  50,  30,  10)
+            self.text_align(18, "Oui", self.white,  415,  315)
+        
+        # Button - "Non"
+        if self.is_mouse_over_button(pygame.Rect(540,  300,  50,  30)) and self.show_disconnect_dialog: # Hoover
+            self.solid_rect_radius(self.blue,  540,  300,  50,  30,  10)
+            self.text_align(18, "Non", self.white,  565,  315)
                     
     def event_handling(self):
         for event in pygame.event.get():
@@ -267,6 +278,7 @@ class Profile(Interface, SqlManager):
             self.rect_server()
             self.create_server()
             self.disconnect_button()
+            self.dialog_disconnect()
             self.private_server()
             self.event_handling()                                   
             
