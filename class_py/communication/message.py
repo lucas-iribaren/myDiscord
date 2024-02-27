@@ -11,7 +11,7 @@ class Message(Database):
         self.input_texts_message = {'message':''}        
         self.active_input_mes = None
         self.y_offset = 0
-         
+                   
 
     def message_display(self, message, user, x_message, y_message, largeur_message, hauteur_message, radius_message):
         message_text = str(message).strip("()',")

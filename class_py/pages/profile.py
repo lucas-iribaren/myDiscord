@@ -8,11 +8,11 @@ from class_py.database.SqlManager import SqlManager
 
 class Profile(Interface, SqlManager):
     def __init__(self, user):
-        self.user = user
-        Interface().__init__()
-        SqlManager(self.user).__init__()# Call the constructor of the parent class 
+        Interface.__init__(self)
+        SqlManager.__init__(self)# Call the constructor of the parent class 
         self.profile_run = False  # Initialize profile_run to False to enter the main loop
-        self.private_channels = False        
+        self.private_channels = False
+        self.user = user
         print(self.user)
         self.channel_message = ""
         self.message = Message(self.user)
@@ -23,7 +23,6 @@ class Profile(Interface, SqlManager):
         self.delta_time = self.clock.tick(60) / 1000
         self.message_sent = False
         self.active_input_mes = 0 
-        self.show_disconnect_dialog = False
         self.input_message = ""        
         self.friend = ""
         self.usernames = self.retrieve_usernames()
@@ -44,25 +43,6 @@ class Profile(Interface, SqlManager):
         else:
             self.channel_message = "Veuillez choisir un serveur"            
         self.rect_pv_channel()  
-
-        # Display disconnect dialog
-        if self.show_disconnect_dialog:
-            # Draw dialog background
-            self.solid_rect_radius(self.light_grey,  300,  200,  400,  200,  10)
-
-            # Draw title
-            self.text_align(24, "Déconnexion", self.black,  500,  220)
-
-            # Draw message
-            self.text(18, "Êtes-vous sûre de vouloir vous déconnecter ?", self.black,  360,  260)
-
-            # Draw button - "Oui"
-            self.solid_rect_radius(self.dark_grey,  390,  300,  50,  30,  10)
-            self.text_align(18, "Oui", self.white,  415,  315)
-
-            # Draw button - "Non"
-            self.solid_rect_radius(self.dark_grey,  540,  300,  50,  30,  10)
-            self.text_align(18, "Non", self.white,  565,  315)
 
     def rect_server(self):
         # Servers area
@@ -143,13 +123,47 @@ class Profile(Interface, SqlManager):
 
             # Check if the mouse button was initially pressed
             mouse_pressed = pygame.mouse.get_pressed()[0]
-            if mouse_pressed:
-                self.show_disconnect_dialog = True
+            if mouse_pressed and not self.mouse_was_pressed:
+                # Display a message box
+                response = self.show_confirmation_dialog("Déconnexion", "Ëtes-vous sûre de vouloir vous déconnecter ?", buttons=("Oui", "Non"))
+                if response == 0: # If the user click "Oui"
+                    print("Déconnexion en cours...")
+                else:
+                    print("Annulation de la déconnexion.")
+            self.mouse_was_pressed = mouse_pressed # Update the mouse button state 
         else:
             # Without hover
             pygame.draw.circle(self.Screen, self.light_grey, circle_center, circle_radius + 2)
-            self.img(35, 550, 50, 50, "icones/disconnect_blue")
-                    
+            self.img(35, 550, 50, 50, "icones/disconnect_blue")  
+
+    def show_confirmation_dialog(self, title, message, buttons=("Oui", "Non")):
+        # Draw dialog background
+        self.solid_rect_radius(self.black, 300, 200, 400, 200, 10)
+        self.solid_rect_radius(self.white, 300, 200, 400, 200, 10)
+
+        # Draw title
+        self.text_align(24, "Déconnexion", self.blue, 500, 220)
+
+        # Draw message
+        self.text(18, "Ëtes-vous sûre de vouloir vous déconnecter ?", self.black, 320, 260)
+
+        for i, button_text in enumerate(buttons):
+            button_rect = pygame.Rect(350 + i * (80 + 20), 280, 80, 40)
+            pygame.draw.rect(self.Screen, self.blue, button_rect) # Draw button background
+            self.text(18, button_text, self.white, button_rect.centerx, button_rect.centery) # Draw button text
+
+        pygame.display.flip()
+
+        # Return the index of the clicked button
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                    mouse_pos = event.pos
+                    for i, _ in enumerate(buttons):
+                        button_rect = pygame.Rect(350 + i * (80 + 20), 280, 80, 40)
+                        if button_rect.collidepoint(mouse_pos):
+                            return i
+            
     def event_handling(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -211,9 +225,9 @@ class Profile(Interface, SqlManager):
         self.author = self.user
         print("User:",self.author)
         if self.private_channels:
-            self.message.add_message(message, self.author, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
+            self.add_message(message, self.author, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
         elif not self.private_channels:
-            self.message.add_message(message, self.author, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
+            self.add_message(message, self.author, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
         message = ""
         self.message_sent = True
         print(self.message_sent)
@@ -293,10 +307,10 @@ class Profile(Interface, SqlManager):
 
             if self.private_channels:
                 if self.message_sent:
-                    self.last_msg = self.message.last_message()
+                    self.last_msg = self.last_message()
                     self.message.message_display(self.last_msg, self.author, 450, 380, 150, 90, 5)                    
                 
-                self.notification.display_notification(self.message.three_last_messages())
+                self.notification.display_notification(self.three_last_messages())
                 self.notification.update_after_notif(self.delta_time)
                 self.display_user()                            
             self.update()  
