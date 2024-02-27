@@ -158,6 +158,15 @@ class Profile(Interface, SqlManager):
         if self.is_mouse_over_button(pygame.Rect(540,  300,  50,  30)) and self.show_disconnect_dialog: # Hoover
             self.solid_rect_radius(self.blue,  540,  300,  50,  30,  10)
             self.text_align(18, "Non", self.white,  565,  315)
+
+    def clicked_disconnect_buttons(self):
+        mouse_pos = pygame.mouse.get_pos()
+        mouse_pressed = pygame.mouse.get_pressed()[0]
+
+        # Check if the mouse is clicking on "Non" button
+        if self.is_mouse_over_button(pygame.Rect(540,  300,  50,  30)) and self.show_disconnect_dialog:
+            if mouse_pressed:
+                self.show_disconnect_dialog = False  # Close the disconnect dialog box
                     
     def event_handling(self):
         for event in pygame.event.get():
@@ -279,6 +288,7 @@ class Profile(Interface, SqlManager):
             self.create_server()
             self.disconnect_button()
             self.dialog_disconnect()
+            self.clicked_disconnect_buttons()
             self.private_server()
             self.event_handling()                                   
             
