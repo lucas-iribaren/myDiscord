@@ -1,9 +1,9 @@
 import pygame
 from pygame.locals import *
-from files.class_py.Interface import Interface
+from files.class_py.interface import Interface
 from files.class_py.message import Message
 from files.class_py.notification import Notification
-from files.class_py.Database import Database  
+from files.class_py.database import Database  
 from files.class_py.SqlManager import SqlManager
 
 class Profile(Interface, SqlManager):
