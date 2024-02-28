@@ -239,7 +239,10 @@ class Profile(Interface, SqlManager):
         if self.private_messages:
             self.solid_rect(self.grey, 80, 0, 130, 1000) # Channels area
             self.solid_rect_radius(self.black, 80, 0, 130, 30, 5) # Title of the area
-            self.text(20, "Messages Privés", self.white, 90, 5) # Title                    
+            self.text(20, "Messages Privés", self.white, 90, 5) # Title
+        if self.server_gaming:
+            self.solid_rect(self.grey, 80, 0, 200, 1000)
+                                
             
     def display_user(self):
         self.solid_rect_radius(self.black, 80, 50, 130, 30, 3)
