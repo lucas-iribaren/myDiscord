@@ -162,10 +162,18 @@ class Profile(Interface, SqlManager):
     def clicked_disconnect_buttons(self):
         mouse_pressed = pygame.mouse.get_pressed()[0]
 
+        # Check if the mouse is clicking on "Oui" button
+        if self.is_mouse_over_button(pygame.Rect(390,  300,  50,  30)) and self.show_disconnect_dialog:
+            if mouse_pressed:
+                from class_py.pages.home import Home
+                home_instance = Home()
+                home_instance.home()
+
         # Check if the mouse is clicking on "Non" button
         if self.is_mouse_over_button(pygame.Rect(540,  300,  50,  30)) and self.show_disconnect_dialog:
             if mouse_pressed:
                 self.show_disconnect_dialog = False  # Close the disconnect dialog box
+
                     
     def event_handling(self):
         for event in pygame.event.get():
