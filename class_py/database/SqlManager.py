@@ -55,4 +55,17 @@ class SqlManager(Database):
         sql = "SELECT name FROM categorie"
         return self.fetch_all(sql,())
         
+    def retrieve_usernames(self):
+        sql = "SELECT pseudo FROM user;"
+        self.users = self.database.fetch_all(sql,())
+        return [user[0] for user in self.users] if self.users else []
     
+    def retrieve_user_role(self, username):
+        sql = "SELECT id_role FROM user WHERE pseudo = %s;"
+        user_role = self.database.fetch_one(sql, (username,))
+        return user_role[0] if user_role else None
+    
+    def retrieve_channel(self):
+        sql = "SELECT nom FROM channel;"
+        self.chans = self.database.fetch_all(sql,())
+        return [channel[0] for channel in self.chans] if self.chans else []
