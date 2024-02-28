@@ -11,9 +11,9 @@ class Profile(Interface, SqlManager):
         Interface.__init__(self)
         SqlManager.__init__(self)# Call the constructor of the parent class 
         self.profile_run = False  # Initialize profile_run to False to enter the main loop
-        self.private_channels = False
+        self.private_messages= False
+        self.server_gaming = False
         self.user = user
-        print(self.user)
         self.channel_message = ""
         self.message = Message(self.user)
         self.notification = Notification()
@@ -35,9 +35,9 @@ class Profile(Interface, SqlManager):
         self.img(550, 270, 100, 100, "icones/logo")       
         
         self.text(25, self.channel_message, self.white, 435, 320)
-        if self.private_channels:
+        if self.private_messages:
             self.channel_message = "Veuillez choisir une conversation"
-        elif self.private_channels and self.friend:
+        elif self.private_messages and self.friend:
             self.channel_message = ""
             self.text(25, self.channel_message, (249, 249, 249), 435, 320)
         else:
@@ -48,7 +48,7 @@ class Profile(Interface, SqlManager):
         # Servers area
         self.solid_rect(self.grey, 0, 0, 70, 1000)
         
-    def create_server(self):
+    def public_server(self):
         # Coordonates of "Créer un serveur" 
         circle_center = (35, 35)
         circle_radius = 28
@@ -59,20 +59,22 @@ class Profile(Interface, SqlManager):
         
         if distance_to_circle <= circle_radius:
             # Hover of the circle - Change the color
-            pygame.draw.circle(self.Screen, self.blue, circle_center, circle_radius + 2)  # Circle
-            # Draw the cross - hover
-            pygame.draw.line(self.Screen, self.light_grey, (15, 35), (53, 35), 3)  # Horizontal line
-            pygame.draw.line(self.Screen, self.light_grey, (35, 55), (35, 15), 3)  # Vertical line
+            pygame.draw.circle(self.Screen, self.dark_grey, circle_center, circle_radius + 2)  # Circle
+            self.img(35, 33, 50, 50, "icones/logo_server")
             self.img(130, 30, 130, 40, "icones/text_area_hover")
-            self.text(20, "Créer un serveur", self.white, 80, 20)
+            self.text(20, "Jeux-vidéo", self.white, 82, 20)
+            
+            mouse_pressed = pygame.mouse.get_pressed()[0]
+            if mouse_pressed and not self.mouse_was_pressed:
+                self.server_gaming = not self.server_gaming # Toggle the display of the private channels area
+            self.mouse_was_pressed = mouse_pressed  # Update the mouse button state
         else:
             # Wihtout hover
-            pygame.draw.circle(self.Screen, self.light_grey, circle_center, circle_radius)
-            # Draw cross - without hover
-            pygame.draw.line(self.Screen, self.blue, (15, 35), (53, 35), 3)  # Horizontal line
-            pygame.draw.line(self.Screen, self.blue, (35, 55), (35, 15), 3)  # Vertical line
+            pygame.draw.circle(self.Screen, self.grey, circle_center, circle_radius)
+            self.img(35, 33, 50, 50, "icones/logo_server")
+                        
 
-    def private_server(self):
+    def private_message(self):
         # Coordonate button : "Messages privés"
         circle_center = (35, 100)
         circle_radius = 28
@@ -92,7 +94,7 @@ class Profile(Interface, SqlManager):
             # Check if the mouse button was initially pressed
             mouse_pressed = pygame.mouse.get_pressed()[0]
             if mouse_pressed and not self.mouse_was_pressed:
-                self.private_channels = not self.private_channels  # Toggle the display of the private channels area
+                self.private_messages = not self.private_messages # Toggle the display of the private channels area
             self.mouse_was_pressed = mouse_pressed  # Update the mouse button state
             # Hoover of the circle - Change the color of the icon
             pygame.draw.circle(self.Screen, self.blue, circle_center, circle_radius + 2)
@@ -182,7 +184,7 @@ class Profile(Interface, SqlManager):
                     else:
                         print("Veuillez saisir un message.")
                     
-                elif self.private_channels:
+                elif self.private_message:
                     if self.is_mouse_over_button(pygame.Rect(80,50,130,30)):
                         self.friend = ""
                     elif self.is_mouse_over_button(pygame.Rect(80, 90, 130, 30)):
@@ -224,9 +226,9 @@ class Profile(Interface, SqlManager):
     def button_send(self, message):
         self.author = self.user
         print("User:",self.author)
-        if self.private_channels:
+        if self.private_messages:
             self.add_message(message, self.author, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
-        elif not self.private_channels:
+        elif not self.private_messages:
             self.add_message(message, self.author, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
         message = ""
         self.message_sent = True
@@ -234,10 +236,10 @@ class Profile(Interface, SqlManager):
         
     def rect_pv_channel(self):
         # Draw private channels area
-        if self.private_channels:
+        if self.private_messages:
             self.solid_rect(self.grey, 80, 0, 130, 1000) # Channels area
             self.solid_rect_radius(self.black, 80, 0, 130, 30, 5) # Title of the area
-            self.text(20, "Messages Privés", self.white, 90, 5) # Title            
+            self.text(20, "Messages Privés", self.white, 90, 5) # Title                    
             
     def display_user(self):
         self.solid_rect_radius(self.black, 80, 50, 130, 30, 3)
@@ -281,18 +283,23 @@ class Profile(Interface, SqlManager):
         while self.profile_run:                       
             self.create_profile_page()
             self.rect_server()
-            self.create_server()
+            self.public_server()
             self.disconnect_button()
-            self.private_server()
+            self.private_message()
             self.event_handling()                                   
             
-            if self.private_channels:                       
+            if self.private_messages:
+                self.display_user()                            
+                       
                 if self.friend:  # if a friend is clicked
                     self.channel_message = ""
                     self.text_input()
                     self.rect_button_send()
                     self.solid_rect_radius(self.grey, 230, 10, 90, 35, 3)
-                    self.text(22, self.friend, self.white, 240, 15)                    
+                    self.text(22, self.friend, self.white, 240, 15)
+                    
+            if self.server_gaming:
+                pass                    
             
             for index, username in enumerate(self.usernames):
                 y_position = 30 + index * 30
@@ -305,14 +312,13 @@ class Profile(Interface, SqlManager):
                     
                 self.text(19, username, text_color, 865, (y_position + 5))             
 
-            if self.private_channels:
+            
                 if self.message_sent:
                     self.last_msg = self.last_message()
                     self.message.message_display(self.last_msg, self.author, 450, 380, 150, 90, 5)                    
                 
                 self.notification.display_notification(self.three_last_messages())
                 self.notification.update_after_notif(self.delta_time)
-                self.display_user()                            
             self.update()  
   
  
