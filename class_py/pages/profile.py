@@ -27,7 +27,7 @@ class Profile(Interface, SqlManager):
         self.usernames = self.retrieve_usernames()
 
     def create_profile_page(self):
-        # Fill the screen in gray
+        # Fill the screen
         self.Screen.fill(self.dark_grey)
 
         # Add a logo
@@ -160,7 +160,6 @@ class Profile(Interface, SqlManager):
             self.text_align(18, "Non", self.white,  565,  315)
 
     def clicked_disconnect_buttons(self):
-        mouse_pos = pygame.mouse.get_pos()
         mouse_pressed = pygame.mouse.get_pressed()[0]
 
         # Check if the mouse is clicking on "Non" button
