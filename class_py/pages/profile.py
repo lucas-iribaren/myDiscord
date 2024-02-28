@@ -59,20 +59,22 @@ class Profile(Interface, SqlManager):
         
         if distance_to_circle <= circle_radius:
             # Hover of the circle - Change the color
-            pygame.draw.circle(self.Screen, self.dark_grey, circle_center, circle_radius + 2)  # Circle
-            self.img(35, 33, 50, 50, "icones/logo_server")
+            pygame.draw.circle(self.Screen, self.blue, circle_center, circle_radius + 2)  # Circle
+            self.img(35, 33, 50, 50, "icones/avatar_2")
             self.img(130, 30, 130, 40, "icones/text_area_hover")
             self.text(20, "Jeux-vidéo", self.white, 82, 20)
             
             mouse_pressed = pygame.mouse.get_pressed()[0]
             if mouse_pressed and not self.mouse_was_pressed:
                 self.server_gaming = not self.server_gaming # Toggle the display of the private channels area
+                if self.server_gaming and self.private_messages:
+                    self.private_messages = False  # Deactivate private messages if server gaming is activated
             self.mouse_was_pressed = mouse_pressed  # Update the mouse button state
         else:
             # Wihtout hover
             pygame.draw.circle(self.Screen, self.grey, circle_center, circle_radius)
-            self.img(35, 33, 50, 50, "icones/logo_server")
-                        
+            self.img(35, 33, 50, 50, "icones/avatar_4")
+                    
 
     def private_message(self):
         # Coordonate button : "Messages privés"
@@ -95,6 +97,8 @@ class Profile(Interface, SqlManager):
             mouse_pressed = pygame.mouse.get_pressed()[0]
             if mouse_pressed and not self.mouse_was_pressed:
                 self.private_messages = not self.private_messages # Toggle the display of the private channels area
+                if self.private_messages and self.server_gaming: 
+                    self.server_gaming = False  # Deactivate server gaming if private messages are activated
             self.mouse_was_pressed = mouse_pressed  # Update the mouse button state
             # Hoover of the circle - Change the color of the icon
             pygame.draw.circle(self.Screen, self.blue, circle_center, circle_radius + 2)
@@ -105,6 +109,7 @@ class Profile(Interface, SqlManager):
         else:
             # Without hover
             self.img(35, 100, 50, 50, "icones/avatar_0")
+
 
     def disconnect_button(self):
         # Coordonate button : "Se déconnecter"
