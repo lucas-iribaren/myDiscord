@@ -239,6 +239,7 @@ class Profile(Interface, SqlManager):
         self.message_sent = True
         print(self.message_sent)
         
+        
     def rect_pv_channel(self):
         # Draw private channels area
         if self.private_messages:
@@ -274,17 +275,20 @@ class Profile(Interface, SqlManager):
             self.text_align(17, "Valentin", self.black, 140, 180)
         elif self.is_mouse_over_button(pygame.Rect(80,210,130,30)):
             self.solid_rect_radius(self.light_grey, 80, 210, 130, 30, 3)
-            self.text_align(17, "Chiara", self.black, 140, 220)             
+            self.text_align(17, "Chiara", self.black, 140, 220)
+                         
                 
     def retrieve_usernames(self):
         sql = "SELECT pseudo FROM user;"
         self.users = self.database.fetch_all(sql,())
         return [user[0] for user in self.users] if self.users else []
     
+    
     def retrieve_user_role(self, username):
         sql = "SELECT id_role FROM user WHERE pseudo = %s;"
         user_role = self.database.fetch_one(sql, (username,))
         return user_role[0] if user_role else None
+    
 
     def home_profile(self):
         self.profile_run = True

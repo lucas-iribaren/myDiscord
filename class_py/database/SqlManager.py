@@ -46,5 +46,13 @@ class SqlManager(Database):
     def last_message(self):
         sql = "SELECT text FROM message ORDER BY heure DESC LIMIT 1"
         return self.fetch_one(sql, ())
+    
+    def get_channels(self):
+        sql = "SELECT nom FROM channel"
+        return self.fetch_all(sql,())        
+    
+    def get_category(self):
+        sql = "SELECT name FROM categorie"
+        return self.fetch_all(sql,())
         
     
