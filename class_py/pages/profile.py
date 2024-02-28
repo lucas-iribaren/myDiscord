@@ -21,12 +21,13 @@ class Profile(Interface, SqlManager):
         self.delta_time = self.clock.tick(60) / 1000
         self.message_sent = False
         self.active_input_mes = 0 
+        self.show_disconnect_dialog = False
         self.input_message = ""        
         self.friend = ""
         self.usernames = self.retrieve_usernames()
 
     def create_profile_page(self):
-        # Fill the screen in gray
+        # Fill the screen
         self.Screen.fill(self.dark_grey)
 
         # Add a logo
@@ -41,6 +42,25 @@ class Profile(Interface, SqlManager):
         else:
             self.channel_message = "Veuillez choisir un serveur"            
         self.rect_pv_channel()  
+
+        # Display disconnect dialog
+        if self.show_disconnect_dialog:
+            # Draw dialog background
+            self.solid_rect_radius(self.light_grey,  300,  200,  400,  200,  10)
+
+            # Draw title
+            self.text_align(24, "Déconnexion", self.black,  500,  220)
+
+            # Draw message
+            self.text(18, "Êtes-vous sûre de vouloir vous déconnecter ?", self.black,  360,  260)
+
+            # Draw button - "Oui"
+            self.solid_rect_radius(self.dark_grey,  390,  300,  50,  30,  10)
+            self.text_align(18, "Oui", self.white,  415,  315)
+
+            # Draw button - "Non"
+            self.solid_rect_radius(self.dark_grey,  540,  300,  50,  30,  10)
+            self.text_align(18, "Non", self.white,  565,  315)
 
     def rect_server(self):
         # Servers area
@@ -129,46 +149,39 @@ class Profile(Interface, SqlManager):
             # Check if the mouse button was initially pressed
             mouse_pressed = pygame.mouse.get_pressed()[0]
             if mouse_pressed and not self.mouse_was_pressed:
-                # Display a message box
-                response = self.show_confirmation_dialog("Déconnexion", "Ëtes-vous sûre de vouloir vous déconnecter ?", buttons=("Oui", "Non"))
-                if response == 0: # If the user click "Oui"
-                    print("Déconnexion en cours...")
-                else:
-                    print("Annulation de la déconnexion.")
-            self.mouse_was_pressed = mouse_pressed # Update the mouse button state 
+                self.show_disconnect_dialog = True
         else:
             # Without hover
             pygame.draw.circle(self.Screen, self.light_grey, circle_center, circle_radius + 2)
-            self.img(35, 550, 50, 50, "icones/disconnect_blue")  
+            self.img(35, 550, 50, 50, "icones/disconnect_blue")
 
-    def show_confirmation_dialog(self, title, message, buttons=("Oui", "Non")):
-        # Draw dialog background
-        self.solid_rect_radius(self.black, 300, 200, 400, 200, 10)
-        self.solid_rect_radius(self.white, 300, 200, 400, 200, 10)
+    def dialog_disconnect(self):
+        # Button - "Oui"
+        if self.is_mouse_over_button(pygame.Rect(390,  300,  50,  30)) and self.show_disconnect_dialog: # Hoover
+            self.solid_rect_radius(self.blue,  390,  300,  50,  30,  10)
+            self.text_align(18, "Oui", self.white,  415,  315)
+        
+        # Button - "Non"
+        if self.is_mouse_over_button(pygame.Rect(540,  300,  50,  30)) and self.show_disconnect_dialog: # Hoover
+            self.solid_rect_radius(self.blue,  540,  300,  50,  30,  10)
+            self.text_align(18, "Non", self.white,  565,  315)
 
-        # Draw title
-        self.text_align(24, "Déconnexion", self.blue, 500, 220)
+    def clicked_disconnect_buttons(self):
+        mouse_pressed = pygame.mouse.get_pressed()[0]
 
-        # Draw message
-        self.text(18, "Ëtes-vous sûre de vouloir vous déconnecter ?", self.black, 320, 260)
+        # Check if the mouse is clicking on "Oui" button
+        if self.is_mouse_over_button(pygame.Rect(390,  300,  50,  30)) and self.show_disconnect_dialog:
+            if mouse_pressed:
+                from class_py.pages.home import Home
+                home_instance = Home()
+                home_instance.home()
 
-        for i, button_text in enumerate(buttons):
-            button_rect = pygame.Rect(350 + i * (80 + 20), 280, 80, 40)
-            pygame.draw.rect(self.Screen, self.blue, button_rect) # Draw button background
-            self.text(18, button_text, self.white, button_rect.centerx, button_rect.centery) # Draw button text
+        # Check if the mouse is clicking on "Non" button
+        if self.is_mouse_over_button(pygame.Rect(540,  300,  50,  30)) and self.show_disconnect_dialog:
+            if mouse_pressed:
+                self.show_disconnect_dialog = False  # Close the disconnect dialog box
 
-        pygame.display.flip()
-
-        # Return the index of the clicked button
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-                    mouse_pos = event.pos
-                    for i, _ in enumerate(buttons):
-                        button_rect = pygame.Rect(350 + i * (80 + 20), 280, 80, 40)
-                        if button_rect.collidepoint(mouse_pos):
-                            return i
-            
+                    
     def event_handling(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -282,7 +295,9 @@ class Profile(Interface, SqlManager):
             self.rect_server()
             self.public_server()
             self.disconnect_button()
-            self.private_message()
+            self.dialog_disconnect()
+            self.clicked_disconnect_buttons()
+            self.private_server()
             self.event_handling()                                   
             
             if self.private_messages:
