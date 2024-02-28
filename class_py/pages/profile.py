@@ -22,6 +22,7 @@ class Profile(Interface, SqlManager):
         self.message_sent = False
         self.active_input_mes = 0 
         self.show_disconnect_dialog = False
+        self.mouse_was_pressed = False
         self.input_message = ""        
         self.friend = ""
         self.usernames = self.retrieve_usernames()
@@ -297,7 +298,7 @@ class Profile(Interface, SqlManager):
             self.disconnect_button()
             self.dialog_disconnect()
             self.clicked_disconnect_buttons()
-            self.private_server()
+            self.private_message()
             self.event_handling()                                   
             
             if self.private_messages:
