@@ -3,7 +3,6 @@ from pygame.locals import *
 from class_py.pages.Interface import Interface
 from class_py.communication.message import Message
 from class_py.communication.notification import Notification
-from class_py.database.Database import Database  
 from class_py.database.SqlManager import SqlManager
 
 class Profile(Interface, SqlManager):
@@ -17,7 +16,6 @@ class Profile(Interface, SqlManager):
         self.channel_message = ""
         self.message = Message(self.user)
         self.notification = Notification()
-        self.database = Database()
         self.author = None 
         self.clock = pygame.time.Clock()
         self.delta_time = self.clock.tick(60) / 1000
@@ -274,17 +272,8 @@ class Profile(Interface, SqlManager):
             self.text_align(17, "Valentin", self.black, 140, 180)
         elif self.is_mouse_over_button(pygame.Rect(80,210,130,30)):
             self.solid_rect_radius(self.light_grey, 80, 210, 130, 30, 3)
-            self.text_align(17, "Chiara", self.black, 140, 220)             
-                
-    def retrieve_usernames(self):
-        sql = "SELECT pseudo FROM user;"
-        self.users = self.database.fetch_all(sql,())
-        return [user[0] for user in self.users] if self.users else []
+            self.text_align(17, "Chiara", self.black, 140, 220)               
     
-    def retrieve_user_role(self, username):
-        sql = "SELECT id_role FROM user WHERE pseudo = %s;"
-        user_role = self.database.fetch_one(sql, (username,))
-        return user_role[0] if user_role else None
 
     def home_profile(self):
         self.profile_run = True

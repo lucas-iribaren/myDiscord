@@ -14,6 +14,17 @@ class SqlManager(Database):
         self.execute_sql(sql, (new_pseudo, new_mail, new_password, new_id_category, user_id))
         self.closing_connection()
         
+    def add_notification(self, three_last_messages):
+        for notification in three_last_messages:
+            message_text_sql, message_author_sql, message_time_sql = notification
+
+            sql = "INSERT INTO notification(text, auteur, heure) VALUES (%s, %s, %s)"
+            self.execute_sql(sql, (message_text_sql, message_author_sql, message_time_sql))
+    
+    def clear_notifications(self):
+        sql = "DELETE FROM notification"
+        self.execute_sql(sql, ())
+        
     def recup_info_user(self):
         sql = "SELECT * FROM user"
         all_user = self.fetch_all(sql, ())
@@ -46,5 +57,15 @@ class SqlManager(Database):
     def last_message(self):
         sql = "SELECT text FROM message ORDER BY heure DESC LIMIT 1"
         return self.fetch_one(sql, ())
+    
+    def retrieve_usernames(self):
+        sql = "SELECT pseudo FROM user;"
+        self.users = self.fetch_all(sql,())
+        return [user[0] for user in self.users] if self.users else []
+    
+    def retrieve_user_role(self, username):
+        sql = "SELECT id_role FROM user WHERE pseudo = %s;"
+        user_role = self.fetch_one(sql, (username,))
+        return user_role[0] if user_role else None
         
     
