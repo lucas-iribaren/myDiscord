@@ -58,6 +58,14 @@ class SqlManager(Database):
         sql = "SELECT text FROM message ORDER BY heure DESC LIMIT 1"
         return self.fetch_one(sql, ())
     
+    def get_channels(self):
+        sql = "SELECT nom FROM channel"
+        return self.fetch_all(sql,())        
+    
+    def get_category(self):
+        sql = "SELECT name FROM categorie"
+        return self.fetch_all(sql,())
+        
     def retrieve_usernames(self):
         sql = "SELECT pseudo FROM user;"
         self.users = self.fetch_all(sql,())
@@ -67,5 +75,14 @@ class SqlManager(Database):
         sql = "SELECT id_role FROM user WHERE pseudo = %s;"
         user_role = self.fetch_one(sql, (username,))
         return user_role[0] if user_role else None
-        
+    
+    def retrieve_channel(self):
+        sql = "SELECT nom FROM channel;"
+        self.chans = self.fetch_all(sql,())
+        return [channel[0] for channel in self.chans] if self.chans else []
+    
+    def retrieve_categorie(self):
+        sql = "SELECT name FROM categorie;"
+        self.cat = self.fetch_all(sql,())
+        return [categorie[0] for categorie in self.cat] if self.cat else []
     

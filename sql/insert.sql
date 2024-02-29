@@ -1,4 +1,4 @@
--- Active: 1708523909123@@127.0.0.1@3306@mydiscord
+-- Active: 1707745093959@@127.0.0.1@3306@mydiscord
 INSERT INTO role (name)
 VALUES ('membre'),
 ('modérateur');
@@ -12,18 +12,18 @@ VALUES
 INSERT INTO categorie(name)
 VALUES ("Bienvenue"),
 ("Minecraft"),
-("League of Legend");
+("League of Legends");
 
 
 INSERT INTO channel (nom, status, communication, id_categorie)
-VALUES ("règle",0,0,1),
-("info",0,0,1),
-("général",0,0,2),
-("chat privé",0,1,2),
+VALUES ("Règlement",0,0,1),
+("Informations",0,0,1),
+("Discussion",0,0,2),
+("Chat privé",0,1,2),
 ("Vocal",1,0,2),
 ("Vocal privé",1,1,2),
-("général",0,0,3),
-("chat privé",0,1,3),
+("Général",0,0,3),
+("Chat privé",0,1,3),
 ("Vocal",1,0,3),
 ("Vocal privé",1,1,3);
 

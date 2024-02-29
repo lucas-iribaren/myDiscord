@@ -26,6 +26,8 @@ class Profile(Interface, SqlManager):
         self.input_message = ""        
         self.friend = ""
         self.usernames = self.retrieve_usernames()
+        self.channels = self.retrieve_channel()
+        self.categories = self.retrieve_categorie()
 
     def create_profile_page(self):
         # Fill the screen
@@ -92,7 +94,7 @@ class Profile(Interface, SqlManager):
         else:
             # Wihtout hover
             pygame.draw.circle(self.Screen, self.grey, circle_center, circle_radius)
-            self.img(35, 33, 50, 50, "icones/avatar_4")
+            self.img(35, 33, 50, 50, "icones/avatar_3")
                     
 
     def private_message(self):
@@ -106,12 +108,6 @@ class Profile(Interface, SqlManager):
 
         # If the mouse is over the circle
         if distance_to_circle <= circle_radius:
-            # Change the color of the circle
-            pygame.draw.circle(self.Screen, (114, 137, 218), circle_center, circle_radius + 2)
-            self.img(35, 100, 50, 50, "icones/avatar_2")
-            self.img(130, 100, 140, 40, "icones/text_area_hover")  # Text area
-            self.text(20, "Private Messages", self.white, 85, 90)
-
             # Check if the mouse button was initially pressed
             mouse_pressed = pygame.mouse.get_pressed()[0]
             if mouse_pressed and not self.mouse_was_pressed:
@@ -122,7 +118,7 @@ class Profile(Interface, SqlManager):
             # Hoover of the circle - Change the color of the icon
             pygame.draw.circle(self.Screen, self.blue, circle_center, circle_radius + 2)
             self.img(35, 100, 50, 50, "icones/avatar_2")
-            self.img(130, 100, 140, 40, "icones/text_area_hover") # Text area
+            self.img(130, 100, 140, 40, "icones/text_area_hover") # Text area 
             self.text(20, "Messages privés", self.white, 85, 90)
 
         else:
@@ -224,9 +220,7 @@ class Profile(Interface, SqlManager):
                     else:
                         print("Veuillez saisir un message.")  
                 else:
-                    self.input_message += event.unicode
-
-                                                                 
+                    self.input_message += event.unicode                                                            
 
     def text_input(self):
         self.solid_rect_radius(self.light_grey, 250, 530, 500, 50, 10)
@@ -239,17 +233,14 @@ class Profile(Interface, SqlManager):
         else:
             self.solid_rect_radius(self.light_grey, 760, 530, 50, 50, 8)
 
-
     def button_send(self, message):
         self.author = self.user
-        print("User:",self.author)
         if self.private_messages:
             self.add_message(message, self.author, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
         elif not self.private_messages:
             self.add_message(message, self.author, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
         message = ""
         self.message_sent = True
-        print(self.message_sent)
         
     def rect_pv_channel(self):
         # Draw private channels area
@@ -260,7 +251,6 @@ class Profile(Interface, SqlManager):
         if self.server_gaming:
             self.solid_rect(self.grey, 80, 0, 200, 1000)
                                 
-            
     def display_user(self):
         self.solid_rect_radius(self.black, 80, 50, 130, 30, 3)
         self.text_align(19,"Amis", self.white, 140, 65)     
@@ -286,9 +276,8 @@ class Profile(Interface, SqlManager):
             self.text_align(17, "Valentin", self.black, 140, 180)
         elif self.is_mouse_over_button(pygame.Rect(80,210,130,30)):
             self.solid_rect_radius(self.light_grey, 80, 210, 130, 30, 3)
-            self.text_align(17, "Chiara", self.black, 140, 220)               
-    
-
+            self.text_align(17, "Chiara", self.black, 140, 220)             
+                
     def home_profile(self):
         self.profile_run = True
         while self.profile_run:                       
@@ -303,8 +292,7 @@ class Profile(Interface, SqlManager):
             
             if self.private_messages:
                 self.display_user()                            
-                       
-                if self.friend:  # if a friend is clicked
+                if self.friend: # if a friend is clicked
                     self.channel_message = ""
                     self.text_input()
                     self.rect_button_send()
@@ -312,26 +300,70 @@ class Profile(Interface, SqlManager):
                     self.text(22, self.friend, self.white, 240, 15)
                     
             if self.server_gaming:
-                pass                    
-            
+                cat_welc = self.categories[0]
+                cat_mc = self.categories[1]
+                cat_lol = self.categories[2]
+
+                # 'Bienvenue'
+                y_categorie_welc = 5 
+                if self.is_mouse_over_button(pygame.Rect(100, y_categorie_welc, 160, 30)): 
+                    self.solid_rect_radius(self.dark_grey, 100, y_categorie_welc, 160, 30, 2)  
+                self.text(21, cat_welc, self.blue, 105, y_categorie_welc + 5)
+
+                # 'Minecraft'
+                y_categorie_mc = 100
+                if self.is_mouse_over_button(pygame.Rect(100, y_categorie_mc, 160, 30)): 
+                    self.solid_rect_radius(self.dark_grey, 100, y_categorie_mc, 160, 30, 2) 
+                self.text(21, cat_mc, self.blue, 105, y_categorie_mc + 5)
+
+                # 'League of Legends'
+                y_categorie_lol = 270
+                if self.is_mouse_over_button(pygame.Rect(100, y_categorie_lol, 160, 30)): 
+                    self.solid_rect_radius(self.dark_grey, 100, y_categorie_lol, 160, 30, 2) 
+                self.text(21, cat_lol, self.blue, 105, y_categorie_lol + 5)
+
+
+
+                for index, channel in enumerate(self.channels[:2]): # Channels 'Bienvenue'
+                    y_channel = 35 + index * 30
+                    
+                    if self.is_mouse_over_button(pygame.Rect(100, y_channel, 160, 30)): 
+                        self.solid_rect_radius(self.dark_grey, 100, y_channel, 160, 30, 2)
+                    self.text(19, channel, self.black, 105, y_channel + 5)
+
+                for index, channel in enumerate(self.channels[2:6]): # Channels 'Minecraft'
+                    y_channel = 130 + index * 30
+                    
+                    if self.is_mouse_over_button(pygame.Rect(100, y_channel, 160, 30)): 
+                        self.solid_rect_radius(self.dark_grey, 100, y_channel, 160, 30, 2)
+                    self.text(19, channel, self.black, 105, y_channel + 5)
+
+                for index, channel in enumerate(self.channels[6:]): # Channels 'League Of Legends'
+                    y_channel = 300 + index * 30
+                    
+                    if self.is_mouse_over_button(pygame.Rect(100, y_channel, 160, 30)): 
+                        self.solid_rect_radius(self.dark_grey, 100, y_channel, 160, 30, 2)
+                    self.text(19, channel, self.black, 105, y_channel + 5)
+
             for index, username in enumerate(self.usernames):
                 y_position = 30 + index * 30
-                
                 role_sql = self.retrieve_user_role(username)
-                text_color = self.red if role_sql == 2 else self.white
+                roles_color = self.red if role_sql == 2 else self.white # if user is admin color red else black
 
-                if self.is_mouse_over_button(pygame.Rect(850, y_position, 130, 30)):
-                    self.solid_rect_radius(self.grey, 850, y_position, 130, 30, 2)
-                    
-                self.text(19, username, text_color, 865, (y_position + 5))             
+                if self.is_mouse_over_button(pygame.Rect(850, y_position, 130, 30)): 
+                    self.solid_rect_radius(self.grey, 850, y_position, 130, 30, 2)# hover pointed*
 
-            
-                if self.message_sent:
-                    self.last_msg = self.last_message()
-                    self.message.message_display(self.last_msg, self.author, 450, 380, 150, 90, 5)                    
+                self.text(19, username, roles_color, 865, (y_position + 5)) # Text user 
+
+            if self.message_sent:
+                self.last_msg = self.last_message()
+                self.message.message_display(self.last_msg, self.author, 450, 380, 150, 90, 5)                    
                 
                 self.notification.display_notification(self.three_last_messages())
                 self.notification.update_after_notif(self.delta_time)
+
+
+                
             self.update()  
   
  

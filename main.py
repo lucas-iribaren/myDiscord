@@ -6,4 +6,4 @@ starting = Home()
 pygame.init()
 
 # Start the discord
-starting.home()
+starting.home() 

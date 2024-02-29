@@ -19,6 +19,10 @@ SET id = CASE
 END;
 
 
+-- Restart auto_incre (going at end if you have some data)--
+ALTER TABLE channel AUTO_INCREMENT = 1; 
+--------------------------------------------
+
 UPDATE channel
 SET id = CASE
     WHEN id = 4 THEN 1
