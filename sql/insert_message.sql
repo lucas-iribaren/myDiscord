@@ -1,4 +1,4 @@
--- Active: 1708523909123@@127.0.0.1@3306@mydiscord
+-- Active: 1707491285105@@127.0.0.1@3306@mydiscord
 INSERT INTO message (text, auteur, id_channel)
 VALUES 
 ('Voici les règles du serveur.', 'kevin', 1),

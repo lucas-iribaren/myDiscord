@@ -22,6 +22,8 @@ class Message(SqlManager, Interface):
         self.frames = []  # Liste pour stocker les trames audio enregistrées
         self.id_channel_for_mes = 0
         self.text_active_for_mes = False
+        self.mes = []  # Initialisez l'attribut mes avec une liste vide
+
                 
         # Ouverture du flux audio d'entrée (microphone)
         self.stream_in = self.p.open(format=self.format_sound,
@@ -77,31 +79,34 @@ class Message(SqlManager, Interface):
         # Arrêter l'instance de PyAudio
         self.p.terminate()
     
-    def verify_id_category_for_display_messages(self, id_channel, text_active):
+    def verify_id_category_for_display_messages(self, id_channel):
         id_channels = self.retrieve_id_channel_message()
-        type_chat = self.retrieve_type_channel_for_message_by_idcategorie(id_channel)
-        if id_channel in id_channels and type_chat and text_active == False:
-            self.channel_active = id_channel           
+        if id_channel in id_channels:
+            self.channel_active = id_channel
+            self.mes = self.retrieve_messages_by_channel_id(self.channel_active)          
         
     # For channel messages
     def input_write_user_display(self):
-        messages = self.retrieve_messages_by_channel_id(self.id_channel_for_mes)
-  # Récupère tous les messages
-        if messages:  # Vérifie si des messages sont récupérés
+        messages = self.mes
+    # Récupère tous les messages
+        if messages:
+            # Vérifie si des messages sont récupérés
             split_text = []
             line = ""
             for message in messages:
-                words = message[1].split(" ")  # Divise le texte du message en mots
+                words = message[0].split(" ")  # Divise le texte du message en mots
                 for word in words:
                     if len(line) + len(word) + 1 <= self.W:  # Vérifie si le mot peut être ajouté à la ligne actuelle
                         line += word + " "
+                        print(line)
                     else:
                         split_text.append(line.strip())  # Ajoute la ligne complète à split_text
                         line = word + " "
+                        print(line)
                 split_text.append(line.strip())  # Ajoute la dernière ligne
             # Maintenant, nous avons une liste de lignes de texte (split_text)
             # Nous allons afficher chaque ligne à une position spécifique sur l'écran
-            y_position = 620  # Position verticale initiale
+            y_position = 450  # Position verticale initiale
             for ligne in split_text:
                 self.text(17, ligne, self.black, 510, y_position)  # Affiche la ligne
                 y_position += 15  # Augmente la position verticale pour la prochaine ligne
