@@ -192,7 +192,7 @@ class Profile(Interface, SqlManager):
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:                              
                 if self.is_mouse_over_button(pygame.Rect(250, 530, 500, 50)):
                     self.active_input_mes = 1
-                if self.is_mouse_over_button(pygame.Rect(760, 530, 50, 50)):
+                elif self.is_mouse_over_button(pygame.Rect(760, 530, 50, 50)):
                     if self.input_message != "":
                         self.button_send(self.input_message)                        
                         self.input_message = ""
@@ -211,35 +211,25 @@ class Profile(Interface, SqlManager):
                         self.friend = "Valentin"
                     elif self.is_mouse_over_button(pygame.Rect(80, 210, 130, 30)):
                         self.friend = "Chiara"
-                        
                 
                 elif self.server_gaming:
-                    
                     for index, channel in enumerate(self.channels[:2]):
                         y_channel = 35 + index * 30
-                        print(y_channel)
-                        if self.is_mouse_over_button(channel):
-                            self.id_channel = index + 1  # Ajoutez +1 pour correspondre à l'ID du canal
-                            # Faites quelque chose avec le canal sélectionné, par exemple, changer la couleur du rectangle
-                            print("1")
-                            self.solid_rect_radius(self.red, 100, y_channel, 150, 30, 2)
-                        else:
-                            # Affichez les canaux non sélectionnés avec une autre couleur
-                            print("2")
-                            self.solid_rect_radius(self.black, 100, y_channel, 150, 30, 2)
-                            
+                        if self.is_mouse_over_button(pygame.Rect(100, y_channel, 150, 30)):
+                            self.id_channel = index + 1
+                            print(self.id_channel)
 
+                    for index, channel in enumerate(self.channels[2:6]): # Channels 'Minecraft'
+                        y_channel = 130 + index * 30
+                        if self.is_mouse_over_button(pygame.Rect(100, y_channel, 150, 30)):
+                            self.id_channel = index + 3 
+                            print(self.id_channel)
                         
-                        
-
-                    # for index, channel in enumerate(self.channels[2:6]): # Channels 'Minecraft'
-                    #     y_channel = 130 + index * 30
-                        
-                        
-
-                    # for index, channel in enumerate(self.channels[6:]): # Channels 'League Of Legends'
-                    #     y_channel = 300 + index * 30
-                    
+                    for index, channel in enumerate(self.channels[6:]): # Channels 'League Of Legends'
+                        y_channel = 300 + index * 30
+                        if self.is_mouse_over_button(pygame.Rect(100, y_channel, 150, 30)):
+                            self.id_channel = index + 7 
+                            print(self.id_channel)
                 
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
@@ -322,7 +312,6 @@ class Profile(Interface, SqlManager):
             self.clicked_disconnect_buttons()
             self.private_message()
             self.event_handling()                                   
-            
             if self.private_messages:
                 self.display_user()                            
                 if self.friend: # if a friend is clicked
@@ -376,7 +365,7 @@ class Profile(Interface, SqlManager):
                     if self.is_mouse_over_button(pygame.Rect(100, y_channel, 160, 30)): 
                         self.solid_rect_radius(self.dark_grey, 100, y_channel, 160, 30, 2)
                     self.text(19, channel, self.black, 105, y_channel + 5)
-                self.message.verify_id_category_for_display_messages(self.id_channel, self.text_active)
+                self.message.verify_id_category_for_display_messages(self.id_channel)
                 self.message.input_write_user_display()                    
                 # display messages
             for index, username in enumerate(self.usernames):
