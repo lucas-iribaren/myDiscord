@@ -33,5 +33,15 @@ SET id = CASE
     WHEN id = 13 THEN 10
 END;
 
+UPDATE message
+SET id = CASE
+    WHEN id = 18 THEN 1
+    WHEN id = 19 THEN 2
+    WHEN id = 20 THEN 3
+    WHEN id = 21 THEN 4
+    WHEN id = 22 THEN 5
+    WHEN id = 23 THEN 6
+END;
+
 
 
