@@ -12,7 +12,7 @@ VALUES
 INSERT INTO categorie(name)
 VALUES ("Bienvenue"),
 ("Minecraft"),
-("League of Legend");
+("League of Legends");
 
 
 INSERT INTO channel (nom, status, communication, id_categorie)
