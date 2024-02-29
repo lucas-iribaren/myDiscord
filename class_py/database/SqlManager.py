@@ -67,5 +67,19 @@ class SqlManager(Database):
         sql = "SELECT id_role FROM user WHERE pseudo = %s;"
         user_role = self.fetch_one(sql, (username,))
         return user_role[0] if user_role else None
-        
+    
+    def retrieve_all_messages(self):
+        sql = "SELECT * FROM message;"
+        all_message = self.fetch_all(sql, ())
+        return all_message
+    
+    def retrieve_id_channel_message(self):
+        sql = "SELECT id_channel FROM message;"
+        all_id_channel = self.fetch_all(sql, ())
+        return [channel[0] for channel in all_id_channel]  # Retourne une liste des identifiants de canal
+    
+    def retrieve_messages_by_channel_id(self, id_channel):
+        sql = "SELECT id, text, auteur, heure FROM message WHERE id_channel = %s;"
+        messages = self.fetch_all(sql, (id_channel,))
+        return messages
     
