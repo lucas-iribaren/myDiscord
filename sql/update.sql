@@ -35,12 +35,12 @@ END;
 
 UPDATE message
 SET id = CASE
-    WHEN id = 18 THEN 1
-    WHEN id = 19 THEN 2
-    WHEN id = 20 THEN 3
-    WHEN id = 21 THEN 4
-    WHEN id = 22 THEN 5
-    WHEN id = 23 THEN 6
+    WHEN id = 30 THEN 1
+    WHEN id = 31 THEN 2
+    WHEN id = 32 THEN 3
+    WHEN id = 33 THEN 4
+    WHEN id = 34 THEN 5
+    WHEN id = 35 THEN 6
 END;
 
 
