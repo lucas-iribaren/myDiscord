@@ -94,14 +94,18 @@ class SqlManager(Database):
     def retrieve_id_channel_message(self):
         sql = "SELECT id_channel FROM message;"
         all_id_channel = self.fetch_all(sql, ())
-        return [channel[0] for channel in all_id_channel]  # Retourne une liste des identifiants de canal
-        
+        return [channel[0] for channel in all_id_channel]
+
     def retrieve_messages_by_channel_id(self, id_channel):
-        sql = "SELECT id, text, auteur, heure FROM message WHERE id_channel = %s;"
-        messages = self.fetch_all(sql, (id_channel,))
+        sql = "SELECT text, auteur, heure FROM message WHERE id_channel = %s;"
+        messages = self.fetch_all(sql,(id_channel,))
         return messages
         
-    def retrieve_type_channel_for_message(self, id_channel):
-        sql = "SELECT status FROM channel WHERE id_channel = %s"
-        status_channel =  self.fetch_all(sql,(id_channel,))
-        return status_channel[0][0]
+    def retrieve_type_channel_for_message_by_idcategorie(self, id_categorie):
+        sql = "SELECT status FROM channel WHERE id_categorie = %s"
+        status_channel = self.fetch_all(sql,(id_categorie,))
+        if status_channel:
+            return status_channel[0][0]
+        else:
+            return None
+

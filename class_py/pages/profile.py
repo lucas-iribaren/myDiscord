@@ -28,7 +28,9 @@ class Profile(Interface, SqlManager):
         self.usernames = self.retrieve_usernames()
         self.channels = self.retrieve_channel()
         self.categories = self.retrieve_categorie()
-        self.id_channel = 0
+        self.id_channel = self.message.id_channel_for_mes
+        self.text_active = self.message.text_active_for_mes
+        
 
     def create_profile_page(self):
         # Fill the screen
@@ -209,13 +211,34 @@ class Profile(Interface, SqlManager):
                         self.friend = "Valentin"
                     elif self.is_mouse_over_button(pygame.Rect(80, 210, 130, 30)):
                         self.friend = "Chiara"
+                        
                 
-                # elif self.server_gaming:
-                #     if self.is_mouse_over_button(pygame.Rect()):
-                #         self.id_channel = 
-                #     elif self.is_mouse_over_button(pygame.Rect()):
-                #         self.id_channel =
-                #         # Remplir le reste
+                elif self.server_gaming:
+                    
+                    for index, channel in enumerate(self.channels[:2]):
+                        y_channel = 35 + index * 30
+                        print(y_channel)
+                        if self.is_mouse_over_button(channel):
+                            self.id_channel = index + 1  # Ajoutez +1 pour correspondre à l'ID du canal
+                            # Faites quelque chose avec le canal sélectionné, par exemple, changer la couleur du rectangle
+                            print("1")
+                            self.solid_rect_radius(self.red, 100, y_channel, 150, 30, 2)
+                        else:
+                            # Affichez les canaux non sélectionnés avec une autre couleur
+                            print("2")
+                            self.solid_rect_radius(self.black, 100, y_channel, 150, 30, 2)
+                            
+
+                        
+                        
+
+                    # for index, channel in enumerate(self.channels[2:6]): # Channels 'Minecraft'
+                    #     y_channel = 130 + index * 30
+                        
+                        
+
+                    # for index, channel in enumerate(self.channels[6:]): # Channels 'League Of Legends'
+                    #     y_channel = 300 + index * 30
                     
                 
             elif event.type == pygame.KEYDOWN:
@@ -333,7 +356,6 @@ class Profile(Interface, SqlManager):
                 self.text(21, cat_lol, self.blue, 105, y_categorie_lol + 5)
 
 
-
                 for index, channel in enumerate(self.channels[:2]): # Channels 'Bienvenue'
                     y_channel = 35 + index * 30
                     
@@ -354,8 +376,7 @@ class Profile(Interface, SqlManager):
                     if self.is_mouse_over_button(pygame.Rect(100, y_channel, 160, 30)): 
                         self.solid_rect_radius(self.dark_grey, 100, y_channel, 160, 30, 2)
                     self.text(19, channel, self.black, 105, y_channel + 5)
-
-                self.message.verify_id_category_for_display_messages(self.id_channel)
+                self.message.verify_id_category_for_display_messages(self.id_channel, self.text_active)
                 self.message.input_write_user_display()                    
                 # display messages
             for index, username in enumerate(self.usernames):
@@ -374,8 +395,6 @@ class Profile(Interface, SqlManager):
                 
                 self.notification.display_notification(self.three_last_messages())
                 self.notification.update_after_notif(self.delta_time)
-
-
                 
             self.update()  
   

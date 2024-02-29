@@ -5,9 +5,10 @@ import pyaudio
 import os
 import subprocess
 
-class Message(Interface, SqlManager):
+class Message(SqlManager, Interface):
     def __init__(self, user):
-        super().__init__()
+        SqlManager.__init__(self) 
+        Interface.__init__(self)
         self.user = user        
         self.current_date_message = datetime.now()        
         self.y_offset = 0        
@@ -19,6 +20,8 @@ class Message(Interface, SqlManager):
         self.p = pyaudio.PyAudio()
         self.filename = ""  # Variable pour stocker le nom du fichier MP3
         self.frames = []  # Liste pour stocker les trames audio enregistrées
+        self.id_channel_for_mes = 0
+        self.text_active_for_mes = False
                 
         # Ouverture du flux audio d'entrée (microphone)
         self.stream_in = self.p.open(format=self.format_sound,
@@ -76,13 +79,14 @@ class Message(Interface, SqlManager):
     
     def verify_id_category_for_display_messages(self, id_channel, text_active):
         id_channels = self.retrieve_id_channel_message()
-        text_chat = self.retrieve_type_channel_for_message(id_channel)
-        if id_channel in id_channels and text_active not in text_chat:
-            self.channel_active = id_channel   
+        type_chat = self.retrieve_type_channel_for_message_by_idcategorie(id_channel)
+        if id_channel in id_channels and type_chat and text_active == False:
+            self.channel_active = id_channel           
         
     # For channel messages
     def input_write_user_display(self):
-        messages = self.retrieve_messages_by_channel_id(self.channel_active)  # Récupère tous les messages
+        messages = self.retrieve_messages_by_channel_id(self.id_channel_for_mes)
+  # Récupère tous les messages
         if messages:  # Vérifie si des messages sont récupérés
             split_text = []
             line = ""
