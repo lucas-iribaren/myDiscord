@@ -1,10 +1,11 @@
 from datetime import datetime
 from class_py.pages.Interface import Interface
+from class_py.database.SqlManager import SqlManager
 import pyaudio
 import os
 import subprocess
 
-class Message(Interface):
+class Message(Interface, SqlManager):
     def __init__(self, user):
         super().__init__()
         self.user = user        
@@ -72,8 +73,41 @@ class Message(Interface):
         self.stream_out.close()
         # Arrêter l'instance de PyAudio
         self.p.terminate()
+    
+    def verify_id_category_for_display_messages(self, id_channel, text_active):
+        id_channels = self.retrieve_id_channel_message()
+        text_chat = self.retrieve_type_channel_for_message(id_channel)
+        if id_channel in id_channels and text_active not in text_chat:
+            self.channel_active = id_channel   
+        
+    # For channel messages
+    def input_write_user_display(self):
+        messages = self.retrieve_messages_by_channel_id(self.channel_active)  # Récupère tous les messages
+        if messages:  # Vérifie si des messages sont récupérés
+            split_text = []
+            line = ""
+            for message in messages:
+                words = message[1].split(" ")  # Divise le texte du message en mots
+                for word in words:
+                    if len(line) + len(word) + 1 <= self.W:  # Vérifie si le mot peut être ajouté à la ligne actuelle
+                        line += word + " "
+                    else:
+                        split_text.append(line.strip())  # Ajoute la ligne complète à split_text
+                        line = word + " "
+                split_text.append(line.strip())  # Ajoute la dernière ligne
+            # Maintenant, nous avons une liste de lignes de texte (split_text)
+            # Nous allons afficher chaque ligne à une position spécifique sur l'écran
+            y_position = 620  # Position verticale initiale
+            for ligne in split_text:
+                self.text(17, ligne, self.black, 510, y_position)  # Affiche la ligne
+                y_position += 15  # Augmente la position verticale pour la prochaine ligne
+                
+        # # For channel messages
+        # def message_server_display(self):
+        #     pass
 
-
+    
+    # For private messages
     def message_display(self, message, user, x_message, y_message, largeur_message, hauteur_message, radius_message):
         message_text = str(message).strip("()',")
         self.text(15, user, self.red, x_message, y_message + self.y_offset - 30)
