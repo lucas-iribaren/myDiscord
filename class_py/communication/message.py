@@ -1,7 +1,8 @@
 from datetime import datetime
 from class_py.pages.Interface import Interface
 import pyaudio
-import wave
+import os
+import subprocess
 
 class Message(Interface):
     def __init__(self, user):
@@ -15,8 +16,9 @@ class Message(Interface):
         self.chunk = 1024  # Nombre d'échantillons par trame
         self.record = False   
         self.p = pyaudio.PyAudio()
-        self.filename = ""  # Variable pour stocker le nom du fichier WAV
+        self.filename = ""  # Variable pour stocker le nom du fichier MP3
         self.frames = []  # Liste pour stocker les trames audio enregistrées
+                
         # Ouverture du flux audio d'entrée (microphone)
         self.stream_in = self.p.open(format=self.format_sound,
                         channels=self.type_cannaux,
@@ -46,31 +48,16 @@ class Message(Interface):
     def stop_recording(self):
         print("Enregistrement arrêté.")
         self.record = False
-        # Enregistrer les données audio dans un fichier WAV
+        # Enregistrer les données audio dans un fichier MP3
         if self.frames and self.filename:
-            with wave.open(self.filename, 'wb') as wf:
-                wf.setnchannels(self.type_cannaux)
-                wf.setsampwidth(self.p.get_sample_size(self.format_sound))
-                wf.setframerate(self.rate)
-                wf.writeframes(b''.join(self.frames))
+            with open(self.filename, 'wb') as f:
+                subprocess.run(["ffmpeg", "-f", "s16le", "-ar", "44100", "-ac", "1", "-i", "-", "-y", "-codec:a", "libmp3lame", self.filename], input=b''.join(self.frames))
                 
         
     def play_audio(self, filename=None):
         print("Lecture audio...")
         if filename:  # Si un nom de fichier est fourni, lire à partir du fichier
-            wf = wave.open(filename, 'rb')
-            stream = self.p.open(format=self.format_sound,
-                                channels=self.type_cannaux,
-                                rate=self.rate,
-                                output=True,
-                                frames_per_buffer=self.chunk)
-            data = wf.readframes(self.chunk)
-            while len(data) > 0:
-                stream.write(data)
-                data = wf.readframes(self.chunk)
-            stream.stop_stream()
-            stream.close()
-            wf.close()
+            subprocess.run(["ffplay", filename])
         else:  # Sinon, lire à partir du flux d'entrée (microphone)
             while True:
                 data = self.stream_in.read(self.chunk)
