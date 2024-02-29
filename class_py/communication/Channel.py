@@ -10,6 +10,7 @@ class Channel(Interface, SqlManager):
     def display_channel_and_category(self):
         for index, username in enumerate(self.all_channel):
                 y_position = 30 + index * 30
+    
             
     
     

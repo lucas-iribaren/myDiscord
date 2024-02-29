@@ -69,3 +69,9 @@ class SqlManager(Database):
         sql = "SELECT nom FROM channel;"
         self.chans = self.database.fetch_all(sql,())
         return [channel[0] for channel in self.chans] if self.chans else []
+    
+    def retrieve_categorie(self):
+        sql = "SELECT name FROM categorie;"
+        self.cat = self.database.fetch_all(sql,())
+        return [categorie[0] for categorie in self.cat] if self.cat else []
+    
