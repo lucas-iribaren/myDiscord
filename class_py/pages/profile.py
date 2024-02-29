@@ -26,6 +26,7 @@ class Profile(Interface, SqlManager):
         self.input_message = ""        
         self.friend = ""
         self.usernames = self.retrieve_usernames()
+        self.id_channel = 0
 
     def create_profile_page(self):
         # Fill the screen
@@ -201,7 +202,7 @@ class Profile(Interface, SqlManager):
                     else:
                         print("Veuillez saisir un message.")
                     
-                elif self.private_message:
+                elif self.private_messages:
                     if self.is_mouse_over_button(pygame.Rect(80,50,130,30)):
                         self.friend = ""
                     elif self.is_mouse_over_button(pygame.Rect(80, 90, 130, 30)):
@@ -212,6 +213,14 @@ class Profile(Interface, SqlManager):
                         self.friend = "Valentin"
                     elif self.is_mouse_over_button(pygame.Rect(80, 210, 130, 30)):
                         self.friend = "Chiara"
+                
+                # elif self.server_gaming:
+                #     if self.is_mouse_over_button(pygame.Rect()):
+                #         self.id_channel = 
+                #     elif self.is_mouse_over_button(pygame.Rect()):
+                #         self.id_channel =
+                #         # Remplir le reste
+                    
                 
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
@@ -286,8 +295,8 @@ class Profile(Interface, SqlManager):
             self.text_align(17, "Valentin", self.black, 140, 180)
         elif self.is_mouse_over_button(pygame.Rect(80,210,130,30)):
             self.solid_rect_radius(self.light_grey, 80, 210, 130, 30, 3)
-            self.text_align(17, "Chiara", self.black, 140, 220)               
-    
+            self.text_align(17, "Chiara", self.black, 140, 220)   
+     
 
     def home_profile(self):
         self.profile_run = True
@@ -312,8 +321,9 @@ class Profile(Interface, SqlManager):
                     self.text(22, self.friend, self.white, 240, 15)
                     
             if self.server_gaming:
-                pass                    
-            
+                self.message.verify_id_category_for_display_messages(self.id_channel)
+                self.message.input_write_user_display()                    
+                # display messages
             for index, username in enumerate(self.usernames):
                 y_position = 30 + index * 30
                 
