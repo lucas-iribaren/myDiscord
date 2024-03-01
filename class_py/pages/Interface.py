@@ -16,7 +16,7 @@ class Interface:
         self.red = (237, 32, 71)
         self.pur_red = (255, 0, 0)    
         self.dark_red = (120,11,11)    
-        
+        self.soft_black = (35,35,35)
     def img(self, x, y, width, height, image_name):
         image = pygame.image.load(f'images/{image_name}.png')
         image = pygame.transform.scale(image, (width, height))

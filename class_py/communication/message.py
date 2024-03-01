@@ -96,10 +96,6 @@ class Message(SqlManager, Interface):
         texte = ""
         user = ""
         date = ""
-        for tup in self.mes_text:            
-            # Concatenate the elements of the tuple with spaces between them
-            texte += " \n".join(str(item) for item in tup) + "\n\n"
-            self.text_jump_line(18, texte, self.red, 305, 525)
 
         for i in self.mes_user:    
             user += "\n".join(str(item) for item in i) + "\n\n"
@@ -107,8 +103,12 @@ class Message(SqlManager, Interface):
 
         for j in self.mes_date:
             date += "\n".join(str(item) for item in j) + "\n\n"
-            self.text_jump_line(18, date, self.black,350, 505)    
+            self.text_jump_line(18, date, self.soft_black,350, 505)    
 
+        for tup in self.mes_text:            
+            # Concatenate the elements of the tuple with spaces between them
+            texte += " \n".join(str(item) for item in tup) + "\n\n"
+            self.text_jump_line(18, texte, self.black, 305, 525)
 
                 
     
