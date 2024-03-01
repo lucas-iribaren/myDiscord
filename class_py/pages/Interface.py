@@ -16,7 +16,7 @@ class Interface:
         self.red = (237, 32, 71)
         self.pur_red = (255, 0, 0)    
         self.dark_red = (120,11,11)    
-
+        
     def img(self, x, y, width, height, image_name):
         image = pygame.image.load(f'images/{image_name}.png')
         image = pygame.transform.scale(image, (width, height))
@@ -34,16 +34,16 @@ class Interface:
         text_rect = text.get_rect(topleft=(x, y))
         self.Screen.blit(text, text_rect)
         
-    def text_jump_line(self, text_size, text_content, color, x, y):
+    def text_jump_line(self, text_size, text_content, color, x, y, line_spacing=15):
         font = pygame.font.Font('font/helvetica_neue_regular.otf', text_size)
-        lines = text_content.split('\n')  # Diviser le texte en lignes individuelles
-        
-        y_offset = 0  # Décalage vertical pour chaque ligne
+        lines = text_content.split('\n')  
+        y_offset = 0  
         for line in lines:
             text_surface = font.render(line, True, color)
             text_rect = text_surface.get_rect(topleft=(x, y + y_offset))
+            self.Screen.fill(self.grey, text_rect)  
             self.Screen.blit(text_surface, text_rect)
-            y_offset += text_surface.get_height()  # Augmenter le décalage pour la prochaine ligne
+            y_offset -= text_surface.get_height() + line_spacing
 
 
     def text_align(self, text_size, text_content,color, x, y):
@@ -89,4 +89,5 @@ class Interface:
 
     def get_display(self):
         return self.Screen
+    
     
