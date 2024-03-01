@@ -33,6 +33,18 @@ class Interface:
         text = font.render(text_content, True, color)
         text_rect = text.get_rect(topleft=(x, y))
         self.Screen.blit(text, text_rect)
+        
+    def text_jump_line(self, text_size, text_content, color, x, y):
+        font = pygame.font.Font('font/helvetica_neue_regular.otf', text_size)
+        lines = text_content.split('\n')  # Diviser le texte en lignes individuelles
+        
+        y_offset = 0  # Décalage vertical pour chaque ligne
+        for line in lines:
+            text_surface = font.render(line, True, color)
+            text_rect = text_surface.get_rect(topleft=(x, y + y_offset))
+            self.Screen.blit(text_surface, text_rect)
+            y_offset += text_surface.get_height()  # Augmenter le décalage pour la prochaine ligne
+
 
     def text_align(self, text_size, text_content,color, x, y):
         font = pygame.font.Font('font/helvetica_neue_regular.otf', text_size) 

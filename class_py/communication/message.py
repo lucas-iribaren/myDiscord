@@ -89,39 +89,24 @@ class Message(SqlManager, Interface):
     
     # For channels messages    
     def input_write_user_display(self):
-        messages = self.mes
-        # Récupère tous les messages
-        if messages:
-            # Vérifie si des messages sont récupérés
-            split_text = []
-            line = ""
-            line_spacing = 25  # Espacement entre les lignes
-            message_spacing = 45  # Espacement entre les différents messages
-            
-            for message in messages:
-                words = message[0].split(" ")  # Divise le texte du message en mots
-                for word in words:
-                    if len(line) + len(word) + 1 <= self.W /4:  # Vérifie si le mot peut être ajouté à la ligne actuelle
-                        line += word + " "
-                    else:
-                        split_text.append(line.strip())  # Ajoute la ligne complète à split_text
-                        line = word + " "
-                split_text.append(line.strip())  # Ajoute la dernière ligne
-            
-            # Maintenant, nous avons une liste de lignes de texte (split_text)
-            # Nous allons afficher chaque ligne à une position spécifique sur l'écran
-            y_position = 450  # Position verticale initiale
-            
-            for ligne in split_text:               
-                # Calcul de la largeur et de la hauteur du texte pour le rectangle
-                text_width, text_height = self.font.render(ligne, True, self.light_grey).get_size()                
-                # Dessine un rectangle autour du texte en utilisant la méthode solid_rect_radius
-                self.solid_rect_radius(self.grey, 300, y_position, text_width, text_height, 5)                
-                # Affiche la ligne de texte
-                self.text(17, ligne, self.black, 300, y_position)                
-                y_position += line_spacing  # Augmente la position verticale pour le prochain message
-                y_position += message_spacing  # Ajoute l'espacement entre les différents messages
+        texte = ""
+        for tup in self.mes:            
 
+            # Concatenate the elements of the tuple with spaces between them
+            texte += " \n".join(str(item) for item in tup) + "\n\n"
+            # texte[1] += ":"
+            
+            text_width, text_height = self.font.render(texte, True, self.light_grey).get_size()
+
+
+        
+        # Set the result as the text of a label
+            # self.solid_rect_radius(self.light_grey, 300, 150, text_width, text_height + 50,3 )
+            print(texte)
+            self.solid_rect_radius(self.light_grey, 300, 150, text_width, text_height,3)
+            self.text_jump_line(16, texte, self.red, 300, 150)
+            
+                
 
                 
     
