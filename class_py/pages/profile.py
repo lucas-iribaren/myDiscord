@@ -29,7 +29,6 @@ class Profile(Interface, SqlManager):
         self.channels = self.retrieve_channel()
         self.categories = self.retrieve_categorie()
         self.id_channel = self.message.id_channel_for_mes
-        self.text_active = self.message.text_active_for_mes
         
 
     def create_profile_page(self):

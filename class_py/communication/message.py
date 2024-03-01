@@ -1,9 +1,9 @@
 from datetime import datetime
 from class_py.pages.Interface import Interface
 from class_py.database.SqlManager import SqlManager
-import pyaudio
-import os
-import subprocess
+import pyaudio, pygame, subprocess
+ 
+
 
 class Message(SqlManager, Interface):
     def __init__(self, user):
@@ -21,8 +21,8 @@ class Message(SqlManager, Interface):
         self.filename = ""  # Variable pour stocker le nom du fichier MP3
         self.frames = []  # Liste pour stocker les trames audio enregistrées
         self.id_channel_for_mes = 0
-        self.text_active_for_mes = False
         self.mes = []  # Initialisez l'attribut mes avec une liste vide
+        self.font = pygame.font.Font('font/helvetica_neue_regular.otf', 16)
 
                 
         # Ouverture du flux audio d'entrée (microphone)
@@ -78,6 +78,7 @@ class Message(SqlManager, Interface):
         self.stream_out.close()
         # Arrêter l'instance de PyAudio
         self.p.terminate()
+        
     
     def verify_id_category_for_display_messages(self, id_channel):
         id_channels = self.retrieve_id_channel_message()
@@ -85,36 +86,44 @@ class Message(SqlManager, Interface):
             self.channel_active = id_channel
             self.mes = self.retrieve_messages_by_channel_id(self.channel_active)          
         
-    # For channel messages
+    
+    # For channels messages    
     def input_write_user_display(self):
         messages = self.mes
-    # Récupère tous les messages
+        # Récupère tous les messages
         if messages:
             # Vérifie si des messages sont récupérés
             split_text = []
             line = ""
+            line_spacing = 25  # Espacement entre les lignes
+            message_spacing = 45  # Espacement entre les différents messages
+            
             for message in messages:
                 words = message[0].split(" ")  # Divise le texte du message en mots
                 for word in words:
-                    if len(line) + len(word) + 1 <= self.W:  # Vérifie si le mot peut être ajouté à la ligne actuelle
+                    if len(line) + len(word) + 1 <= self.W /4:  # Vérifie si le mot peut être ajouté à la ligne actuelle
                         line += word + " "
-                        print(line)
                     else:
                         split_text.append(line.strip())  # Ajoute la ligne complète à split_text
                         line = word + " "
-                        print(line)
                 split_text.append(line.strip())  # Ajoute la dernière ligne
+            
             # Maintenant, nous avons une liste de lignes de texte (split_text)
             # Nous allons afficher chaque ligne à une position spécifique sur l'écran
             y_position = 450  # Position verticale initiale
-            for ligne in split_text:
-                self.text(17, ligne, self.black, 510, y_position)  # Affiche la ligne
-                y_position += 15  # Augmente la position verticale pour la prochaine ligne
-                
-        # # For channel messages
-        # def message_server_display(self):
-        #     pass
+            
+            for ligne in split_text:               
+                # Calcul de la largeur et de la hauteur du texte pour le rectangle
+                text_width, text_height = self.font.render(ligne, True, self.light_grey).get_size()                
+                # Dessine un rectangle autour du texte en utilisant la méthode solid_rect_radius
+                self.solid_rect_radius(self.grey, 300, y_position, text_width, text_height, 5)                
+                # Affiche la ligne de texte
+                self.text(17, ligne, self.black, 300, y_position)                
+                y_position += line_spacing  # Augmente la position verticale pour le prochain message
+                y_position += message_spacing  # Ajoute l'espacement entre les différents messages
 
+
+                
     
     # For private messages
     def message_display(self, message, user, x_message, y_message, largeur_message, hauteur_message, radius_message):
