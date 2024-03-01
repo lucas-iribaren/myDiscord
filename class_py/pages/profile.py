@@ -23,12 +23,15 @@ class Profile(Interface, SqlManager):
         self.active_input_mes = 0 
         self.show_disconnect_dialog = False
         self.mouse_was_pressed = False
-        self.input_message = ""        
+        self.input_message = ""
+        self.input_message_channel = ""       
         self.friend = ""
         self.usernames = self.retrieve_usernames()
         self.channels = self.retrieve_channel()
         self.categories = self.retrieve_categorie()
         self.id_channel = self.message.id_channel_for_mes
+        self.active_channel = False
+
         
 
     def create_profile_page(self):
@@ -216,36 +219,86 @@ class Profile(Interface, SqlManager):
                         y_channel = 35 + index * 30
                         if self.is_mouse_over_button(pygame.Rect(100, y_channel, 150, 30)):
                             self.id_channel = index + 1
-                            print(self.id_channel)
+                            self.active_channel = True
 
                     for index, channel in enumerate(self.channels[2:6]): # Channels 'Minecraft'
                         y_channel = 130 + index * 30
                         if self.is_mouse_over_button(pygame.Rect(100, y_channel, 150, 30)):
-                            self.id_channel = index + 3 
-                            print(self.id_channel)
+                            self.id_channel = index + 3
+                            self.active_channel = True                             
                         
                     for index, channel in enumerate(self.channels[6:]): # Channels 'League Of Legends'
                         y_channel = 300 + index * 30
                         if self.is_mouse_over_button(pygame.Rect(100, y_channel, 150, 30)):
-                            self.id_channel = index + 7 
-                            print(self.id_channel)
+                            self.id_channel = index + 7
+                            self.active_channel = True                             
                 
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_BACKSPACE:
-                    self.input_message = self.input_message[:-1]
-                elif event.key == pygame.K_RETURN:
-                    if self.input_message != "":
-                        self.button_send(self.input_message)                        
-                        self.input_message = ""
-                        self.active_input_mes = 0
+                if self.active_input_mes == 1:
+                    if event.key == pygame.K_BACKSPACE:
+                        self.input_message = self.input_message[:-1]
+                    elif event.key == pygame.K_RETURN:
+                        if self.input_message != "":
+                            self.button_send(self.input_message)                        
+                            self.input_message = ""
+                            self.active_input_mes = 0
+                        else:
+                            print("Veuillez saisir un message.")  
                     else:
-                        print("Veuillez saisir un message.")  
-                else:
-                    self.input_message += event.unicode                                                            
+                        self.input_message += event.unicode
+                        
+    def writting_on_channel(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.profile_run = False
+                pygame.quit()
+                quit()
+            
+            elif event.type == pygame.KEYDOWN:
+                if self.active_input_mes == 1:
+                    if event.key == pygame.K_BACKSPACE:
+                        self.input_message_channel = self.input_message_channel[:-1]
+                    elif event.key == pygame.K_RETURN:
+                        if self.input_message != "":
+                            self.button_send(self.input_message_channel)                        
+                            self.input_message_channel = ""
+                            self.active_input_mes = 0
+                        else:
+                            print("Veuillez saisir un message.")  
+                    else:
+                        self.input_message_channel += event.unicode
+                        
+                        
+    def input_write_user_display(self):
+        messages = self.input_message_channel
+    # Récupère tous les messages
+        if messages:
+            print("je voit ton message")# Vérifie si le message est récupéré
+            split_text = []
+            line = ""
+            for message in messages:
+                print("je rentre dans le seconde for")
+                words = message[1].split(" ")  # Divise le texte du message en mots
+                for word in words:
+                    print("je rentre dans le 3ème")
+                    if len(line) + len(word) + 1 <= self.W:  # Vérifie si le mot peut être ajouté à la ligne actuelle
+                        line += word + " "
+                    else:
+                        print("je suis dans le else et pas dans le 3ème")
+                        split_text.append(line.strip())  # Ajoute la ligne complète à split_text
+                        line = word + " "
+                split_text.append(line.strip())  # Ajoute la dernière ligne
+            # Maintenant, nous avons une liste de lignes de texte (split_text)
+            # Nous allons afficher chaque ligne à une position spécifique sur l'écran
+            y_position = 620  # Position verticale initiale
+            for ligne in split_text:
+                self.text(17, ligne, self.black, 510, y_position)  # Affiche la ligne
+                y_position += 15  # Augmente la position verticale pour la prochaine ligne
+                                                                    
 
-    def text_input(self):
+    def text_input(self, message):
         self.solid_rect_radius(self.light_grey, 250, 530, 500, 50, 10)
-        self.text(16, self.input_message, self.black, 260, 535)        
+        self.text(16, message, self.black, 260, 535)        
         
     def rect_button_send(self):
         if self.is_mouse_over_button(pygame.Rect(760, 530, 50, 50)):
@@ -258,8 +311,8 @@ class Profile(Interface, SqlManager):
         self.author = self.user
         if self.private_messages:
             self.add_message(message, self.author, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
-        elif not self.private_messages:
-            self.add_message(message, self.author, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), 1)
+        elif self.server_gaming:
+            self.add_message(message, self.author, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), self.message.channel_active)
         message = ""
         self.message_sent = True
         
@@ -315,7 +368,7 @@ class Profile(Interface, SqlManager):
                 self.display_user()                            
                 if self.friend: # if a friend is clicked
                     self.channel_message = ""
-                    self.text_input()
+                    self.text_input(self.input_message)
                     self.rect_button_send()
                     self.solid_rect_radius(self.grey, 230, 10, 90, 35, 3)
                     self.text(22, self.friend, self.white, 240, 15)
@@ -324,7 +377,11 @@ class Profile(Interface, SqlManager):
                 cat_welc = self.categories[0]
                 cat_mc = self.categories[1]
                 cat_lol = self.categories[2]
-
+                
+                if self.active_channel:
+                    self.text_input(self.input_message_channel)
+                    self.rect_button_send()
+                    
                 # 'Bienvenue'
                 y_categorie_welc = 5 
                 if self.is_mouse_over_button(pygame.Rect(100, y_categorie_welc, 160, 30)): 
@@ -365,7 +422,8 @@ class Profile(Interface, SqlManager):
                         self.solid_rect_radius(self.dark_grey, 100, y_channel, 160, 30, 2)
                     self.text(19, channel, self.black, 105, y_channel + 5)
                 self.message.verify_id_category_for_display_messages(self.id_channel)
-                self.message.input_write_user_display()                    
+                self.writting_on_channel()
+                self.message.display_writed_user()                    
                 # display messages
             for index, username in enumerate(self.usernames):
                 y_position = 30 + index * 30
@@ -377,13 +435,16 @@ class Profile(Interface, SqlManager):
 
                 self.text(19, username, roles_color, 865, (y_position + 5)) # Text user 
 
-            if self.message_sent:
-                self.last_msg = self.last_message()
-                self.message.message_display(self.last_msg, self.author, 450, 380, 150, 90, 5)                    
-                
-                self.notification.display_notification(self.three_last_messages())
-                self.notification.update_after_notif(self.delta_time)
-                
+            if self.message_sent:        
+
+                if self.active_channel:
+                    self.last_msg_channel = self.get_latest_messages_by_channel(self.active_channel)
+                    self.message.message_display_channel(self.last_msg_channel, self.author, 300, 400)
+                if self.friend:
+                    self.message.message_display(self.input_message, self.author, 300, 500, 200, 50, 3)
+            
+            self.notification.display_notification(self.three_last_messages())
+            self.notification.update_after_notif(self.delta_time)                               
             self.update()  
   
  

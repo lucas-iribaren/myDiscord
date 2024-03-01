@@ -56,7 +56,7 @@ class SqlManager(Database):
     
     def last_message(self):
         sql = "SELECT text FROM message ORDER BY heure DESC LIMIT 1"
-        return self.fetch_one(sql, ())
+        return self.fetch_all(sql, ())
     
     def get_channels(self):
         sql = "SELECT nom FROM channel"
@@ -73,7 +73,7 @@ class SqlManager(Database):
     
     def retrieve_user_role(self, username):
         sql = "SELECT id_role FROM user WHERE pseudo = %s;"
-        user_role = self.fetch_one(sql, (username,))
+        user_role = self.fetch_all(sql, (username,))
         return user_role[0] if user_role else None
     
     def retrieve_channel(self):
@@ -101,11 +101,17 @@ class SqlManager(Database):
         messages = self.fetch_all(sql,(id_channel,))
         return messages
         
-    def retrieve_type_channel_for_message_by_idcategorie(self, id_categorie):
-        sql = "SELECT status FROM channel WHERE id_categorie = %s"
-        status_channel = self.fetch_all(sql,(id_categorie,))
-        if status_channel:
-            return status_channel[0][0]
-        else:
-            return None
+    # def retrieve_type_channel_for_message_by_idcategorie(self, id_categorie):
+    #     sql = "SELECT status FROM channel WHERE id_categorie = %s"
+    #     status_channel = self.fetch_all(sql,(id_categorie,))
+    #     if status_channel:
+    #         return status_channel[0][0]
+    #     else:
+    #         return None
+        
+    def get_latest_messages_by_channel(self, id_channel):
+        # Define the SQL query to retrieve the latest messages by channel
+        sql = "SELECT text FROM messages WHERE id_channel = %s ORDER BY heure DESC LIMIT 1"       
+        return self.fetch_all(sql,(id_channel))
+
 
