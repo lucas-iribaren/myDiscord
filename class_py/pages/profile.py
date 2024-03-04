@@ -358,11 +358,11 @@ class Profile(Interface, SqlManager):
         while self.profile_run:                       
             self.create_profile_page()
             self.rect_server()
-            self.public_server()
+            self.public_server()            
+            self.private_message()
             self.disconnect_button()
             self.dialog_disconnect()
             self.clicked_disconnect_buttons()
-            self.private_message()
             self.event_handling()                                   
             if self.private_messages:
                 self.display_user()                            
