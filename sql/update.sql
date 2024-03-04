@@ -1,4 +1,4 @@
--- Active: 1708523909123@@127.0.0.1@3306@mydiscord
+-- Active: 1707491285105@@127.0.0.1@3306@mydiscord
 ALTER TABLE channel
 MODIFY COLUMN nom VARCHAR(50),
 ADD COLUMN status TINYINT(1),
@@ -25,16 +25,16 @@ ALTER TABLE channel AUTO_INCREMENT = 1;
 
 UPDATE channel
 SET id = CASE
-    WHEN id = 4 THEN 1
-    WHEN id = 5 THEN 2
-    WHEN id = 6 THEN 3
-    WHEN id = 7 THEN 4
-    WHEN id = 8 THEN 5
-    WHEN id = 9 THEN 6
-    WHEN id = 10 THEN 7
-    WHEN id = 11 THEN 8
-    WHEN id = 12 THEN 9
-    WHEN id = 13 THEN 10
+    WHEN id = 63 THEN 1
+    WHEN id = 64 THEN 2
+    WHEN id = 65 THEN 3
+    WHEN id = 66 THEN 4
+    WHEN id = 67 THEN 5
+    WHEN id = 68 THEN 6
+    WHEN id = 69 THEN 7
+    WHEN id = 70 THEN 8
+    WHEN id = 71 THEN 9
+    WHEN id = 72 THEN 10
 END;
 
 UPDATE message

@@ -111,7 +111,7 @@ class SqlManager(Database):
         
     def get_latest_messages_by_channel(self, id_channel):
         # Define the SQL query to retrieve the latest messages by channel
-        sql = "SELECT text FROM messages WHERE id_channel = %s ORDER BY heure DESC LIMIT 1"       
-        return self.fetch_all(sql,(id_channel))
+        sql = "SELECT text FROM message WHERE id_channel = %s ORDER BY heure DESC LIMIT 1"       
+        return self.fetch_all(sql,(id_channel,))
 
 

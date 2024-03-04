@@ -435,7 +435,7 @@ class Profile(Interface, SqlManager):
 
                 self.text(19, username, roles_color, 865, (y_position + 5)) # Text user 
 
-            if self.message_sent:        
+            if self.message_sent:       
 
                 if self.active_channel:
                     self.last_msg_channel = self.get_latest_messages_by_channel(self.active_channel)

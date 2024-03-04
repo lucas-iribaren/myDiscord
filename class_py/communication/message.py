@@ -104,8 +104,7 @@ class Message(SqlManager, Interface):
         message_text = str(message).strip("()',")
         self.text(15, user, self.red, x_message, y_message + self.y_offset - 30)
         self.text(14, self.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), self.white, x_message + 30, y_message+ self.y_offset - 30)        
-        self.text(13, message_text, self.black, x_message + 30, y_message+ self.y_offset + 30)
-        self.y_offset += 100
+        self.text(13, message_text, self.black, x_message + 30, y_message+ self.y_offset + 30)        
                         
     
     # For private messages
