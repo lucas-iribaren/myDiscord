@@ -303,7 +303,7 @@ class Profile(Interface, SqlManager):
         message = ""
         self.message_sent = True
         self.refresh_channel_messages()  # Mettre à jour les messages du canal
-        self.update()  # Mettre à jour l'affichage pour que les nouveaux messages soient visibles
+        self.update_no_fill()  # Mettre à jour l'affichage pour que les nouveaux messages soient visibles
         
     def rect_pv_channel(self):
         # Draw private channels area
