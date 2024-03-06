@@ -370,6 +370,10 @@ class Profile(Interface, SqlManager):
                     self.text(22, self.friend, self.white, 240, 15)
                     
             if self.server_gaming:
+                self.solid_rect(self.grey, 890,0, 590,600) #bloc user
+                if self.id_channel != 0:
+                    self.solid_rect(self.grey, 290,0, 590,600) # Bloc message
+
                 cat_welc = self.categories[0]
                 cat_mc = self.categories[1]
                 cat_lol = self.categories[2]
@@ -417,18 +421,19 @@ class Profile(Interface, SqlManager):
                     if self.is_mouse_over_button(pygame.Rect(100, y_channel, 160, 30)): 
                         self.solid_rect_radius(self.dark_grey, 100, y_channel, 160, 30, 2)
                     self.text(19, channel, self.black, 105, y_channel + 5)
+
                 self.message.verify_id_category_for_display_messages(self.id_channel)
                 self.message.display_writed_channel()
                 # display messages
-            for index, username in enumerate(self.usernames):
-                y_position = 30 + index * 30
-                role_sql = self.retrieve_user_role(username)
-                roles_color = self.red if role_sql == 2 else self.white # if user is admin color red else black
+                for index, username in enumerate(self.usernames):
+                    y_position = 10 + index * 30
+                    role_sql = self.retrieve_user_role(username)
+                    roles_color = self.red if role_sql == 2 else self.white # if user is admin color red else black
 
-                if self.is_mouse_over_button(pygame.Rect(850, y_position, 130, 30)): 
-                    self.solid_rect_radius(self.grey, 850, y_position, 130, 30, 2)# hover pointed*
+                    if self.is_mouse_over_button(pygame.Rect(895, y_position, 100, 30)): 
+                        self.solid_rect_radius(self.dark_grey, 895, y_position, 100, 30, 2)# hover pointed*
 
-                self.text(19, username, roles_color, 865, (y_position + 5)) # Text user 
+                    self.text(19, username, roles_color, 900, (y_position + 5)) # Text user 
 
             if self.message_sent:
                 # if self.active_channel:
