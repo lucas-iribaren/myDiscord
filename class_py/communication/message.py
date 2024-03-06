@@ -88,7 +88,7 @@ class Message(SqlManager, Interface):
         
     
     # For channels messages    
-    def display_writed_user(self):
+    def display_writed_channel(self):
         texte = ""
         for tup in self.mes:
             # Concatenate the elements of the tuple with spaces between them
@@ -97,14 +97,16 @@ class Message(SqlManager, Interface):
         # Set the result as the text of a label
             # self.solid_rect_radius(self.light_grey, 300, 150, text_width, text_height + 50,3 )
             self.solid_rect_radius(self.light_grey, 300, 150, text_width, text_height,3)
-            self.text_jump_line(16, texte, self.red, 300, 150) 
+            self.text_jump_line(16, texte, self.red, 300, 150)   
             
             
     def message_display_channel(self, message, user, x_message, y_message):
         message_text = str(message).strip("()',")
         self.text(15, user, self.red, x_message, y_message + self.y_offset - 30)
         self.text(14, self.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), self.white, x_message + 30, y_message+ self.y_offset - 30)        
-        self.text(13, message_text, self.black, x_message + 30, y_message+ self.y_offset + 30)        
+        self.text_jump_line(13, message_text, self.black, x_message + 30, y_message + 30)
+        message_text = ""
+        self.text_jump_line(13, message_text, self.black, x_message + 30, y_message + 30)       
                         
     
     # For private messages
@@ -113,5 +115,6 @@ class Message(SqlManager, Interface):
         self.text(15, user, self.red, x_message, y_message + self.y_offset - 30)
         self.text(14, self.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), self.white, x_message + 30, y_message+ self.y_offset - 30)
         self.solid_rect_radius(self.light_grey, x_message, y_message+ self.y_offset, largeur_message, hauteur_message, radius_message)
-        self.text(13, message_text, self.black, x_message + 30, y_message+ self.y_offset + 30)
+        self.text_jump_line(13, message_text, self.black, x_message + 30, y_message+ self.y_offset + 30)
         self.y_offset += 100
+        
