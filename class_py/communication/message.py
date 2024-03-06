@@ -108,7 +108,7 @@ class Message(SqlManager, Interface):
         for tup in self.mes_text:            
             # Concatenate the elements of the tuple with spaces between them
             texte += " \n".join(str(item) for item in tup) + "\n\n"
-            self.text_jump_line(18, texte, self.black, 305, 525)
+            self.text_jump_line(18, texte, self.white, 305, 525)
 
                 
     
