@@ -17,6 +17,7 @@ class Interface:
         self.pur_red = (255, 0, 0)    
         self.dark_red = (120,11,11)    
         self.soft_black = (35,35,35)
+        self.purple = (185, 12, 211)
     def img(self, x, y, width, height, image_name):
         image = pygame.image.load(f'images/{image_name}.png')
         image = pygame.transform.scale(image, (width, height))
@@ -34,16 +35,23 @@ class Interface:
         text_rect = text.get_rect(topleft=(x, y))
         self.Screen.blit(text, text_rect)
         
-    def text_jump_line(self, text_size, text_content, color, x, y, line_spacing=15):
+    def text_jump_line(self, text_size, text_content, color, x, y, line_spacing=15, max_height=600):
         font = pygame.font.Font('font/helvetica_neue_regular.otf', text_size)
-        lines = text_content.split('\n')  
-        y_offset = 0  
+        lines = text_content.split('\n')
+        y_offset = 0
+        total_height = 0  # Initialisez la hauteur totale des lignes
         for line in lines:
             text_surface = font.render(line, True, color)
+            total_height += text_surface.get_height() + line_spacing  # Mettez à jour la hauteur totale
+            if total_height > max_height:  # Vérifiez si la hauteur totale dépasse la limite
+                # Passez à la ligne suivante en ajustant la position Y
+                y += total_height - max_height
+                total_height = text_surface.get_height() + line_spacing
             text_rect = text_surface.get_rect(topleft=(x, y + y_offset))
-            self.Screen.fill(self.grey, text_rect)  
+            self.Screen.fill(self.grey, text_rect)
             self.Screen.blit(text_surface, text_rect)
-            y_offset -= text_surface.get_height() + line_spacing
+            y_offset += text_surface.get_height() + line_spacing
+
 
 
     def text_align(self, text_size, text_content,color, x, y):

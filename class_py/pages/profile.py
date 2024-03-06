@@ -31,7 +31,6 @@ class Profile(Interface, SqlManager):
         self.categories = self.retrieve_categorie()
         self.id_channel = self.message.id_channel_for_mes
         self.active_channel = False
-
         
 
     def create_profile_page(self):
@@ -194,13 +193,14 @@ class Profile(Interface, SqlManager):
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:                              
                 if self.is_mouse_over_button(pygame.Rect(250, 530, 500, 50)):
                     self.active_input_mes = 1
-                elif self.is_mouse_over_button(pygame.Rect(760, 530, 50, 50)):
+                elif self.is_mouse_over_button(pygame.Rect(820, 530, 50, 50)):
                     if self.input_message_channel != "":
                         self.button_send(self.input_message_channel)                        
                         self.input_message_channel = ""
                         self.active_input_mes = 0
                     else:
-                        print("Veuillez saisir un message.")
+                        print("Veuillez saisir un message.")                                      
+
                     
                 elif self.private_messages:
                     if self.is_mouse_over_button(pygame.Rect(80,50,130,30)):
@@ -230,14 +230,15 @@ class Profile(Interface, SqlManager):
                         if self.is_mouse_over_button(pygame.Rect(100, y_channel, 150, 30)):
                             self.id_channel = index + 3
                             print(self.id_channel)
-                            self.active_channel = True                             
+                            self.active_channel = True
                         
                     for index, channel in enumerate(self.channels[6:]): # Channels 'League Of Legends'
                         y_channel = 300 + index * 30
                         if self.is_mouse_over_button(pygame.Rect(100, y_channel, 150, 30)):
                             self.id_channel = index + 7
                             print(self.id_channel)
-                            self.active_channel = True                             
+                            self.active_channel = True
+                                       
                 
             elif event.type == pygame.KEYDOWN:
                 if self.active_input_mes == 1:
@@ -283,15 +284,15 @@ class Profile(Interface, SqlManager):
                                                                     
 
     def text_input(self, message):
-        self.solid_rect_radius(self.light_grey, 250, 530, 500, 50, 10)
-        self.text(16, message, self.black, 260, 535)        
+        self.solid_rect_radius(self.light_grey, 310, 530, 500, 50, 10)
+        self.text(16, message, self.black, 320, 535)        
         
     def rect_button_send(self):
-        if self.is_mouse_over_button(pygame.Rect(760, 530, 50, 50)):
-            self.solid_rect_radius(self.blue, 760, 530, 50, 50, 8)
-            self.light_rect_radius(self.black,760, 530, 50, 50,1, 8)
+        if self.is_mouse_over_button(pygame.Rect(820, 530, 50, 50)):
+            self.solid_rect_radius(self.blue, 820, 530, 50, 50, 8)
+            self.light_rect_radius(self.black,820, 530, 50, 50,1, 8)
         else:
-            self.solid_rect_radius(self.light_grey, 760, 530, 50, 50, 8)
+            self.solid_rect_radius(self.light_grey, 820, 530, 50, 50, 8)
 
     def button_send(self, message):
         self.author = self.user
@@ -302,8 +303,8 @@ class Profile(Interface, SqlManager):
             self.add_message(message, self.author, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), self.message.channel_active)
         message = ""
         self.message_sent = True
-        self.refresh_channel_messages()  # Mettre à jour les messages du canal
-        self.update_no_fill()  # Mettre à jour l'affichage pour que les nouveaux messages soient visibles
+        self.refresh_channel_messages()  # Update messages in the canal
+        
         
     def rect_pv_channel(self):
         # Draw private channels area
@@ -345,8 +346,8 @@ class Profile(Interface, SqlManager):
         # Call the method to verify the active channel and retrieve messages
         self.message.verify_id_category_for_display_messages(self.id_channel)
         # Call the method to display the messages in the active channel
-        self.message.display_writed_channel() 
-        self.update()
+        self.message.display_writed_message_channel() 
+        
      
 
     def home_profile(self):
@@ -359,7 +360,8 @@ class Profile(Interface, SqlManager):
             self.disconnect_button()
             self.dialog_disconnect()
             self.clicked_disconnect_buttons()
-            self.event_handling()                                   
+            self.event_handling()
+            self.refresh_channel_messages()                                   
             if self.private_messages:
                 self.display_user()                            
                 if self.friend: # if a friend is clicked
@@ -423,7 +425,7 @@ class Profile(Interface, SqlManager):
                     self.text(19, channel, self.black, 105, y_channel + 5)
 
                 self.message.verify_id_category_for_display_messages(self.id_channel)
-                self.message.display_writed_channel()
+                self.message.display_writed_message_channel()
                 # display messages
                 for index, username in enumerate(self.usernames):
                     y_position = 10 + index * 30
@@ -435,6 +437,8 @@ class Profile(Interface, SqlManager):
 
                     self.text(19, username, roles_color, 900, (y_position + 5)) # Text user 
 
+            if self.active_channel:
+                self.text(21, channel, self.blue, 300, 10)
             if self.message_sent:
                 # if self.active_channel:
                 #     self.last_msg_channel = self.get_latest_messages_by_channel(self.message.channel_active)
@@ -442,9 +446,10 @@ class Profile(Interface, SqlManager):
                 # if self.friend:
                 #     self.message.message_display(self.input_message, self.author, 300, 500, 200, 50, 3)
                 pass
-            
-            self.notification.display_notification(self.three_last_messages())
-            self.notification.update_after_notif(self.delta_time)                               
+            if not self.private_messages and not self.server_gaming:
+                self.notification.display_notification(self.three_last_messages())
+                self.notification.update_after_notif(self.delta_time)
+                               
             self.update()  
   
  

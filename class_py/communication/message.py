@@ -1,8 +1,7 @@
 from datetime import datetime
 from class_py.pages.Interface import Interface
 from class_py.database.SqlManager import SqlManager
-import pyaudio, pygame, subprocess
- 
+import pyaudio, pygame, subprocess 
 
 
 class Message(SqlManager, Interface):
@@ -80,44 +79,42 @@ class Message(SqlManager, Interface):
         self.stream_out.close()
         # Arrêter l'instance de PyAudio
         self.p.terminate()
-        
+                
     
     def verify_id_category_for_display_messages(self, id_channel):
         id_channels = self.retrieve_id_channel_message()
         if id_channel in id_channels:
             self.channel_active = id_channel
-            self.mes_text = self.retrieve_messages_text_by_channel_id(self.channel_active)        
+            self.mes_text = self.retrieve_messages_text_by_channel_id(self.channel_active)
             self.mes_user = self.retrieve_messages_user_by_channel_id(self.channel_active)  
             self.mes_date = self.retrieve_messages_date_by_channel_id(self.channel_active)  
-        
     
     # For channels messages    
-    def display_writed_channel(self):
+    def display_writed_message_channel(self):
         texte = ""
         user = ""
         date = ""
 
         for i in self.mes_user:    
             user += "\n".join(str(item) for item in i) + "\n\n"
-            self.text_jump_line(18, user, self.black,305, 505)    
+            self.text_jump_line(18, user, self.black,305, 45)    
 
         for j in self.mes_date:
             date += "\n".join(str(item) for item in j) + "\n\n"
-            self.text_jump_line(18, date, self.soft_black,350, 505)    
+            self.text_jump_line(18, date, self.soft_black,350, 45)    
 
         for tup in self.mes_text:            
             # Concatenate the elements of the tuple with spaces between them
             texte += " \n".join(str(item) for item in tup) + "\n\n"
-            self.text_jump_line(18, texte, self.white, 305, 525)
-
+            self.text_jump_line(18, texte, self.white, 305, 65)
                 
     
-    # For private messages
-    def message_display(self, message, user, x_message, y_message, largeur_message, hauteur_message, radius_message):
-        message_text = str(message).strip("()',")
-        self.text(15, user, self.red, x_message, y_message + self.y_offset - 30)
-        self.text(14, self.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), self.white, x_message + 30, y_message+ self.y_offset - 30)
-        self.solid_rect_radius(self.light_grey, x_message, y_message+ self.y_offset, largeur_message, hauteur_message, radius_message)
-        self.text_jump_line(13, message_text, self.black, x_message + 30, y_message+ self.y_offset + 30)
-        self.y_offset += 100
+    # # For private messages
+    # def message_display(self, message, user, x_message, y_message, largeur_message, hauteur_message, radius_message):
+    #     message_text = str(message).strip("()',")
+    #     self.text(15, user, self.red, x_message, y_message + self.y_offset - 30)
+    #     self.text(14, self.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), self.white, x_message + 30, y_message+ self.y_offset - 30)
+    #     self.solid_rect_radius(self.light_grey, x_message, y_message+ self.y_offset, largeur_message, hauteur_message, radius_message)
+    #     self.text_jump_line(13, message_text, self.black, x_message + 30, y_message+ self.y_offset + 30)
+    #     self.y_offset += 100
         
