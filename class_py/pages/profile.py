@@ -195,9 +195,9 @@ class Profile(Interface, SqlManager):
                 if self.is_mouse_over_button(pygame.Rect(250, 530, 500, 50)):
                     self.active_input_mes = 1
                 elif self.is_mouse_over_button(pygame.Rect(760, 530, 50, 50)):
-                    if self.input_message != "":
-                        self.button_send(self.input_message)                        
-                        self.input_message = ""
+                    if self.input_message_channel != "":
+                        self.button_send(self.input_message_channel)                        
+                        self.input_message_channel = ""
                         self.active_input_mes = 0
                     else:
                         print("Veuillez saisir un message.")
@@ -211,7 +211,6 @@ class Profile(Interface, SqlManager):
                     elif self.is_mouse_over_button(pygame.Rect(80, 130, 130, 30)):
                         self.friend = "Lucas"
                         self.id_channel = 12
-
                     elif self.is_mouse_over_button(pygame.Rect(80, 170, 130, 30)):
                         self.friend = "Valentin"
                     elif self.is_mouse_over_button(pygame.Rect(80, 210, 130, 30)):
@@ -247,38 +246,40 @@ class Profile(Interface, SqlManager):
                     elif event.key == pygame.K_RETURN:
                         if self.input_message_channel != "":
                             self.button_send(self.input_message_channel)                        
+                            self.input_message_channel = ""
                             self.active_input_mes = 0
                         else:
                             print("Veuillez saisir un message.")  
                     else:
-                        self.input_message_channel += event.unicode 
+                        self.input_message_channel += event.unicode
+
                         
                         
-    def input_write_user_display(self):
-        messages = self.input_message_channel
-    # Récupère tous les messages
-        if messages:
-            print("je voit ton message")# Vérifie si le message est récupéré
-            split_text = []
-            line = ""
-            for message in messages:
-                print("je rentre dans le seconde for")
-                words = message[1].split(" ")  # Divise le texte du message en mots
-                for word in words:
-                    print("je rentre dans le 3ème")
-                    if len(line) + len(word) + 1 <= self.W:  # Vérifie si le mot peut être ajouté à la ligne actuelle
-                        line += word + " "
-                    else:
-                        print("je suis dans le else et pas dans le 3ème")
-                        split_text.append(line.strip())  # Ajoute la ligne complète à split_text
-                        line = word + " "
-                split_text.append(line.strip())  # Ajoute la dernière ligne
-            # Maintenant, nous avons une liste de lignes de texte (split_text)
-            # Nous allons afficher chaque ligne à une position spécifique sur l'écran
-            y_position = 620  # Position verticale initiale
-            for ligne in split_text:
-                self.text(17, ligne, self.black, 510, y_position)  # Affiche la ligne
-                y_position += 15  # Augmente la position verticale pour la prochaine ligne
+    # def input_write_user_display(self):
+    #     messages = self.input_message_channel
+    # # Récupère tous les messages
+    #     if messages:
+    #         print("je voit ton message")# Vérifie si le message est récupéré
+    #         split_text = []
+    #         line = ""
+    #         for message in messages:
+    #             print("je rentre dans le seconde for")
+    #             words = message[1].split(" ")  # Divise le texte du message en mots
+    #             for word in words:
+    #                 print("je rentre dans le 3ème")
+    #                 if len(line) + len(word) + 1 <= self.W:  # Vérifie si le mot peut être ajouté à la ligne actuelle
+    #                     line += word + " "
+    #                 else:
+    #                     print("je suis dans le else et pas dans le 3ème")
+    #                     split_text.append(line.strip())  # Ajoute la ligne complète à split_text
+    #                     line = word + " "
+    #             split_text.append(line.strip())  # Ajoute la dernière ligne
+    #         # Maintenant, nous avons une liste de lignes de texte (split_text)
+    #         # Nous allons afficher chaque ligne à une position spécifique sur l'écran
+    #         y_position = 620  # Position verticale initiale
+    #         for ligne in split_text:
+    #             self.text(17, ligne, self.black, 510, y_position)  # Affiche la ligne
+    #             y_position += 15  # Augmente la position verticale pour la prochaine ligne
                                                                     
 
     def text_input(self, message):
@@ -301,6 +302,8 @@ class Profile(Interface, SqlManager):
             self.add_message(message, self.author, self.message.current_date_message.strftime('%Y-%m-%d %H:%M:%S'), self.message.channel_active)
         message = ""
         self.message_sent = True
+        self.refresh_channel_messages()  # Mettre à jour les messages du canal
+        self.update()  # Mettre à jour l'affichage pour que les nouveaux messages soient visibles
         
     def rect_pv_channel(self):
         # Draw private channels area
@@ -343,6 +346,7 @@ class Profile(Interface, SqlManager):
         self.message.verify_id_category_for_display_messages(self.id_channel)
         # Call the method to display the messages in the active channel
         self.message.display_writed_channel() 
+        self.update()
      
 
     def home_profile(self):
@@ -414,7 +418,7 @@ class Profile(Interface, SqlManager):
                         self.solid_rect_radius(self.dark_grey, 100, y_channel, 160, 30, 2)
                     self.text(19, channel, self.black, 105, y_channel + 5)
                 self.message.verify_id_category_for_display_messages(self.id_channel)
-                self.message.display_writed_channel()                    
+                self.message.display_writed_channel()
                 # display messages
             for index, username in enumerate(self.usernames):
                 y_position = 30 + index * 30
@@ -427,12 +431,12 @@ class Profile(Interface, SqlManager):
                 self.text(19, username, roles_color, 865, (y_position + 5)) # Text user 
 
             if self.message_sent:
-                self.refresh_channel_messages()
-                if self.active_channel:
-                    self.last_msg_channel = self.get_latest_messages_by_channel(self.message.channel_active)
-                    self.message.message_display_channel(self.last_msg_channel, self.author, 300, 400)
-                if self.friend:
-                    self.message.message_display(self.input_message, self.author, 300, 500, 200, 50, 3)
+                # if self.active_channel:
+                #     self.last_msg_channel = self.get_latest_messages_by_channel(self.message.channel_active)
+                #     self.message.message_display_channel(self.last_msg_channel, self.author, 300, 400)
+                # if self.friend:
+                #     self.message.message_display(self.input_message, self.author, 300, 500, 200, 50, 3)
+                pass
             
             self.notification.display_notification(self.three_last_messages())
             self.notification.update_after_notif(self.delta_time)                               
