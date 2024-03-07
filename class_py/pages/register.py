@@ -125,9 +125,7 @@ class Register(Interface, SqlManager):
                     
                 self.draw_error_message_register()
                 self.mouse_effets()
-                self.select_input()
-                
-                        
+                self.select_input()                       
                 self.update()
 
     def select_input(self):

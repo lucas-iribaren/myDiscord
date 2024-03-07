@@ -3,7 +3,6 @@ from class_py.database.Database import Database
 from class_py.pages.Interface import Interface
 from class_py.pages.profile import Profile
 from class_py.pages.register import Register
-# from files.class_py.notification import Notification
 
 class Home(Interface):
     def __init__(self):
@@ -44,7 +43,7 @@ class Home(Interface):
                             self.input_texts['password'] != ''):
                                 self.button_login()
                         else:
-                            self.error_message_login = "Error, invalid username or password. Please try again"
+                            self.error_message_login = "Erreur, nom d'utilisateur ou mot de passe invalide"
                     else:
                         self.input_texts[self.active_input] += event.unicode
                     
@@ -57,7 +56,7 @@ class Home(Interface):
                             self.input_texts['password'] != ''):
                                 self.button_login()
                         else:
-                            self.error_message_login = "Error, invalid username or password. Please try again"
+                            self.error_message_login = "Erreur, nom d'utilisateur ou mot de passe invalide"
                     elif self.is_mouse_over_button(pygame.Rect(535, 420, 220, 35)):
                         self.page_register.register_run = True
                         self.page_register.register()
@@ -110,13 +109,13 @@ class Home(Interface):
                 if self.user_data[1] == password_entry:
                      return True                   
                 else:                   
-                    self.error_message_login = "Error, incorrect password"
+                    self.error_message_login = "Erreur, mot de passe est incorrect"
                     return False
             else:
-                self.error_message_login = "Error, incorrect username"
+                self.error_message_login = "Erreur, nom d'utilisateur est incorrect"
                 return False
         else:
-            self.error_message_login = "Error, please enter a username and password"
+            self.error_message_login = "Erreur, veuillez remplir le mot de passe ou nom d'utilisateur" 
             return False, None
       
     def draw_error_message_login(self):

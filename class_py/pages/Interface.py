@@ -39,19 +39,18 @@ class Interface:
         font = pygame.font.Font('font/helvetica_neue_regular.otf', text_size)
         lines = text_content.split('\n')
         y_offset = 0
-        total_height = 0  # Initialisez la hauteur totale des lignes
+        total_height = 0  # Initialize the total height of lines
         for line in lines:
             text_surface = font.render(line, True, color)
-            total_height += text_surface.get_height() + line_spacing  # Mettez à jour la hauteur totale
-            if total_height > max_height:  # Vérifiez si la hauteur totale dépasse la limite
-                # Passez à la ligne suivante en ajustant la position Y
+            total_height += text_surface.get_height() + line_spacing  # Update the total height
+            if total_height > max_height:  # Check if total height exceeds the limit
+                # Move to the next line by adjusting the Y position
                 y += total_height - max_height
                 total_height = text_surface.get_height() + line_spacing
             text_rect = text_surface.get_rect(topleft=(x, y + y_offset))
             self.Screen.fill(self.grey, text_rect)
             self.Screen.blit(text_surface, text_rect)
             y_offset += text_surface.get_height() + line_spacing
-
 
 
     def text_align(self, text_size, text_content,color, x, y):

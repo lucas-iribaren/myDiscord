@@ -48,7 +48,6 @@ class SqlManager(Database):
     def add_message(self, input_text, auteur, heure, id_channel):
         sql = "INSERT INTO message(text, auteur, heure, id_channel) VALUES (%s, %s, %s, %s);"
         self.execute_sql(sql, (input_text, auteur, heure, id_channel))
-        print(input_text)
 
     def three_last_messages(self):
         sql = "SELECT text, auteur, heure FROM message ORDER BY heure DESC LIMIT 3"
@@ -109,7 +108,7 @@ class SqlManager(Database):
     def retrieve_messages_date_by_channel_id(self, id_channel):
         sql = "SELECT heure FROM message WHERE id_channel = %s;"
         messages_date = self.fetch_all(sql,(id_channel,))
-        return messages_date       
+        return messages_date     
  
         
     def get_latest_messages_by_channel(self, id_channel):
